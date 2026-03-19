@@ -205,3 +205,17 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- 团队自定义安全限制 ---
+
+# 1. 绝对不能上传 API Key！
+.env
+
+# 2. 忽略庞大的原始数据和中间结果（建议通过云盘共享数据，GitHub只存代码）
+data/*.csv
+data/*.jsonl
+!data/.gitkeep  # (保留这条可以让空文件夹也被Git追踪)
+
+# 3. 忽略本地的临时图表输出
+plots/*.png
+plots/*.pdf
