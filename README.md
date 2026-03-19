@@ -1,4 +1,3 @@
-
 # ST5230 Project: LLM Ranking Reversals
 
 **Group 14** Team Members: ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN
@@ -6,10 +5,6 @@
 ## About The Project
 
 This repository contains the codebase for our ST5230 (Applied Natural Language Processing) course project. We are investigating the statistical reliability of Large Language Model (LLM) benchmarks, specifically measuring how non-semantic prompt perturbations and sampling noise influence ranking reversals among state-of-the-art models.
-
-## Project Documentation
-
-* 📄 **[Project Execution Plan &amp; Proposal](docs/EXECUTION_PLAN.md)**: Detailed information regarding our experimental setup, architecture, pipeline, and team roles.
 
 ## Repository Structure (WIP)
 
