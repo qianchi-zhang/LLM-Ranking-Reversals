@@ -32,14 +32,14 @@ Responsible for concurrent LLM inference via OpenRouter.
 * **`tenacity`**: For implementing exponential backoff and retry logic to handle `429 Rate Limit` and `502 Bad Gateway` errors.
 * **`python-dotenv`**: For securely loading `OPENROUTER_API_KEY` from a local `.env` file without hardcoding secrets.
 
-### Module 3: Parsing & Scoring (Owner: Zhang)
+### Module 3: Parsing & Scoring (Owner: Meng)
 
 Responsible for extracting final answers from verbose LLM outputs.
 
 * **`re`** (Built-in): For writing regular expressions (Regex) to capture "A/B/C/D" from diverse response formats.
 * **`pandas`**: For merging extracted answers with gold labels to generate binary scores (1/0).
 
-### Module 4: Statistical Analysis (Owner: Meng)
+### Module 4: Statistical Analysis (Owner: Zhang)
 
 Responsible for computing confidence intervals, ranking reversal rates, and visualizations.
 
