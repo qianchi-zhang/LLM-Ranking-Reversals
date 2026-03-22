@@ -24,7 +24,7 @@ HELLASWAG_N = 300
 # TODO
 MODEL_NAME = "openai/gpt-5.2"
 
-
+'''
 TEMPLATES = {
     "minimal_instruction": (
         "{question}\n\n"
@@ -48,6 +48,38 @@ TEMPLATES = {
         "Question:\n{question}\n\n"
         "Options:\n{choices_block}\n\n"
         "Please select the best answer for the multiple choice question given above."
+    ),
+}
+'''
+
+TEMPLATES = {
+
+    "minimal_instruction": (
+        "{question}\n\n"
+        "{choices_block}\n\n"
+        "Answer with the letter only."
+    ),
+
+    "benchmark_style": (
+        "Choose the correct answer to the following multiple-choice question.\n\n"
+        "Question:\n{question}\n\n"
+        "Options:\n{choices_block}\n\n"
+        "Answer with one letter (A, B, C, or D)."
+    ),
+
+    "natural_style": (
+        "Here is a multiple-choice question.\n\n"
+        "{question}\n\n"
+        "{choices_block}\n\n"
+        "Which option is correct? Reply with the option letter."
+    ),
+
+    "order_phrasing_variation": (
+        "Reply with only the letter of the correct answer.\n\n"
+        "Below is a question with four possible options.\n\n"
+        "{question}\n\n"
+        "{choices_block}\n\n"
+        "Select the best option."
     ),
 }
 
