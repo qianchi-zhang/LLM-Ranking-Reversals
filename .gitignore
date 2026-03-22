@@ -212,9 +212,9 @@ __marimo__/
 .env
 
 # 2. 忽略庞大的原始数据和中间结果（建议通过云盘共享数据，GitHub只存代码）
-data/*.csv
-data/*.jsonl
-!data/.gitkeep  # (保留这条可以让空文件夹也被Git追踪)
+#data/*.csv
+#data/*.jsonl
+#!data/.gitkeep  # (保留这条可以让空文件夹也被Git追踪)
 
 # 3. 忽略本地的临时图表输出
 plots/*.png
