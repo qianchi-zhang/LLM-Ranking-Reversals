@@ -1,4 +1,3 @@
-
 # 🚀 ST5230 Project: LLM Ranking Reversals
 
 **Group 14 Team Members:** ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN
@@ -16,7 +15,6 @@ This repository contains the codebase for our ST5230 (Applied Natural Language P
 ## Models Evaluated
 
 All inference is conducted via OpenRouter API with fixed decoding parameters (`temperature=0`, `top_p=1`):
-
 - `openai/gpt-4o-mini`
 - `anthropic/claude-3.5-haiku`
 - `google/gemini-2.0-flash-001`
@@ -28,6 +26,7 @@ All inference is conducted via OpenRouter API with fixed decoding parameters (`t
 
 Our codebase follows a strict 4-phase pipeline architecture:
 
+```text
 LLM-Ranking-Reversals/
 ├── docs/                            # Project documentation & proposals
 ├── src/                             # Core execution pipeline
@@ -41,6 +40,7 @@ LLM-Ranking-Reversals/
 │   ├── 02_raw_responses/            # Output of Phase 2 (raw_responses.jsonl)
 │   └── 03_scored/                   # Output of Phase 3 (scored_results.csv)
 └── plots/                           # Generated visualizations for the final report
+```
 
 ---
 
@@ -49,30 +49,34 @@ LLM-Ranking-Reversals/
 To ensure reproducibility and avoid dependency conflicts, all team members must use **Python 3.11** and the standard project environment named `llm-ranking-env`.
 
 ### Prerequisites
-
 1. Ensure you have Miniconda or Python 3.11 installed.
 2. Clone this repository to your local machine.
 
 ### Using Conda (Recommended)
-
 Open your terminal and run the following commands:
 
-1. Create a Python 3.11 environment named llm-ranking-env
-   conda create -n llm-ranking-env python=3.11 -y
-2. Activate the environment
-   conda activate llm-ranking-env
-3. Install required packages
-   pip install -r requirements.txt
-4. Register the environment to Jupyter (for Phase 4 Analysis)
-   python -m ipykernel install --user --name=llm-ranking-env --display-name "Python 3.11 (llm-ranking-env)"
+```bash
+# 1. Create a Python 3.11 environment named llm-ranking-env
+conda create -n llm-ranking-env python=3.11 -y
+
+# 2. Activate the environment
+conda activate llm-ranking-env
+
+# 3. Install required packages
+pip install -r requirements.txt
+
+# 4. Register the environment to Jupyter (for Phase 4 Analysis)
+python -m ipykernel install --user --name=llm-ranking-env --display-name "Python 3.11 (llm-ranking-env)"
+```
 
 ### 🔑 Setting up API Keys
-
 This project uses OpenRouter for LLM inference. **NEVER commit your API key to GitHub.**
 
 1. In the root directory, create a file named `.env`.
 2. Add your API key to the file:
+   ```text
    OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
 
 ---
 
