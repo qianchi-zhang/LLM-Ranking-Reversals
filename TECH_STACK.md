@@ -60,25 +60,3 @@ Responsible for computing confidence intervals, ranking reversal rates, and visu
 ---
 
 ## 4. Quick Setup (`requirements.txt`)
-
-Save the following content as `requirements.txt` in the root directory:
-
-```text
-# Data Processing
-datasets>=2.16.0
-pandas>=2.0.0
-numpy>=1.24.0
-
-# API & Async Networking
-aiohttp>=3.9.0
-tenacity>=8.2.0
-python-dotenv>=1.0.0
-
-# Statistical Analysis & Visualization
-scipy>=1.10.0
-matplotlib>=3.7.0
-seaborn>=0.13.0
-
-# Notebook support
-jupyter>=1.0.0
-```

@@ -1,51 +1,48 @@
-# ST5230 Project: LLM Ranking Reversals
 
-**Group 14** Team Members: ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN
+# 🚀 ST5230 Project: LLM Ranking Reversals
+
+**Group 14 Team Members:** ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN
 
 ## About The Project
 
-This repository contains the codebase for our ST5230 (Applied Natural Language Processing) course project. We study the statistical reliability of LLM benchmarks, focusing on how non-semantic prompt perturbations and sampling noise can induce ranking reversals among state-of-the-art models.
+This repository contains the codebase for our ST5230 (Applied Natural Language Processing) course project. We study the statistical reliability of Large Language Model (LLM) benchmarks, focusing on how non-semantic prompt perturbations and sampling noise can induce ranking reversals among state-of-the-art models.
 
 ## Project Goals
 
 - Measure ranking stability under prompt variations and resampling noise.
-- Quantify ranking reversal rates across common benchmarks.
-- Produce reproducible analysis with transparent data and code.
+- Quantify ranking reversal rates across common benchmarks (MMLU, ARC-Challenge, HellaSwag).
+- Produce reproducible analysis with transparent data, prompts, and code.
 
-## Method Overview
+## Models Evaluated
 
-1. Sample balanced subsets from MMLU, ARC-Challenge, and HellaSwag.
-2. Generate four prompt variants per question (minimal, benchmark-style, minor variation, order/phrasing variation).
-3. Run multiple LLMs with fixed decoding parameters (temperature 0, top_p 1).
-4. Parse answers, score against gold labels, and compute accuracy.
-5. Bootstrap resample to estimate confidence intervals and ranking reversal rates.
-
-## Models (Planned)
+All inference is conducted via OpenRouter API with fixed decoding parameters (`temperature=0`, `top_p=1`):
 
 - `openai/gpt-4o-mini`
 - `anthropic/claude-3.5-haiku`
 - `google/gemini-2.0-flash-001`
 - `meta-llama/llama-3.1-8b-instruct`
 
-## Repository Structure (WIP)
+---
 
-- `data/` - Sampled evaluation subsets and intermediate artifacts.
-- `src/` - Prompt generation, API orchestration, and scoring utilities.
-- `notebooks/` - Bootstrap resampling and statistical analysis.
-- `docs/` - Planning notes and final report materials.
+## 📂 Repository Structure
 
-## Status
+Our codebase follows a strict 4-phase pipeline architecture:
 
-Planning complete. Implementation and experiments are in progress.
+LLM-Ranking-Reversals/
+├── docs/                            # Project documentation & proposals
+├── src/                             # Core execution pipeline
+│   ├── 01_data_prep.py              # Phase 1: Sample datasets & apply 4 prompt templates
+│   ├── 02_api_runner.py             # Phase 2: Async LLM inference via OpenRouter
+│   ├── 03_scorer.py                 # Phase 3: Regex-based answer extraction & scoring
+│   ├── 04_analysis.ipynb            # Phase 4: Bootstrap resampling & RRR calculation
+│   └── utils/                       # Shared utilities (Regex patterns, Prompts)
+├── data/                            # Local data storage (Ignored in Git)
+│   ├── 01_prompts/                  # Output of Phase 1 (master_prompts.jsonl)
+│   ├── 02_raw_responses/            # Output of Phase 2 (raw_responses.jsonl)
+│   └── 03_scored/                   # Output of Phase 3 (scored_results.csv)
+└── plots/                           # Generated visualizations for the final report
 
-## Getting Started (Planned)
-
-1. Create a Python 3.10+ environment.
-2. Install dependencies from `requirements.txt`.
-3. Run data prep to build `master_prompts.jsonl`.
-4. Execute API runner to collect `raw_responses.jsonl`.
-5. Score results to generate `scored_results.csv`.
-6. Analyze with the notebook to produce plots and reversal metrics.
+---
 
 ## ⚙️ Environment Setup
 
@@ -53,35 +50,49 @@ To ensure reproducibility and avoid dependency conflicts, all team members must 
 
 ### Prerequisites
 
-1. Ensure you have [Python 3.11](https://www.python.org/downloads/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed.
+1. Ensure you have Miniconda or Python 3.11 installed.
 2. Clone this repository to your local machine.
 
 ### Using Conda (Recommended)
 
-If you use Conda, open your terminal and run the following commands:
+Open your terminal and run the following commands:
 
-```bash
-# 1. Create a Python 3.11 environment named llm-ranking-env
-conda create -n llm-ranking-env python=3.11 -y
+1. Create a Python 3.11 environment named llm-ranking-env
+   conda create -n llm-ranking-env python=3.11 -y
+2. Activate the environment
+   conda activate llm-ranking-env
+3. Install required packages
+   pip install -r requirements.txt
+4. Register the environment to Jupyter (for Phase 4 Analysis)
+   python -m ipykernel install --user --name=llm-ranking-env --display-name "Python 3.11 (llm-ranking-env)"
 
-# 2. Activate the environment
-conda activate llm-ranking-env
+### 🔑 Setting up API Keys
 
-# 3. Install required packages
-pip install -r requirements.txt
+This project uses OpenRouter for LLM inference. **NEVER commit your API key to GitHub.**
 
-# 4. Register the environment to Jupyter (for Stat Analysis)
-python -m ipykernel install --user --name=llm-ranking-env --display-name "Python 3.11 (llm-ranking-env)"
-```
+1. In the root directory, create a file named `.env`.
+2. Add your API key to the file:
+   OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxx
 
+---
 
-## Outputs (Planned)
+## 🏃 Getting Started (Execution Pipeline)
 
-- `master_prompts.jsonl` - Prompted questions with metadata.
-- `raw_responses.jsonl` - Model outputs with timestamps.
-- `scored_results.csv` - Binary correctness per model and prompt.
-- `plots/` - Figures for the final report.
+To reproduce our experiments, execute the scripts in the following order:
 
-## References
+1. **Phase 1 (Data Prep):** `python src/01_data_prep.py`
+   *Samples balanced subsets and generates 4 prompt variants per question. Outputs `master_prompts.jsonl`.*
+2. **Phase 2 (Inference):** `python src/02_api_runner.py`
+   *Runs async API calls with exponential backoff. Outputs `raw_responses.jsonl`.*
+3. **Phase 3 (Scoring):** `python src/03_scorer.py`
+   *Parses LLM outputs using Regex against gold labels. Outputs `scored_results.csv`.*
+4. **Phase 4 (Analysis):** Open `src/04_analysis.ipynb` in Jupyter Notebook.
+   *Executes Bootstrap resampling to estimate confidence intervals and generates plots.*
 
-See `PROJECT_PLAN.md` for the detailed execution plan and experimental protocol.
+---
+
+## 📚 Documentation & References
+
+- [Project Execution Plan](docs/EXECUTION_PLAN.md): Detailed experimental protocol and methodology.
+- [Project Log](PROJECT_LOG.md): Team task assignments, progress tracking, and decision logs.
+- [Tech Stack Guide](TECH_STACK.md): Detailed library dependencies and coding standards.
