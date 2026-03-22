@@ -229,8 +229,8 @@ def main():
     all_requests = expand_to_prompt_requests(all_items, model_name=MODEL_NAME)
 
     # items.jsonl for og questions, requests,jsonl for templated prompts
-    save_jsonl("pipeline/data/items.jsonl", all_items)
-    save_jsonl("pipeline/data/requests.jsonl", all_requests)
+    save_jsonl("data/00_raw_question.jsonl", all_items)
+    save_jsonl("data/01_prompts.jsonl", all_requests)
 
     print(f"Total items: {len(all_items)}")
     print(f"Total prompt requests: {len(all_requests)}")
