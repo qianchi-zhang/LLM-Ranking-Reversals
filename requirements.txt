@@ -1,9 +1,14 @@
-# Data Processing
+# ==========================================
+# Environment: llm-ranking-env
+# Python Version: 3.11
+# ==========================================
+
+# Data Processing & IO
 datasets>=2.16.0
 pandas>=2.0.0
 numpy>=1.24.0
 
-# API & Async Networking
+# Async API Orchestration
 aiohttp>=3.9.0
 tenacity>=8.2.0
 python-dotenv>=1.0.0
@@ -13,5 +18,6 @@ scipy>=1.10.0
 matplotlib>=3.7.0
 seaborn>=0.13.0
 
-# Notebook support (for P4)
+# Interactive Notebook (For P4)
 jupyter>=1.0.0
+ipykernel>=6.25.0

@@ -47,6 +47,34 @@ Planning complete. Implementation and experiments are in progress.
 5. Score results to generate `scored_results.csv`.
 6. Analyze with the notebook to produce plots and reversal metrics.
 
+## ⚙️ Environment Setup
+
+To ensure reproducibility and avoid dependency conflicts, all team members must use **Python 3.11** and the standard project environment named `llm-ranking-env`.
+
+### Prerequisites
+
+1. Ensure you have [Python 3.11](https://www.python.org/downloads/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed.
+2. Clone this repository to your local machine.
+
+### Using Conda (Recommended)
+
+If you use Conda, open your terminal and run the following commands:
+
+```bash
+# 1. Create a Python 3.11 environment named llm-ranking-env
+conda create -n llm-ranking-env python=3.11 -y
+
+# 2. Activate the environment
+conda activate llm-ranking-env
+
+# 3. Install required packages
+pip install -r requirements.txt
+
+# 4. Register the environment to Jupyter (for Stat Analysis)
+python -m ipykernel install --user --name=llm-ranking-env --display-name "Python 3.11 (llm-ranking-env)"
+```
+
+
 ## Outputs (Planned)
 
 - `master_prompts.jsonl` - Prompted questions with metadata.
