@@ -55,30 +55,28 @@ TEMPLATES = {
 
     "minimal_instruction": (
         "{question}\n\n"
-        "{choices_block}\n\n"
-        #"Your answer should be ONE letter only (A, B, C, or D)."
+        "{choices_block}"
+        "Select one option."
     ),
 
     "benchmark_style": (
-        "Choose the best answer to the following multiple-choice question, only one option is correct.\n\n"
+        "Choose the best answer to the following multiple-choice question.\n\n"
         "Question:\n{question}\n\n"
-        "Options:\n{choices_block}\n\n"
-        #"Answer with one letter (A, B, C, or D)."
+        "Options:\n{choices_block}"
     ),
 
     "natural_style": (
-        "Here's a multiple-choice question. Which option is correct?\n\n"
+        "I have a multiple-choice question for you.\n\n"
         "{question}\n\n"
         "{choices_block}\n\n"
-        #"Which option is correct? Reply with one letter only (A, B, C, or D)."
+        "Which option do you think is correct?"
     ),
 
     "order_phrasing_variation": (
-        #"Reply with only ONE letter corresponding to the correct answer (A, B, C, or D).\n\n"
-        "Select the best option."
+        "Consider the following question.\n\n"
         "{question}\n\n"
         "{choices_block}\n\n"
-        "It is a question with four possible options.\n\n"
+        "From the four options above, select the best answer."
     ),
 }
 
