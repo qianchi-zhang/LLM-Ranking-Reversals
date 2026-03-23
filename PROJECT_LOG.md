@@ -56,4 +56,4 @@
 
 
 2026/03/23 PENG
-Modified prompt templates so that they state clearer that the model should reply with only one letter
+Modified prompt templates so that they do not state that the model should reply with only one letter
