@@ -55,7 +55,7 @@ TEMPLATES = {
 
     "minimal_instruction": (
         "{question}\n\n"
-        "{choices_block}"
+        "{choices_block}\n\n"
         "Select one option."
     ),
 
