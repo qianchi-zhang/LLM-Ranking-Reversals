@@ -52,3 +52,8 @@
 - [ ] **正则漏检**：Llama 模型可能输出非标准格式，需人工校验首批 15 题。
 
 ---
+
+
+
+2026/03/23 PENG
+Modified prompt templates so that they state clearer that the model should reply with only one letter
