@@ -21,8 +21,7 @@ MMLU_N_PER_SUBJECT = 50
 ARC_N = 300
 HELLASWAG_N = 300
 
-# TODO
-MODEL_NAME = "openai/gpt-5.2"
+#MODEL_NAME = ""
 
 '''
 TEMPLATES = {
@@ -61,18 +60,17 @@ TEMPLATES = {
     ),
 
     "benchmark_style": (
-        "Choose the correct answer to the following multiple-choice question.\n\n"
+        "Choose the best answer to the following multiple-choice question, only one option is correct.\n\n"
         "Question:\n{question}\n\n"
         "Options:\n{choices_block}\n\n"
         #"Answer with one letter (A, B, C, or D)."
     ),
 
     "natural_style": (
-        "Here is a multiple-choice question.\n\n"
+        "Here's a multiple-choice question. Which option is correct?\n\n"
         "{question}\n\n"
         "{choices_block}\n\n"
         #"Which option is correct? Reply with one letter only (A, B, C, or D)."
-        "Which option is correct?"
     ),
 
     "order_phrasing_variation": (
@@ -80,7 +78,7 @@ TEMPLATES = {
         "Select the best option."
         "{question}\n\n"
         "{choices_block}\n\n"
-        "Above is a question with four possible options.\n\n"
+        "It is a question with four possible options.\n\n"
     ),
 }
 
@@ -186,7 +184,7 @@ def sample_hellaswag(n=HELLASWAG_N, seed=SEED, split="validation"):
     return rows
 
 
-def expand_to_prompt_requests(items, model_name):
+def expand_to_prompt_requests(items):
     reqs = []
 
     for item in items:
@@ -205,7 +203,6 @@ def expand_to_prompt_requests(items, model_name):
                 "subject": item["subject"],
                 "split": item["split"],
                 "template_name": template_name,
-                "model": model_name,
                 "messages": [
                     {
                         "role": "user",
@@ -227,7 +224,7 @@ def main():
     hellaswag_items = sample_hellaswag(n=HELLASWAG_N, seed=SEED, split="validation")
 
     all_items = mmlu_items + arc_items + hellaswag_items
-    all_requests = expand_to_prompt_requests(all_items, model_name=MODEL_NAME)
+    all_requests = expand_to_prompt_requests(all_items)
 
     # items.jsonl for og questions, requests,jsonl for templated prompts
     save_jsonl("data/00_raw_question.jsonl", all_items)
