@@ -1,0 +1,10 @@
+dataset,dataset_label,template_name,template_label,rrr
+arc_challenge,ARC-Challenge,benchmark_style,Benchmark,0.047
+arc_challenge,ARC-Challenge,natural_style,Natural,0.0165
+arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,0.0105
+hellaswag,HellaSwag,benchmark_style,Benchmark,0.6255
+hellaswag,HellaSwag,natural_style,Natural,0.4135
+hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,0.385
+mmlu,MMLU,benchmark_style,Benchmark,0.196
+mmlu,MMLU,natural_style,Natural,0.0805
+mmlu,MMLU,order_phrasing_variation,Order/Phrasing,0.135

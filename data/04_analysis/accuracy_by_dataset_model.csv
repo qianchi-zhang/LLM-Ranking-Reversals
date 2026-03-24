@@ -1,0 +1,13 @@
+dataset,dataset_label,model_id,model_label,accuracy,ci_low,ci_high,rank
+arc_challenge,ARC-Challenge,openai/gpt-4o-mini,GPT-4o-mini,0.9083333333333333,0.8758333333333334,0.9375,2
+arc_challenge,ARC-Challenge,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.94,0.9141666666666667,0.965,1
+arc_challenge,ARC-Challenge,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.7733333333333333,0.7324791666666667,0.82,4
+arc_challenge,ARC-Challenge,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.8508333333333333,0.8116666666666666,0.8891666666666667,3
+hellaswag,HellaSwag,openai/gpt-4o-mini,GPT-4o-mini,0.8916666666666667,0.86,0.9208541666666665,1
+hellaswag,HellaSwag,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.8725,0.8408333333333333,0.9025,2
+hellaswag,HellaSwag,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.6833333333333333,0.6391666666666667,0.7275,4
+hellaswag,HellaSwag,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.8425,0.8083125,0.8775,3
+mmlu,MMLU,openai/gpt-4o-mini,GPT-4o-mini,0.7341666666666666,0.6866666666666666,0.7816666666666666,2
+mmlu,MMLU,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.8508333333333333,0.8116666666666666,0.8858333333333334,1
+mmlu,MMLU,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.6008333333333333,0.5508333333333333,0.6525,4
+mmlu,MMLU,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.7033333333333334,0.6558333333333334,0.7516666666666667,3
