@@ -1,241 +1,157 @@
-# %%
 import os
 import json
 import time
 import requests
+import pandas as pd
 from dotenv import load_dotenv
-from tenacity import retry, stop_after_attempt, wait_exponential
-from tqdm.notebook import tqdm
-from tenacity import RetryError  
+from pathlib import Path
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+from tqdm import tqdm
 
-# 加载你的 env 文件
-load_dotenv(dotenv_path="../env", override=True)
-API_KEY = os.getenv("OPENROUTER_API_KEY")
+
+BASE_DIR = Path(__file__).resolve().parent 
+
+
+
+INPUT_FILE = BASE_DIR.parent / "data" / "01_prompts.jsonl"
+OUTPUT_JSONL = BASE_DIR.parent / "data" / "02_raw_responses.jsonl"
+OUTPUT_CSV = BASE_DIR.parent / "data" / "02_raw_responses.csv"
+
+MODELS = [
+    "openai/gpt-4o-mini",
+    "google/gemini-2.0-flash-001",
+    "qwen/qwen-2.5-7b-instruct",
+    "meta-llama/llama-3.1-8b-instruct"
+]
 
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
+# ===========================================
 
-if API_KEY:
-    print(f"✅ 环境就绪！API Key 加载成功 (开头: {API_KEY[:10]}...)")
-else:
-    print("❌ 错误：未找到 API Key，请检查 env 文件。")
+def setup_env():
+    """加载环境变量并验证 API Key"""
+    ENV_FILE_PATH = BASE_DIR.parent / "my.env"
+    load_dotenv(dotenv_path=ENV_FILE_PATH, override=True)
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        print("❌ 错误：未找到 API Key，请检查 env 文件。")
+        exit(1)
+    print(f"✅ 环境就绪！API Key 加载成功 (开头: {api_key[:10]}...)")
+    return api_key
 
-# %%
+
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
-def get_ai_response(model_id, prompt):
-    if not API_KEY or API_KEY == "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx":
-        raise Exception("❌ API_KEY 未配置！")
-    
-    # Header logic (Keep your fix for SK-OR prefix)
+def get_ai_response(api_key, model_id, prompt):
+    """核心 API 调用逻辑"""
     headers = {
-        "Authorization": f"Bearer {API_KEY.strip().lower() if API_KEY.startswith('SK-OR') else API_KEY.strip()}",
+        "Authorization": f"Bearer {api_key.strip().lower() if api_key.startswith('SK-OR') else api_key.strip()}",
         "Content-Type": "application/json"
     }
     
-    # 🔴 STICKER PROMPT: Demanding ONLY the letter
-    # 强制要求：只输出选项字母
-    refined_prompt = f"""{prompt.strip()}
-
-IMPORTANT: Output ONLY the correct option letter (A, B, C, or D). 
-Do NOT include brackets, periods, or any explanations.
-Just the single letter."""
+    # 强制单字母输出的 Prompt 注入
+    refined_prompt = (
+        f"{prompt.strip()}\n\n"
+        f"IMPORTANT: Output ONLY the correct option letter (A, B, C, or D).\n"
+        f"Do NOT include brackets, periods, or any explanations.\n"
+        f"Just the single letter."
+    )
     
     payload = {
         "model": model_id,
         "messages": [{"role": "user", "content": refined_prompt}],
-        "temperature": 0,    # 🔒 Keep at 0 for consistency
-        "max_tokens": 5      # 🔒 Minimal tokens to prevent chatting
+        "temperature": 0,
+        "max_tokens": 150
     }
     
-    try:
-        response = requests.post(API_URL, headers=headers, json=payload, timeout=30)
-        if response.status_code != 200:
-            raise Exception(f"API Error {response.status_code}: {response.text}")
-            
-        res_data = response.json()
-        message = res_data['choices'][0]['message']
-        content = message.get('content') or message.get('reasoning') or ""
+    response = requests.post(API_URL, headers=headers, json=payload, timeout=30)
+    if response.status_code != 200:
+        raise Exception(f"API Error {response.status_code}: {response.text}")
         
-        # 🔴 CLEANING: In case the model still adds a period like "A."
-        # 结果清洗：防止模型带点或空格
-        final_answer = str(content).strip().replace(".", "").replace("[", "").replace("]", "")
-        
-        # Return only the first character just in case
-        return final_answer[0] if final_answer else "N/A"
-        
-    except Exception as e:
-        raise Exception(f"❌ Error: {str(e)}")
-
-print("✅ Strict Single-Letter function is ready!")
+    res_data = response.json()
+    message = res_data['choices'][0]['message']
+    content = message.get('content') or message.get('reasoning') or ""
+    
+    # 结果清洗
+    final_answer = str(content).strip().replace(".", "").replace("[", "").replace("]", "")
+    return final_answer if final_answer else "N/A"
 
 def format_item_to_prompt(item):
-    question = item.get("question", "")
-    choices = item.get("choices", [])
-    labels = item.get("choice_labels", ["A", "B", "C", "D"])
-    
-    # Combine labels and choices: (A) choice1 (B) choice2 ...
-    options_str = " ".join([f"({labels[i]}) {choices[i]}" for i in range(len(choices))])
-    
-    return f"Question: {question}\nOptions: {options_str}"
+    """从 jsonl 行数据中提取 prompt 内容"""
+    if "messages" in item and len(item["messages"]) > 0:
+        return item["messages"][0]["content"]
+    return ""
 
-# %%
-import json
-import os
-import time
-from tqdm.notebook import tqdm
-from tenacity import RetryError
-
-# 1. Configuration 
-input_file = "../data/01_prompts.jsonl"
-output_file = "../data/02_raw_responses.jsonl"
-MODELS = [
-    "openai/gpt-4o-mini",
-    "google/gemini-2.0-flash-001",
-    "anthropic/claude-3.5-haiku",
-    "meta-llama/llama-3.1-8b-instruct"
-]
-
-# 2. Load P1 tasks 
-tasks = []
-if os.path.exists(input_file):
-    with open(input_file, 'r', encoding='utf-8') as f:
-        tasks = [json.loads(line) for line in f]
-    print(f"✅ Loaded {len(tasks)} tasks.")
-else:
-    print(f"❌ Input file {input_file} not found!")
-
-tasks = tasks[:50]  # For testing, limit to first 10 tasks. Remove or adjust for full run.
-# Clear results list to avoid duplicates if rerunning 
-results = []
-
-# 3. Execution Loop 
-for model_id in MODELS:
-    print(f"\n🚀 Processing model: {model_id}")
-    
-    # Using tqdm for progress tracking / 使用进度条
-    for item in tqdm(tasks, desc=f"Model: {model_id.split('/')[-1]}"):
-        try:
-            # --- STEP A: Format the prompt / 核心逻辑：改写问题 ---
-            # Use the item_id if task_id is missing / 兼容不同的 ID 字段名
-            current_id = item.get('item_id') or item.get('task_id') or 'Unknown'
-            
-            # Construct the full prompt string / 动态生成 Prompt
-            formatted_prompt = format_item_to_prompt(item)
-            
-            # --- STEP B: Call API / 核心调用 ---
-            # Note: Ensure your get_ai_response returns (answer, usage)
-            raw_answer = get_ai_response(model_id, formatted_prompt)
-            
-            # --- STEP C: Integrate results / 整合输出字段 ---
-            output_item = item.copy()
-            output_item.update({
-                "model_id": model_id,
-                "raw_response": raw_answer,
-            })
-            
-            results.append(output_item)
-            
-            # --- STEP D: Real-time Save / 实时追加保存 ---
-            with open(output_file, "a", encoding="utf-8") as f:
-                f.write(json.dumps(output_item, ensure_ascii=False) + "\n")
-            
-            # Rate limiting / 控制频率
-            time.sleep(1) 
-            
-        except RetryError as e:
-            # Extract underlying exception from Tenacity / 捕获重试失败后的真实原因
-            real_exception = e.last_attempt.exception() if hasattr(e, 'last_attempt') else "Unknown Retry Error"
-            print(f"\n❌ Task {current_id} FAILED after retries → Reason: {str(real_exception)}")
-        
-        except Exception as e:
-            # Catch non-retry errors / 捕获其他通用错误
-            print(f"\n❌ Task {current_id} FAILED (Non-retry error) → {str(e)}")
-
-print(f"\n✅ All tasks finished! Total responses captured: {len(results)}")
-
-# %%
-import pandas as pd
-import os
-
-# 确保 output_file 路径正确
-output_file = "../data/02_raw_responses.jsonl"
-
-if os.path.exists(output_file):
-    # 读取 JSONL 文件
-    df = pd.read_json(output_file, lines=True)
-    
-    # 🔍 动态检测 ID 列名 (兼容 item_id 或 task_id)
-    id_col = 'item_id' if 'item_id' in df.columns else 'task_id'
-    
-    # 检查我们需要的列是否存在，防止 display 报错
-    available_cols = [col for col in [id_col, 'model_id', 'raw_response', 'answer'] if col in df.columns]
-    
-    print(f"📊 结果预览 (共 {len(df)} 条记录):")
-    if not df.empty:
-        display(df[available_cols].head())
-    else:
-        print("⚠️ 文件是空的。")
-else:
-    print(f"📭 暂无结果文件：{output_file}")
-
-# %%
-import os
-import pandas as pd
-
-# 定义文件路径
-output_file = "../data/02_raw_responses.jsonl"
-csv_output_file = "../data/02_raw_responses.csv"
-
-if os.path.exists(output_file):
-    # 1. 读取 JSONL 文件
-    df = pd.read_json(output_file, lines=True)
-    
-    # 🔍 核心改动：动态识别 ID 列 (兼容 item_id 或 task_id)
-    id_col = 'item_id' if 'item_id' in df.columns else 'task_id'
-    
-    # 定义预览和导出时需要的核心列（如果存在的话）
-    core_cols = [id_col, 'model_id', 'raw_response']
-    if 'answer' in df.columns: core_cols.append('answer')
-    if 'ground_truth' in df.columns: core_cols.append('ground_truth')
-
-    # 2. 结果预览
-    print(f"📊 结果预览 (ID列名: {id_col}):")
+def check_balance(api_key):
+    """检查 OpenRouter 账户额度"""
+    url = "https://openrouter.ai/api/v1/key"
+    headers = {"Authorization": f"Bearer {api_key}"}
     try:
-        # 只显示存在的列，避免 KeyError
-        display_df = df[[c for c in core_cols if c in df.columns]].head()
-        display(display_df)
-    except NameError:
-        print(df[[c for c in core_cols if c in df.columns]].head())
+        response = requests.get(url, headers=headers)
+        data = response.json().get("data", {})
+        print(f"\n💰 账户额度: 剩余 {data.get('limit_remaining'):.4f} 刀 / 总额 {data.get('limit')} 刀")
+    except:
+        print("\n⚠️ 无法获取额度信息")
+
+def main():
+    api_key = setup_env()
     
-    # 3. 导出 CSV (使用 utf-8-sig 确保 Excel 打开中文不乱码)
-    # 我们直接导出全量 DataFrame，这样 P3 可以看到所有原始字段
-    df.to_csv(csv_output_file, index=False, encoding='utf-8-sig')
+    # 1. 加载任务
+    if not os.path.exists(INPUT_FILE):
+        print(f"❌ 输入文件 {INPUT_FILE} 不存在！")
+        return
     
-    print(f"\n✅ CSV 文件已生成：{csv_output_file}")
+    with open(INPUT_FILE, 'r', encoding='utf-8') as f:
+        all_tasks = [json.loads(line) for line in f]
     
-    # 4. 数据统计
-    total_count = len(df)
-    models = df['model_id'].unique().tolist()
-    print(f"\n📈 统计：共 {total_count} 条记录，涉及 {len(models)} 个模型")
-    print(f"🔍 模型列表：{models}")
+    # 这里的截取逻辑可根据需求修改，目前保留原代码的 50 条测试逻辑
+    tasks = all_tasks[:50]
+    print(f"🚀 开始处理，共 {len(tasks)} 个任务，涉及 {len(MODELS)} 个模型")
 
-else:
-    print(f"📭 暂无结果文件：{output_file}，请先运行搬运循环。")
+    results = []
+    
+    # 2. 执行循环
+    for model_id in MODELS:
+        print(f"\n🤖 当前模型: {model_id}")
+        
+        # 使用 tqdm 显示进度
+        pbar = tqdm(tasks, desc=f"Progress ({model_id.split('/')[-1]})")
+        
+        for item in pbar:
+            try:
+                current_id = item.get('item_id') or item.get('task_id') or 'Unknown'
+                formatted_prompt = format_item_to_prompt(item)
+                
+                raw_answer = get_ai_response(api_key, model_id, formatted_prompt)
+                
+                # 整合数据
+                output_item = item.copy()
+                output_item.update({
+                    "model_id": model_id,
+                    "raw_response": raw_answer,
+                })
+                
+                results.append(output_item)
+                
+                # 实时追加保存 JSONL
+                with open(OUTPUT_JSONL, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(output_item, ensure_ascii=False) + "\n")
+                
+                time.sleep(1) # 频率控制
+                
+            except RetryError as e:
+                real_exc = e.last_attempt.exception() if hasattr(e, 'last_attempt') else "Retry failed"
+                print(f"\n❌ Task {current_id} 失败 (重试后) -> {real_exc}")
+            except Exception as e:
+                print(f"\n❌ Task {current_id} 报错 -> {str(e)}")
 
-# %%
-import requests
+    # 3. 统计并导出 CSV
+    if results:
+        df = pd.DataFrame(results)
+        df.to_csv(OUTPUT_CSV, index=False, encoding='utf-8-sig')
+        print(f"\n✅ 处理完成！")
+        print(f"📊 总计抓取响应: {len(results)} 条")
+        print(f"💾 CSV 文件已保存至: {OUTPUT_CSV}")
+    
+    check_balance(api_key)
 
-api_key = os.getenv("OPENROUTER_API_KEY")
-url = "https://openrouter.ai/api/v1/key"
-
-headers = {
-    "Authorization": f"Bearer {api_key}"
-}
-
-response = requests.get(url, headers=headers)
-data = response.json().get("data", {})
-
-print(f"总额度限制: {data.get('limit')} 刀")
-print(f"剩余可用额度: {data.get('limit_remaining')} 刀")
-print(f"已使用额度: {data.get('usage')} 刀")
-
-
+if __name__ == "__main__":
+    main()
