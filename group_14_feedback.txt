@@ -1,0 +1,1 @@
+The ranking-reversal question is worthwhile, and the final report would be stronger if you explain more clearly what this study adds beyond existing work on benchmark reliability and ranking instability. It would also help to include a few especially informative ranking-reversal cases showing when prompt changes are most likely to alter model comparisons.

@@ -217,5 +217,5 @@ __marimo__/
 #!data/.gitkeep  # (保留这条可以让空文件夹也被Git追踪)
 
 # 3. 忽略本地的临时图表输出
-plots/*.png
-plots/*.pdf
+#plots/*.png
+#plots/*.pdf
