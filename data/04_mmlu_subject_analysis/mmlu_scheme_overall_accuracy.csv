@@ -1,0 +1,9 @@
+scope,scope_value,model_id,model_label,accuracy,ci_low,ci_high,rank
+scheme,overall_pooled,openai/gpt-4o-mini,GPT-4o-mini,0.7341666666666666,0.6841458333333333,0.7825,2
+scheme,overall_pooled,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.8508333333333333,0.8116666666666666,0.89,1
+scheme,overall_pooled,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.6008333333333333,0.55,0.65,4
+scheme,overall_pooled,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.7033333333333334,0.6549791666666667,0.7533333333333333,3
+scheme,overall_stratified,openai/gpt-4o-mini,GPT-4o-mini,0.7341666666666666,0.6875,0.7808541666666666,2
+scheme,overall_stratified,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.8508333333333333,0.8125,0.8883333333333333,1
+scheme,overall_stratified,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.6008333333333333,0.5525,0.6475208333333332,4
+scheme,overall_stratified,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.7033333333333334,0.6583333333333333,0.7491666666666666,3

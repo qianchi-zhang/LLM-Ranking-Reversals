@@ -1,0 +1,7 @@
+scope,scope_value,template_name,template_label,rrr
+scheme,overall_pooled,benchmark_style,Benchmark,0.2025
+scheme,overall_pooled,natural_style,Natural,0.0825
+scheme,overall_pooled,order_phrasing_variation,Order/Phrasing,0.1425
+scheme,overall_stratified,benchmark_style,Benchmark,0.2025
+scheme,overall_stratified,natural_style,Natural,0.0805
+scheme,overall_stratified,order_phrasing_variation,Order/Phrasing,0.1545
