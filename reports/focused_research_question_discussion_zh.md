@@ -27,7 +27,7 @@
 - **ARC-Challenge**：从官方 `test` split 抽取 300 题。
 - **HellaSwag**：从 `validation` split 抽取 300 题。之所以不使用 test split，是因为公开 test split 不直接提供 gold label，不适合本项目的自动评分流程。
 
-题目抽取逻辑由 [01_data_prep.py](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\src\01_data_prep.py) 实现，抽取后的原始题目保存在 [00_raw_question.jsonl](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\00_raw_question.jsonl)。
+题目抽取逻辑由 [01_data_prep.py](../src/01_data_prep.py) 实现，抽取后的原始题目保存在 [00_raw_question.jsonl](../data/00_raw_question.jsonl)。
 
 ### 2.2 Prompt 生成
 
@@ -51,7 +51,7 @@
 - 措辞风格是否更自然；
 - 问题呈现方式是否略有格式变化。
 
-但所有 template 都保持同一任务语义与同一选项集合不变，因此它们属于 **non-semantic prompt perturbations**。生成后的 prompt 保存在 [01_prompts.jsonl](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\01_prompts.jsonl)。
+但所有 template 都保持同一任务语义与同一选项集合不变，因此它们属于 **non-semantic prompt perturbations**。生成后的 prompt 保存在 [01_prompts.jsonl](../data/01_prompts.jsonl)。
 
 ### 2.3 模型调用
 
@@ -70,18 +70,18 @@
 
 这与最初 proposal 中写到的 `GPT-4.1 mini / Claude 3.5 Haiku / Gemini / Llama` 并不完全一致。因此最终报告的实验设置部分应当以**实际运行的数据**为准，而不是以最初 proposal 的计划模型表述为准。
 
-原始响应保存在 [02_raw_responses.csv](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\02_raw_responses.csv)。
+原始响应保存在 [02_raw_responses.csv](../data/02_raw_responses.csv)。
 
 ### 2.4 答案解析与评分
 
-评分流程由 [03_scorer.py](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\src\03_scorer.py) 实现。具体做法是：
+评分流程由 [03_scorer.py](../src/03_scorer.py) 实现。具体做法是：
 
 1. 从 `metadata` 中读取 gold answer；
 2. 从模型原始文本输出中用正则表达式提取 A/B/C/D；
 3. 将解析出的选项与 gold answer 比较；
 4. 正确记为 1，错误或无法解析记为 0。
 
-最终得到 [scored_results.csv](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\03_scored\scored_results.csv)。
+最终得到 [scored_results.csv](../data/03_scored/scored_results.csv)。
 
 在 14400 条响应中，仅有 3 条无法正常解析，占比 0.02%，且都来自 Llama 的安全拒答，因此对整体统计结论影响很小。
 
@@ -98,7 +98,7 @@
 - × 4 个 prompt template
 - = **48 个 prompt-specific accuracy**
 
-这些结果保存在 [accuracy_by_dataset_model_prompt.csv](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\04_analysis\accuracy_by_dataset_model_prompt.csv)。
+这些结果保存在 [accuracy_by_dataset_model_prompt.csv](../data/04_analysis/accuracy_by_dataset_model_prompt.csv)。
 
 下面按数据集整理这些准确率。
 
@@ -181,7 +181,7 @@
 - × 4 个模型
 - = **12 个 prompt-averaged accuracy**
 
-结果保存在 [accuracy_by_dataset_model.csv](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\04_analysis\accuracy_by_dataset_model.csv)。
+结果保存在 [accuracy_by_dataset_model.csv](../data/04_analysis/accuracy_by_dataset_model.csv)。
 
 具体为：
 
@@ -193,7 +193,7 @@
 
 ### 4.1 原始 bootstrap 设计
 
-在最初的 [04_analysis.py](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\src\04_analysis.py) 中，我们对每个 dataset 单独进行 bootstrap。
+在最初的 [04_analysis.py](../src/04_analysis.py) 中，我们对每个 dataset 单独进行 bootstrap。
 
 对于任意一个 dataset：
 
@@ -267,7 +267,7 @@
   - Natural：8.05%
   - Order/Phrasing：13.50%
 
-这些结果保存在 [ranking_reversal_rate.csv](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\data\04_analysis\ranking_reversal_rate.csv)。
+这些结果保存在 [ranking_reversal_rate.csv](../data/04_analysis/ranking_reversal_rate.csv)。
 
 ## 6. 三个数据集的主要结论
 
@@ -299,7 +299,7 @@ MMLU 的 300 题并不是来自单一同质任务，而是来自 6 个 subject �
 
 因此，我们新增了一个更细粒度的 MMLU 子集实验，专门研究：**如果从不同 subject 构造 bootstrap 子集，MMLU 的稳定性结论会不会改变？**
 
-新增脚本是 [04_mmlu_subject_bootstrap.py](d:\NUS\Lecture Material\ST5230 Applied Natural Language Processing\Group Project\git repo\LLM-Ranking-Reversals\src\04_mmlu_subject_bootstrap.py)。
+新增脚本是 [04_mmlu_subject_bootstrap.py](../src/04_mmlu_subject_bootstrap.py)。
 
 ### 7.2 新实验采用了哪些 bootstrap 方案？
 
