@@ -41,7 +41,7 @@
 ### Phase 2
 
 - 入口：`src/02_api_runner.py`
-- 历史 notebook：`src/02_api_runner.ipynb`
+- 辅助 notebook：`src/02_api_runner.ipynb`
 - 输出：`data/02_raw_responses.jsonl`、`data/02_raw_responses.csv`
 
 ### Phase 3
@@ -129,7 +129,7 @@
 - 修复文档与实现不一致；
 - 增补复现入口和复现实验说明；
 - 保持 `run_pipeline.py` 与分阶段脚本一致；
-- 对齐 notebook 历史口径与脚本口径。
+- 保持辅助 notebook、标准脚本和 README 说明一致。
 
 避免事项：
 

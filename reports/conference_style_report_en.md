@@ -212,7 +212,7 @@ Second, we study only four models. A larger model set could reveal more complex 
 
 Third, our prompt perturbations are intentionally shallow and task-preserving. They capture a narrow but important slice of evaluation variation rather than the full space of prompt design choices.
 
-Fourth, the checked-in full Phase 2 results were historically produced from the notebook workflow and only later aligned to the standardized script. The repository is now standardized, but the historical provenance should still be acknowledged.
+Fourth, the current study focuses on a narrow but controlled evaluation design. Our prompt perturbations are task-preserving and intentionally shallow, which is useful for isolating ranking instability but does not cover the full space of prompt design choices.
 
 ## 10. Conclusion
 

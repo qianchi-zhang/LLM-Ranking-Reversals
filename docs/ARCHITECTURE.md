@@ -98,7 +98,7 @@
 ### Phase 2
 
 - 脚本：`src/02_api_runner.py`
-- 历史 notebook：`src/02_api_runner.ipynb`
+- 辅助 notebook：`src/02_api_runner.ipynb`（交互式测试与探索）
 - 输入：`data/01_prompts.jsonl`
 - 输出：`data/02_raw_responses.jsonl`、`data/02_raw_responses.csv`
 
@@ -127,7 +127,7 @@
 
 - 默认复现入口是 `run_pipeline.py`
 - 分阶段脚本继续保留，便于局部重跑和调试
-- 历史 notebook 作为来源说明保留，但不再作为默认批量运行入口
+- 辅助 notebook 保留用于交互式测试与探索，标准复现入口仍然是脚本
 
 ### 一致性规则
 

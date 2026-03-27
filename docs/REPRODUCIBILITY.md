@@ -153,10 +153,10 @@ python src/04_mmlu_subject_bootstrap.py
 - 是否只跑了部分模型
 - 是否输出文件被中断或覆盖
 
-## 6. Notebook 与脚本的关系
+## 6. 脚本与 Notebook 的角色
 
-- `src/02_api_runner.ipynb` 是历史上实际跑出当前 Phase 2 结果的 notebook 入口
 - `src/02_api_runner.py` 是当前标准化后的脚本复现入口
 - `run_pipeline.py` 是当前标准化后的统一总入口
+- `src/02_api_runner.ipynb` 作为交互式测试与探索 notebook 保留
 
-如果历史 notebook、脚本和文档出现口径冲突，应优先保证脚本与当前仓库产物一致。
+如果 notebook、脚本和文档出现口径冲突，应优先保证脚本入口与 README 的复现说明一致。
