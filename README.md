@@ -62,12 +62,12 @@ LLM-Ranking-Reversals/
 ├─ plots/                            # 最终图表
 ├─ reports/                          # 分析讨论与结果摘要
 ├─ docs/                             # 架构与复现说明
+│  ├─ history/                       # 历史计划与开发记录
+│  └─ archive/                       # proposal / feedback / 历史材料
 ├─ README.md                         # 项目入口说明
 ├─ AGENTS.md                         # 协作与修改边界
-├─ PROJECT_PLAN.md                   # 历史计划文档
-├─ PROJECT_LOG.md                    # 历史开发日志
-├─ TECH_STACK.md                     # 技术栈说明
-└─ requirements.txt                  # Python 依赖
+├─ requirements.txt                  # Python 依赖
+└─ my.env                            # 本地 API Key 配置
 ```
 
 ## 四阶段流水线
@@ -211,12 +211,21 @@ python src/02_api_runner.py --mode full --resume
 1. `README.md`：快速了解项目
 2. `docs/ARCHITECTURE.md`：理解标准化架构与层次边界
 3. `docs/REPRODUCIBILITY.md`：按照规范复现实验
-4. `AGENTS.md`：了解协作和修改规则
-5. `reports/`：查看结论与讨论
+4. `docs/history/PROJECT_PLAN.md`：查看早期实验计划
+5. `AGENTS.md`：了解协作和修改规则
+6. `reports/`：查看结论与讨论
+
+## 历史与归档材料
+
+为了让根目录保持简洁，历史资料已经归档到：
+
+- `docs/history/`：`PROJECT_PLAN.md`、`PROJECT_LOG.md`、`TECH_STACK.md`
+- `docs/archive/`：proposal PDF、反馈文本等历史材料
+- `src/legacy/`：非主流水线的历史脚本
 
 ## 说明
 
-如果 `README.md`、`PROJECT_PLAN.md`、早期 proposal 和实际代码不一致，请优先相信：
+如果 `README.md`、`docs/history/PROJECT_PLAN.md`、早期 proposal 和实际代码不一致，请优先相信：
 
 1. `develop` 分支中的实际脚本
 2. `data/` 下的真实产物

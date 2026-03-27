@@ -32,10 +32,8 @@ LLM-Ranking-Reversals/
 ├─ docs/                             # 架构与复现文档
 ├─ README.md                         # 项目入口说明
 ├─ AGENTS.md                         # 协作规则
-├─ PROJECT_PLAN.md                   # 历史计划文档
-├─ PROJECT_LOG.md                    # 历史开发日志
-├─ TECH_STACK.md                     # 技术栈说明
-└─ requirements.txt                  # 依赖
+├─ requirements.txt                  # 依赖
+└─ my.env                            # 本地密钥配置
 ```
 
 ### 目录语义
@@ -45,6 +43,9 @@ LLM-Ranking-Reversals/
 - `plots/`：只放最终图表
 - `reports/`：只放分析性文字产物
 - `docs/`：只放结构、规范、复现说明
+- `docs/history/`：放历史计划、技术栈和开发日志
+- `docs/archive/`：放 proposal、反馈和历史材料
+- `src/legacy/`：放非标准流水线的历史脚本
 
 不要把运行脚本塞进 `reports/`，也不要把结果讨论塞进 `src/`。
 
@@ -201,8 +202,8 @@ LLM-Ranking-Reversals/
 
 以下文件可保留，但它们不一定反映当前真实实现：
 
-- `PROJECT_PLAN.md`
-- `PROJECT_LOG.md`
+- `docs/history/PROJECT_PLAN.md`
+- `docs/history/PROJECT_LOG.md`
 - 早期 proposal PDF
 
 如果引用它们，必须说明这是历史计划或历史记录。

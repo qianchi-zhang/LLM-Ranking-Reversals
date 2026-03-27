@@ -94,21 +94,31 @@
 
 ### 历史参考层
 
-文件：
+目录：
 
-- `PROJECT_PLAN.md`
-- `PROJECT_LOG.md`
-- `TECH_STACK.md`
-- proposal PDF
+- `docs/history/`
+- `docs/archive/`
 
 职责：
 
-- 记录项目早期计划与开发过程
+- `docs/history/`：记录项目早期计划、技术栈与开发过程
+- `docs/archive/`：保存 proposal、反馈文本和其他历史材料
 
 注意：
 
 - 它们不一定反映当前真实实现
 - 当前真实实现以 `src/`、`data/`、`reports/` 为准
+
+### 历史脚本层
+
+目录：
+
+- `src/legacy/`
+
+职责：
+
+- 保存非主流水线的历史试验脚本
+- 避免与当前标准脚本混淆
 
 ## 3. 四阶段流水线映射
 

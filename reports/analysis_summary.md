@@ -13,7 +13,7 @@
 - 排名逆转率 RRR；
 - 模型间差值的 bootstrap 显著性。
 
-需要特别说明的是，当前实际运行的 4 个模型是 `GPT-4o-mini`、`Gemini-2.0-flash`、`Qwen-2.5-7B` 和 `Llama-3.1-8B`。这与 `PROJECT_PLAN.md` 中原先写的 Claude 不一致，因此后续报告应以实际数据中的模型为准。
+需要特别说明的是，当前实际运行的 4 个模型是 `GPT-4o-mini`、`Gemini-2.0-flash`、`Qwen-2.5-7B` 和 `Llama-3.1-8B`。这与 [PROJECT_PLAN.md](../docs/history/PROJECT_PLAN.md) 中原先写的 Claude 不一致，因此后续报告应以实际数据中的模型为准。
 
 ## 2. 总体结论
 
