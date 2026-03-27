@@ -1,4 +1,4 @@
-﻿# Focused Discussion on the Original Research Question
+﻿﻿# Focused Discussion on the Original Research Question
 
 ## 1. What Question Are We Actually Answering?
 

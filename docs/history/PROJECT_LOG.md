@@ -1,59 +1,72 @@
-# 📝 Project Log: Group 14 - LLM Ranking Reversals
+﻿# 项目日志（归档整理版）
 
-> **项目说明**：本文件用于实时记录 ST5230 课程项目的开发进度、关键决策及团队分工。每位成员在完成阶段性任务或遇到重大 Bug 时请在此更新。
+## 1. 文档性质
 
----
+本文件是对项目早期推进过程的整理版日志，用于记录关键节点和重要决策。它是历史记录，不是当前仓库状态说明。
 
-## 📊 总体进度看板
+## 2. 关键里程碑
 
-| 阶段                                | 状态      | 负责人     | 预期完成时间 |
-| :---------------------------------- | :-------- | :--------- | :----------- |
-| **Phase 1: 数据与提示词工程** | ⏳ 进行中 | 彭 (Peng)  | 2026-03-23   |
-| **Phase 2: API 调度与跑批**   | ⏳ 进行中 | 江 (Jiang) | 2026-03-23   |
-| **Phase 3: 统计分析与建模**   | 📅 待启动 | 孟 (Meng)  | 2026-03-23   |
-| **Phase 4: 结果评分与解析**   | 📅 待启动 | 张 (Zhang) | 2026-03-23   |
+### 2026-03-20
 
----
+- 明确课程主题聚焦于 `Reliability of LLM Evaluation`
+- 确定项目核心问题不只是比较最高准确率，而是分析排名稳定性
+- 确认使用多 benchmark、多 prompt 扰动和 bootstrap 子集重采样的总体思路
 
-## 🚀 72小时冲刺：小样跑通计划 (Pilot Run)
+### 2026-03-21
 
-**目标**：在 3 天内完成 15 道题（3个数据集 $\times$ 5题）的全流程自动化测试，确保 Pipeline 无 Bug。
+- 初步确定四阶段流水线结构：
+  1. 数据抽样与 prompt 生成
+  2. 模型推理
+  3. 答案解析与评分
+  4. 统计分析与可视化
 
-### 👤 彭 (P1 - Data & Prompt Engineer)
+### 2026-03-23
 
-**AI 助手指令：** "请帮我编写 `src/01_data_prep.py`。任务包括：使用 `datasets` 库从 HuggingFace 载入 MMLU-STEM、ARC-Challenge 和 HellaSwag；每个数据集随机抽取 5 题并固定随机种子 42；为每题生成 4 种 Prompt 模板（Minimal, Benchmark, Non-semantic, Order-variant）；最终导出为 `test_prompts.jsonl`。"
+- 完成 pilot 级别的流程打通
+- 验证从 prompt 生成到评分输出的端到端路径可运行
+- 记录过一次 prompt 模板调整：不再在所有模板中都强制写死“只返回一个字母”
 
-### 👤 姜 (P2 - API Architect)
+### 2026-03-24 到 2026-03-25
 
-**AI 助手指令：** "请帮我编写 `src/02_api_runner.py`。任务包括：对接 OpenRouter API，支持 `gpt-4o-mini`, `gemini-2.0-flash-001`, `claude-3.5-haiku` 和 `llama-3.1-8b`；设置 `temperature=0` 和 `max_tokens=50`；实现带指数退避的错误重试机制；读取 `test_prompts.jsonl` 并将模型响应保存至 `raw_responses.jsonl`。"
+- 完成 Phase 2 的全量 notebook 运行
+- 生成 `02_raw_responses` 系列文件
+- 完成评分脚本与 bootstrap 分析脚本
+- 产出主分析表格、MMLU subject 分析表格、图表和报告草稿
 
-### 👤 孟 (P3 - Statistician)
+### 2026-03-26 到 2026-03-27
 
-**AI 助手指令：** "请帮我编写 `src/04_analysis.ipynb` 的统计核心。任务包括：实现一个 Bootstrap 函数，对准确率进行 $r=100$ 次重采样并计算 95% 置信区间；定义排名逆转率 (RRR) 的计算逻辑；使用模拟数据预先生成可视化图表框架（Boxplot 和 Heatmap）。"
+- 对仓库结构进行标准化整理
+- 增补架构说明、复现说明和 AGENTS 文档
+- 对齐 `02_api_runner.py` 与 notebook 的真实运行口径
+- 新增统一入口 `run_pipeline.py`
 
-### 👤 张 (P4 - Eval Scorer)
+## 3. 关键决策
 
-**AI 助手指令：** "请帮我编写 `src/03_scorer.py`。任务包括：设计鲁棒的正则表达式，从模型的原始输出中提取 A/B/C/D 选项；处理类似 'The correct answer is (A)' 的变体；将解析结果与 `gold_label` 对比，生成包含 0/1 得分的 `scored_results.csv`；记录无法解析的异常输出。"
+### 决策 1：关注 ranking stability，而不只看 average accuracy
 
----
+原因：
 
-## 🛠️ 关键决策记录 (Decision Log)
+- 课程主题强调评测可靠性；
+- 单一 leaderboard 无法体现 prompt 扰动与样本波动下的排名不确定性。
 
-| 日期       | 决策内容                  | 理由                              | 负责人 |
-| :--------- | :------------------------ | :-------------------------------- | :----- |
-| 2026-03-20 | 确定使用 4 种 Prompt 模板 | 覆盖从极简到复杂指令的鲁棒性测试  | 全员   |
-| 2026-03-20 | 固定样本量$n=300$       | 在统计效力与 API 预算之间取得平衡 | 全员   |
+### 决策 2：使用 bootstrap，而不是只报告单次测试集结果
 
----
+原因：
 
-## ⚠️ 待处理风险 (Blockers & Risks)
+- bootstrap 可以显式量化置信区间；
+- 可以分析 ranking reversal rate 和 rank probability。
 
-- [ ] **OpenRouter 速率限制**：需要确认 haiku 模型的并发上限。
-- [ ] **正则漏检**：Llama 模型可能输出非标准格式，需人工校验首批 15 题。
+### 决策 3：最终报告以真实运行结果为准，而不是以早期计划为准
 
----
+原因：
 
+- 早期计划中的模型与后续真实运行模型不完全一致；
+- 当前仓库已经有完整产物，必须优先服从真实结果。
 
+## 4. 当前阅读建议
 
-2026/03/23 PENG
-Modified prompt templates so that they do not state that the model should reply with only one letter
+如果你想了解当前仓库，而不是回顾历史推进过程，请优先阅读：
+
+1. [README.md](/d:/ST5230/LLM-Ranking-Reversals/README.md)
+2. [ARCHITECTURE.md](/d:/ST5230/LLM-Ranking-Reversals/docs/ARCHITECTURE.md)
+3. [REPRODUCIBILITY.md](/d:/ST5230/LLM-Ranking-Reversals/docs/REPRODUCIBILITY.md)

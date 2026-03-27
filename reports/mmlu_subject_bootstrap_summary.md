@@ -1,4 +1,4 @@
-# MMLU Subject Bootstrap Summary
+﻿# MMLU Subject Bootstrap Summary
 
 ## Current Bootstrap Design
 

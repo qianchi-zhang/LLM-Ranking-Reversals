@@ -1,50 +1,50 @@
-# 项目架构说明
+﻿# 项目架构说明
 
 ## 1. 目标
 
-本文件用于说明本仓库的标准化逻辑架构，帮助后续开发者快速区分：
+本文件用于说明仓库的标准化结构，以及不同目录在项目中的职责边界。
 
-- 哪些文件是代码
-- 哪些文件是实验产物
-- 哪些文件是图表与报告
-- 哪些文件是历史计划文档
+## 2. 架构分层
 
-## 2. 分层结构
+### 编排层
+
+- `run_pipeline.py`
+
+职责：
+
+- 串联 `01 -> 04` 阶段；
+- 作为默认复现入口；
+- 统一管理部分重跑和 Phase 2 参数传递。
 
 ### 代码层
-
-目录：
 
 - `src/`
 
 职责：
 
-- 数据抽样
-- Prompt 构造
-- 模型调用
-- 结果打分
-- Bootstrap 统计分析
+- 数据抽样与 prompt 生成；
+- OpenRouter 模型调用；
+- 答案解析与评分；
+- bootstrap 分析与可视化生成。
 
-原则：
+约束：
 
-- `src/` 中只放可执行实验逻辑
-- 不把报告讨论写进 `src/`
+- `src/` 只放可执行实验逻辑；
+- 历史脚本放 `src/legacy/`，不混入主流水线。
 
 ### 数据层
-
-目录：
 
 - `data/`
 
 职责：
 
-- 原始抽样题目
-- Prompt 请求
-- 模型原始响应
-- 打分结果
-- 统计分析表
+- 保存原始题目样本；
+- 保存 prompt 请求；
+- 保存模型原始响应；
+- 保存评分结果；
+- 保存分析阶段生成的表格。
 
-当前分层：
+当前阶段化目录：
 
 - `data/00_raw_question.jsonl`
 - `data/01_prompts.jsonl`
@@ -53,114 +53,89 @@
 - `data/04_analysis/`
 - `data/04_mmlu_subject_analysis/`
 
-原则：
-
-- `data/` 中只放数据和结果表
-- 不把代码放进 `data/`
-
 ### 可视化层
-
-目录：
 
 - `plots/`
 
 职责：
 
-- 保存论文/报告中可直接引用的图像文件
+- 保存最终图表；
+- 供报告和汇报材料直接引用。
 
 ### 报告层
-
-目录：
 
 - `reports/`
 
 职责：
 
-- 保存分析摘要
-- 保存研究问题讨论
-- 保存 MMLU subject 分析说明
+- 保存分析总结；
+- 保存研究问题讨论；
+- 保存 MMLU subject 分析说明。
 
 ### 文档层
-
-目录：
 
 - `docs/`
 
 职责：
 
-- 保存架构说明
-- 保存复现说明
-- 保存标准化规范
+- 保存架构说明；
+- 保存复现说明；
+- 保存历史计划与归档材料。
 
-### 历史参考层
+子目录：
 
-目录：
+- `docs/history/`：历史计划、日志、技术记录
+- `docs/archive/`：proposal、feedback 等归档材料
 
-- `docs/history/`
-- `docs/archive/`
-
-职责：
-
-- `docs/history/`：记录项目早期计划、技术栈与开发过程
-- `docs/archive/`：保存 proposal、反馈文本和其他历史材料
-
-注意：
-
-- 它们不一定反映当前真实实现
-- 当前真实实现以 `src/`、`data/`、`reports/` 为准
-
-### 历史脚本层
-
-目录：
-
-- `src/legacy/`
-
-职责：
-
-- 保存非主流水线的历史试验脚本
-- 避免与当前标准脚本混淆
-
-## 3. 四阶段流水线映射
+## 3. 四阶段映射
 
 ### Phase 1
 
-- 代码：`src/01_data_prep.py`
+- 脚本：`src/01_data_prep.py`
+- 输入：HuggingFace benchmark 数据集
 - 输出：`data/00_raw_question.jsonl`、`data/01_prompts.jsonl`
 
 ### Phase 2
 
-- 代码：`src/02_api_runner.py`
-- 历史运行入口：`src/02_api_runner.ipynb`
+- 脚本：`src/02_api_runner.py`
+- 历史 notebook：`src/02_api_runner.ipynb`
+- 输入：`data/01_prompts.jsonl`
 - 输出：`data/02_raw_responses.jsonl`、`data/02_raw_responses.csv`
 
 ### Phase 3
 
-- 代码：`src/03_scorer.py`
+- 脚本：`src/03_scorer.py`
+- 输入：`data/02_raw_responses.csv`
 - 输出：`data/03_scored/`
 
 ### Phase 4
 
-- 代码：`src/04_analysis.py`
-- 补充代码：`src/04_mmlu_subject_bootstrap.py`
+- 脚本：`src/04_analysis.py`
+- 补充脚本：`src/04_mmlu_subject_bootstrap.py`
+- 输入：`data/03_scored/scored_results.csv`
 - 输出：`data/04_analysis/`、`data/04_mmlu_subject_analysis/`、`plots/`、`reports/`
 
-## 4. 当前标准化约定
+## 4. 标准化规则
 
-### 命名约定
+### 命名规则
 
-- 阶段脚本采用编号前缀：`01_`、`02_`、`03_`、`04_`
-- 数据产物目录按阶段编号组织
-- 报告与图表目录不再混放代码
+- 阶段脚本使用数字前缀：`01_`、`02_`、`03_`、`04_`
+- 数据目录按阶段编号组织
+- 文档与报告目录不混放代码
 
-### 变更约定
+### 入口规则
 
-- 修改上游数据结构时，必须同步检查下游阶段
-- 默认不覆盖已有实验产物
-- 新的规范说明优先补到 `docs/`
+- 默认复现入口是 `run_pipeline.py`
+- 分阶段脚本继续保留，便于局部重跑和调试
+- 历史 notebook 作为来源说明保留，但不再作为默认批量运行入口
 
-## 5. 当前最重要的事实
+### 一致性规则
 
-- 当前仓库已经有完整实验结果
-- 当前实际模型集合不包含 Claude
-- 当前 Phase 2 已产出结果来自 notebook 全量运行
-- 当前脚本版 `src/02_api_runner.py` 已对齐 notebook 口径，作为后续标准复现入口
+- 修改某阶段输入输出格式时，必须同步检查下游脚本
+- 修改项目结构后，必须同步更新 README、复现文档和 AGENTS
+
+## 5. 真实口径说明
+
+- 当前仓库已经包含完整实验产物；
+- 当前真实模型集合是 `GPT-4o-mini / Gemini-2.0-flash / Qwen-2.5-7B / Llama-3.1-8B`；
+- 历史文档中提到的 Claude 等旧方案只代表早期计划，不代表最终实现。

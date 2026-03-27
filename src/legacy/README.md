@@ -1,13 +1,14 @@
-# Legacy Scripts
+﻿# Legacy Scripts
 
-`src/legacy/` 存放历史试验脚本或原型脚本。
+`src/legacy/` 用于存放历史试验脚本、原型脚本或已经退出主流水线的旧实现。
 
-这些文件不属于当前标准实验流水线，不应作为默认复现入口。
+这些文件不属于当前标准复现入口。当前推荐入口仍然是：
 
-当前主流水线入口仍然是：
+- `python run_pipeline.py`
+- `python src/01_data_prep.py`
+- `python src/02_api_runner.py`
+- `python src/03_scorer.py`
+- `python src/04_analysis.py`
+- `python src/04_mmlu_subject_bootstrap.py`
 
-- `src/01_data_prep.py`
-- `src/02_api_runner.py`
-- `src/03_scorer.py`
-- `src/04_analysis.py`
-- `src/04_mmlu_subject_bootstrap.py`
+如果 `src/legacy/` 中的脚本与当前主流水线冲突，以主流水线为准。
