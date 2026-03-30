@@ -1,6 +1,5 @@
 \documentclass[10pt,aspectratio=169]{beamer}
 \usetheme{Madrid}
-\usecolortheme{default}
 \setbeamertemplate{navigation symbols}{}
 
 \usepackage[T1]{fontenc}
@@ -9,213 +8,292 @@
 \usepackage{amsmath}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+
+\definecolor{Ink}{HTML}{16324F}
+\definecolor{Accent}{HTML}{E76F51}
+\definecolor{Soft}{HTML}{F3F0E8}
+\definecolor{Deep}{HTML}{102A43}
+\definecolor{Good}{HTML}{2A9D8F}
+
+\setbeamercolor{title}{fg=white,bg=Ink}
+\setbeamercolor{frametitle}{fg=white,bg=Ink}
+\setbeamercolor{structure}{fg=Ink}
+\setbeamercolor{block title}{fg=white,bg=Ink}
+\setbeamercolor{block body}{fg=black,bg=Soft}
+\setbeamercolor{itemize item}{fg=Accent}
+\setbeamercolor{enumerate item}{fg=Accent}
+
+\newcommand{\callout}[1]{%
+  \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+  \centering \Large \textbf{#1}
+  \end{beamercolorbox}
+}
+
+\newcommand{\smallcallout}[1]{%
+  \begin{beamercolorbox}[rounded=true,shadow=false,sep=0.7em,wd=\linewidth]{block body}
+  \centering \normalsize \textbf{#1}
+  \end{beamercolorbox}
+}
+
+\newcommand{\statcard}[2]{%
+  \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.7em,wd=\linewidth]{block body}
+  \centering
+  {\color{Accent}\fontsize{20}{22}\selectfont \textbf{#1}}\\[0.3em]
+  {\small #2}
+  \end{beamercolorbox}
+}
 
 \title{Do LLM Rankings Change if You Ask Differently?}
-\subtitle{Ranking Reversals under Non-semantic Prompt Perturbations and Subset Resampling}
+\subtitle{A 10-minute walk through ranking reversals under prompt perturbations}
 \author{ST5230 Group 14\\ZHANG QIANCHI \and PENG YANGYUNZHI \and JIANG YIFAN \and MENG XIANGCHEN}
 \date{}
 
 \begin{document}
 
-\begin{frame}
-  \titlepage
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[Ink] (current page.south west) rectangle (current page.north east);
+  \end{tikzpicture}
+  \vspace{1.2cm}
+  {\color{white}\Huge \textbf{Do LLM Rankings Change}}\\[0.15cm]
+  {\color{white}\Huge \textbf{if You Ask Differently?}}\\[0.5cm]
+  {\color{white}\large Ranking reversals under non-semantic prompt perturbations}\\[0.1cm]
+  {\color{white}\large and subset resampling}\\[1.1cm]
+  {\color{white}\normalsize ST5230 Group 14}
 \end{frame}
 
-\begin{frame}{Motivation}
-  \begin{itemize}
-    \item LLM evaluation is often summarized as a static leaderboard.
-    \item That implicitly assumes the rank order is stable under reasonable evaluation choices.
-    \item But benchmark results depend on at least two sources of variation:
-    \begin{itemize}
-      \item prompt wording and formatting
-      \item which subset of examples happens to be evaluated
-    \end{itemize}
-    \item Our question is not only ``who scores highest,'' but ``how robust is the ranking itself?''
-  \end{itemize}
+\begin{frame}{The Question We Usually Ignore}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+        {\Large \textbf{What a leaderboard says}}\\[0.6em]
+        \begin{itemize}
+          \item Model A: 89.2\%
+          \item Model B: 87.3\%
+          \item Therefore, A $>$ B
+        \end{itemize}
+      \end{beamercolorbox}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+        {\Large \textbf{What we ask instead}}\\[0.6em]
+        \begin{itemize}
+          \item What if we change the prompt wording?
+          \item What if we sample a different subset?
+          \item Does A still beat B?
+        \end{itemize}
+      \end{beamercolorbox}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.8em}
+  \callout{Our object of study is not only score, but ranking stability.}
 \end{frame}
 
-\begin{frame}{Related Work and Gap}
-  \begin{itemize}
-    \item Benchmark papers such as MMLU, ARC, and HellaSwag define widely used evaluation settings.
-    \item Prompt-robustness work shows that LLM behavior can change under task-preserving prompt variation.
-    \item Reliability discussions in LLM evaluation argue that benchmark scores are properties of both models and protocols.
-    \item The missing piece is ranking stability:
-    \begin{itemize}
-      \item do small protocol changes only move scores,
-      \item or can they actually flip model order?
-    \end{itemize}
-  \end{itemize}
+\begin{frame}{Why This Matters}
+  \begin{columns}[T]
+    \begin{column}{0.33\textwidth}
+      \statcard{Static leaderboards}{convenient, but treated as if they were stable facts}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+      \statcard{Prompt wording}{can change how a model interprets the same task}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+      \statcard{Subset choice}{can change the apparent winner when gaps are small}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.9em}
+  \smallcallout{If rank changes under reasonable evaluation choices, a single leaderboard is not the whole story.}
+\end{frame}
+
+\begin{frame}{Related Work, and Our Gap}
+  \begin{columns}[T]
+    \begin{column}{0.31\textwidth}
+      \statcard{Benchmarks}{MMLU, ARC, and HellaSwag define the evaluation settings.}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \statcard{Prompt robustness}{prior work shows that task-preserving prompt changes can matter.}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \statcard{Evaluation reliability}{recent discussions argue protocol matters, not just the model.}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.9em}
+  \callout{Missing piece: can small evaluation changes actually flip the model order?}
 \end{frame}
 
 \begin{frame}{Our Idea}
-  \begin{block}{Core framing}
-    Treat leaderboard rank as a random variable induced by evaluation protocol choices.
-  \end{block}
-
-  \begin{itemize}
-    \item We perturb prompts without changing task semantics.
-    \item We bootstrap the evaluation subset to model sample-composition noise.
-    \item We then ask whether the induced ranking changes.
-  \end{itemize}
-
-  \[
-  r_{d,p,b}(m) = \text{rank of model } m
-  \]
-  \[
-  \text{RRR}_{d,p} = \Pr\left(r_{d,p,b} \neq r_{d,\text{minimal},b}\right)
-  \]
-
-  \begin{itemize}
-    \item RRR = Ranking Reversal Rate
-    \item High RRR means a single leaderboard is not a stable summary
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Experimental Design}
   \begin{columns}[T]
-    \begin{column}{0.55\textwidth}
+    \begin{column}{0.56\textwidth}
       \begin{itemize}
-        \item Benchmarks:
-        \begin{itemize}
-          \item MMLU: 300 questions
-          \item ARC-Challenge: 300 questions
-          \item HellaSwag: 300 questions
-        \end{itemize}
-        \item Total question pool: 900
-        \item Prompt templates: 4
-        \item Prompt requests: 3600
-        \item Models: 4
-        \item Responses collected: 14400
+        \item Keep the task fixed.
+        \item Perturb the prompt in a non-semantic, task-preserving way.
+        \item Bootstrap the evaluation subset.
+        \item Observe whether the induced ranking changes.
+      \end{itemize}
+
+      \vspace{0.6em}
+      \[
+      \text{RRR} = \Pr(\text{ranking differs from the minimal prompt baseline})
+      \]
+
+      \vspace{0.4em}
+      \begin{itemize}
+        \item Low RRR: the leaderboard is robust
+        \item High RRR: the leaderboard is fragile
       \end{itemize}
     \end{column}
-    \begin{column}{0.45\textwidth}
-      \begin{itemize}
-        \item Models:
-        \begin{itemize}
-          \item GPT-4o-mini
-          \item Gemini-2.0-flash
-          \item Qwen-2.5-7B
-          \item Llama-3.1-8B
-        \end{itemize}
-        \item Inference:
-        \begin{itemize}
-          \item temperature = 0
-          \item max\_tokens = 150
-        \end{itemize}
-        \item Analysis:
-        \begin{itemize}
-          \item 2000 bootstrap resamples per dataset
-          \item accuracy, CI, pairwise difference, RRR
-        \end{itemize}
-      \end{itemize}
+    \begin{column}{0.4\textwidth}
+      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+        {\large \textbf{Interpretation}}\\[0.5em]
+        We treat rank as a random outcome induced by evaluation choices, not as a fixed property.
+      \end{beamercolorbox}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Implementation Pipeline}
-  \begin{enumerate}
-    \item Sample benchmark questions and generate 4 prompt templates per item.
-    \item Query 4 models through OpenRouter.
-    \item Parse outputs into \texttt{A/B/C/D} and score automatically.
-    \item Bootstrap each dataset 2000 times.
-    \item Compare prompt-specific rankings against the minimal prompt baseline.
-  \end{enumerate}
+\begin{frame}{From Data to Ranking Reversal}
+  \centering
+  \begin{tikzpicture}[
+      node distance=0.55cm,
+      box/.style={draw=Ink, fill=Soft, rounded corners, minimum height=1.2cm, minimum width=2.3cm, align=center},
+      arr/.style={-{Latex[length=3mm]}, very thick, draw=Accent}
+    ]
+    \node[box] (q) {900\\questions};
+    \node[box, right=of q] (p) {4 prompts\\per item};
+    \node[box, right=of p] (m) {4 models\\via OpenRouter};
+    \node[box, right=of m] (s) {auto\\scoring};
+    \node[box, right=of s] (b) {2000\\bootstraps};
 
-  \vspace{0.8em}
-  \begin{block}{Why this pipeline matters}
-    It isolates two realistic sources of leaderboard instability: prompt design and subset choice.
-  \end{block}
+    \draw[arr] (q) -- (p);
+    \draw[arr] (p) -- (m);
+    \draw[arr] (m) -- (s);
+    \draw[arr] (s) -- (b);
+  \end{tikzpicture}
+
+  \vspace{1em}
+  \begin{columns}[T]
+    \begin{column}{0.24\textwidth}
+      \statcard{3600}{prompt requests}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \statcard{14400}{model responses}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \statcard{3}{parse failures only}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \statcard{0.02\%}{failure rate}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Main Result 1: Stability Is Benchmark-dependent}
-  \begin{columns}
+\begin{frame}{First Big Result: Stability Depends on the Benchmark}
+  \begin{columns}[T]
     \begin{column}{0.62\textwidth}
       \includegraphics[width=\linewidth]{figures/ranking_reversal_rate.png}
     \end{column}
-    \begin{column}{0.38\textwidth}
-      \textbf{RRR relative to the minimal prompt}
-      \vspace{0.6em}
+    \begin{column}{0.35\textwidth}
+      \statcard{ARC}{Very stable}
+      \vspace{0.35em}
+      \statcard{MMLU}{Moderately stable}
+      \vspace{0.35em}
+      \statcard{HellaSwag}{Highly fragile}
+    \end{column}
+  \end{columns}
 
-      \begin{itemize}
-        \item ARC: 4.70\%, 1.65\%, 1.05\%
-        \item MMLU: 19.60\%, 8.05\%, 13.50\%
-        \item HellaSwag: 62.55\%, 41.35\%, 38.50\%
-      \end{itemize}
+  \vspace{0.5em}
+  \smallcallout{The same evaluation idea produces radically different ranking stability across benchmarks.}
+\end{frame}
 
-      \vspace{0.6em}
-      \textbf{Message:}
-      A single leaderboard can be very stable on one benchmark and very fragile on another.
+\begin{frame}{Case Study: HellaSwag Breaks the Static Leaderboard Story}
+  \begin{columns}[T]
+    \begin{column}{0.33\textwidth}
+      \statcard{62.55\%}{highest RRR under the benchmark-style prompt}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+      \statcard{1.92\%}{GPT lead over Gemini in prompt-averaged accuracy}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+      \statcard{$p=0.169$}{the GPT--Gemini gap is not statistically significant}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.9em}
+  \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+    \centering
+    \Large \textbf{Conclusion for HellaSwag:}\\[0.3em]
+    GPT looks first by point estimate, but the top rank is not secure once prompt and subset variation are taken seriously.
+  \end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Contrast: ARC and MMLU Tell a More Nuanced Story}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+        {\Large \textbf{ARC-Challenge}}\\[0.5em]
+        \begin{itemize}
+          \item Gemini is clearly first.
+          \item All pairwise gaps are significant.
+          \item RRR stays near zero.
+        \end{itemize}
+        \vspace{0.4em}
+        \textbf{Interpretation:} leaderboard is genuinely robust.
+      \end{beamercolorbox}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+        {\Large \textbf{MMLU}}\\[0.5em]
+        \begin{itemize}
+          \item Gemini is also clearly first.
+          \item But GPT vs Qwen is not significant.
+          \item Instability sits in the middle ranks.
+        \end{itemize}
+        \vspace{0.4em}
+        \textbf{Interpretation:} stable winner, less stable ordering below.
+      \end{beamercolorbox}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Main Result 2: The Winner Is Not Equally Secure Everywhere}
-  \small
-  \begin{tabular}{p{0.23\textwidth}p{0.25\textwidth}p{0.43\textwidth}}
-    \toprule
-    Dataset & Top-level picture & What it means \\
-    \midrule
-    ARC-Challenge & Gemini clearly first & All pairwise gaps are significant; the leaderboard is robust. \\
-    HellaSwag & GPT slightly above Gemini & GPT--Gemini gap is only 1.92\%; 95\% CI crosses 0; the top rank is fragile. \\
-    MMLU & Gemini clearly first & The winner is stable, but GPT vs Qwen is not significant; middle ranks are unstable. \\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.8em}
-  \begin{itemize}
-    \item Ranking reversals happen most often when model gaps are narrow.
-    \item Confidence intervals on accuracy are useful, but rank robustness is the sharper question.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Accuracy Patterns Across Prompts}
-  \includegraphics[width=\linewidth]{figures/accuracy_boxplots.png}
-
-  \vspace{0.4em}
-  \begin{itemize}
-    \item ARC has tight boxes and clear separation.
-    \item HellaSwag shows larger prompt sensitivity, especially around the top two models.
-    \item MMLU sits in between: stable top, less stable middle.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Subject-level Insight: Instability Also Depends on Domain}
-  \begin{columns}
+\begin{frame}{One More Layer: Even MMLU Is Not Uniform}
+  \begin{columns}[T]
     \begin{column}{0.62\textwidth}
       \includegraphics[width=\linewidth]{figures/mmlu_subject_rrr.png}
     \end{column}
-    \begin{column}{0.38\textwidth}
+    \begin{column}{0.35\textwidth}
       \begin{itemize}
         \item Full MMLU keeps the same overall winner.
-        \item But subject-level stability varies sharply.
-        \item Mean non-minimal RRR ranges from about 14.5\% to 67.9\% across subjects.
+        \item Subject-level RRR varies a lot.
+        \item Mean non-minimal RRR ranges from about 14.5\% to 67.9\%.
       \end{itemize}
 
       \vspace{0.6em}
-      \textbf{Implication:}
-      Ranking robustness is benchmark-dependent and subdomain-dependent.
+      \smallcallout{Ranking robustness is not only benchmark-dependent, but also subdomain-dependent.}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Takeaways}
-  \begin{itemize}
-    \item Static leaderboards should not be interpreted as universally stable facts.
-    \item Prompt perturbations and subset resampling can change rank order, especially when models are close.
-    \item ARC is robust, MMLU has a stable winner but unstable middle, and HellaSwag is highly fragile.
-    \item A better evaluation practice should report:
-    \begin{itemize}
-      \item average accuracy,
-      \item uncertainty intervals,
-      \item and ranking stability metrics such as RRR.
-    \end{itemize}
-  \end{itemize}
+\begin{frame}{What Does This Project Show?}
+  \begin{columns}[T]
+    \begin{column}{0.32\textwidth}
+      \statcard{What we did}{measured ranking stability instead of reporting only average accuracy}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \statcard{What we found}{rankings can be robust, partially stable, or fragile depending on the task}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \statcard{What it means}{a trustworthy benchmark report should include uncertainty and rank robustness}
+    \end{column}
+  \end{columns}
 
-  \vspace{0.8em}
-  \begin{block}{One-sentence conclusion}
-    The question is not only who is best on average, but whether that ordering survives reasonable evaluation variation.
-  \end{block}
+  \vspace{1em}
+  \callout{The real question is not only ``Who is best?'' but ``Does that ordering survive reasonable evaluation variation?''}
 \end{frame}
 
 \end{document}
