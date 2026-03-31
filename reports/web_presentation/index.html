@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Do LLM Rankings Change if You Ask Differently?</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-border: rgba(255, 255, 255, 0.12);
+      --text: #f5f5f0;
+      --muted: #a5a5a0;
+      --accent: #78e3f1;
+      --accent2: #a78bfa;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(120, 227, 241, 0.16), transparent 26%),
+        radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.16), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .deck {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 5.5vh 6vw;
+      display: grid;
+      align-content: center;
+      opacity: 0;
+      transform: translateY(18px) scale(0.985);
+      transition: opacity 420ms ease, transform 420ms ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h1, h2 {
+      margin: 0;
+      line-height: 0.95;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 6.5vw, 6.5rem);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4.4vw, 4.4rem);
+      max-width: 13ch;
+    }
+
+    p.lead {
+      margin: 1.25rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.6vw, 1.55rem);
+      line-height: 1.45;
+      max-width: 60rem;
+    }
+
+    .hero {
+      gap: 1.1rem;
+      align-content: center;
+    }
+
+    .hero-meta {
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2.2rem;
+      align-items: center;
+    }
+
+    .cards-3, .cards-4 {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cards-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      border-radius: 28px;
+      padding: 1.3rem 1.35rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card.kpi {
+      min-height: 11rem;
+      display: grid;
+      align-content: center;
+      text-align: center;
+    }
+
+    .card h3 {
+      margin: 0 0 0.8rem;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+
+    .metric {
+      color: var(--accent);
+      font-size: clamp(2rem, 3vw, 3.1rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    ul.clean {
+      margin: 0;
+      padding-left: 1.15rem;
+      display: grid;
+      gap: 0.85rem;
+      font-size: 1.08rem;
+      line-height: 1.45;
+    }
+
+    .quote {
+      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 34px;
+      padding: 1.5rem 1.7rem;
+      font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+      line-height: 1.18;
+      letter-spacing: -0.035em;
+      max-width: 20ch;
+      box-shadow: var(--shadow);
+    }
+
+    .image-panel {
+      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 28px;
+      padding: 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .image-panel img {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+    }
+
+    .bottom-note {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .fragment {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 320ms ease, transform 320ms ease;
+    }
+
+    .fragment.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .progress-wrap {
+      position: fixed;
+      left: 6vw;
+      right: 6vw;
+      bottom: 3vh;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .progress {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 320ms ease;
+    }
+
+    .counter {
+      color: var(--muted);
+      font-size: 0.92rem;
+      min-width: 4rem;
+      text-align: right;
+    }
+
+    .help {
+      position: fixed;
+      top: 2.4vh;
+      right: 2vw;
+      color: rgba(255,255,255,0.42);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 1100px) {
+      .two-col, .cards-3, .cards-4 {
+        grid-template-columns: 1fr;
+      }
+      .slide {
+        padding: 4vh 5vw 8vh;
+        overflow: auto;
+      }
+      body { overflow: auto; }
+      .progress-wrap, .help { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide hero active">
+      <div class="eyebrow">ST5230 Group 14</div>
+      <h1>Do LLM Rankings Change if You Ask Differently?</h1>
+      <p class="lead fragment">A keynote-style presentation about ranking reversals under non-semantic prompt perturbations and subset resampling.</p>
+      <div class="hero-meta fragment">ZHANG / PENG / JIANG / MENG</div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">The Setup</div>
+      <h2>A leaderboard feels definitive.</h2>
+      <div class="two-col" style="margin-top:2rem;">
+        <div class="card fragment">
+          <h3>What a leaderboard suggests</h3>
+          <div class="quote">Model A: 89.2%<br>Model B: 87.3%<br><br>So A &gt; B.</div>
+        </div>
+        <div class="card fragment">
+          <h3>What we ask instead</h3>
+          <ul class="clean">
+            <li>What if we phrase the same task differently?</li>
+            <li>What if the evaluation subset changes?</li>
+            <li>Does the ranking still survive?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Motivation</div>
+      <h2>Our target is not only score. It is ranking reliability.</h2>
+      <div class="cards-3" style="margin-top:2rem;">
+        <div class="card kpi fragment">
+          <div class="metric">Static</div>
+          <p>Leaderboards are compact, but they silently assume stable rank order.</p>
+        </div>
+        <div class="card kpi fragment">
+          <div class="metric">Prompt</div>
+          <p>Wording changes can alter how a model enters the task.</p>
+        </div>
+        <div class="card kpi fragment">
+          <div class="metric">Subset</div>
+          <p>Small model gaps can flip when the evaluated items change.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Research Gap</div>
+      <h2>Prior work studies prompt sensitivity. We study whether it flips the ordering.</h2>
+      <div class="cards-3" style="margin-top:2rem;">
+        <div class="card fragment">
+          <h3>Benchmarks</h3>
+          <p>MMLU, ARC, and HellaSwag define the task settings and scoreboards people trust.</p>
+        </div>
+        <div class="card fragment">
+          <h3>Prompt robustness</h3>
+          <p>Existing work shows non-semantic prompt changes can move model behavior.</p>
+        </div>
+        <div class="card fragment">
+          <h3>Our gap</h3>
+          <p>Do those shifts merely change scores, or do they actually reverse the rank order?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Method</div>
+      <h2>Treat rank as a random outcome induced by evaluation choices.</h2>
+      <div class="two-col" style="margin-top:2rem;">
+        <div>
+          <ul class="clean">
+            <li class="fragment">Keep task semantics fixed.</li>
+            <li class="fragment">Perturb prompts in a task-preserving way.</li>
+            <li class="fragment">Bootstrap the evaluation subset.</li>
+            <li class="fragment">Measure whether the ranking changes.</li>
+          </ul>
+        </div>
+        <div class="card fragment">
+          <h3>Key metric</h3>
+          <div class="quote" style="font-size:2rem;max-width:none;">RRR = Probability that the ranking differs from the baseline ranking</div>
+          <p class="bottom-note">RRR: Ranking Reversal Rate</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Pipeline</div>
+      <h2>A full experiment, not a toy simulation.</h2>
+      <div class="cards-4" style="margin-top:2rem;">
+        <div class="card kpi fragment"><div class="metric">900</div><p>questions</p></div>
+        <div class="card kpi fragment"><div class="metric">3600</div><p>prompt requests</p></div>
+        <div class="card kpi fragment"><div class="metric">14400</div><p>responses</p></div>
+        <div class="card kpi fragment"><div class="metric">2000</div><p>bootstraps / dataset</p></div>
+      </div>
+      <div class="cards-3" style="margin-top:1.4rem;">
+        <div class="card fragment">
+          <h3>Benchmarks</h3>
+          <p>MMLU, ARC-Challenge, HellaSwag</p>
+        </div>
+        <div class="card fragment">
+          <h3>Models</h3>
+          <p>GPT-4o-mini, Gemini-2.0-flash, Qwen-2.5-7B, Llama-3.1-8B</p>
+        </div>
+        <div class="card fragment">
+          <h3>Inference</h3>
+          <p>temperature = 0, max_tokens = 150</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Main Result</div>
+      <h2>Three benchmarks. Three very different stability stories.</h2>
+      <div class="two-col" style="margin-top:1.8rem; align-items:start;">
+        <div class="image-panel fragment">
+          <img src="assets/ranking_reversal_rate.png" alt="Ranking reversal rate" />
+        </div>
+        <div style="display:grid; gap:1rem;">
+          <div class="card kpi fragment">
+            <div class="metric">ARC</div>
+            <p>Very stable</p>
+          </div>
+          <div class="card kpi fragment">
+            <div class="metric">MMLU</div>
+            <p>Stable winner, less stable middle</p>
+          </div>
+          <div class="card kpi fragment">
+            <div class="metric">HellaSwag</div>
+            <p>Highly fragile</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Case Study</div>
+      <h2>HellaSwag is the wake-up call.</h2>
+      <div class="cards-3" style="margin-top:2rem;">
+        <div class="card kpi fragment">
+          <div class="metric">62.55%</div>
+          <p>highest ranking reversal rate</p>
+        </div>
+        <div class="card kpi fragment">
+          <div class="metric">1.92%</div>
+          <p>GPT lead over Gemini</p>
+        </div>
+        <div class="card kpi fragment">
+          <div class="metric">p = 0.169</div>
+          <p>gap is not statistically significant</p>
+        </div>
+      </div>
+      <div class="quote fragment" style="margin-top:1.8rem; max-width:27ch;">
+        Point estimate says GPT is first.<br><br>Robustness analysis says the top rank is fragile.
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Contrast</div>
+      <h2>ARC behaves like the leaderboard story people want to believe.</h2>
+      <div class="two-col" style="margin-top:1.8rem;">
+        <div class="card fragment">
+          <ul class="clean">
+            <li>Gemini remains first under all prompt variants.</li>
+            <li>All pairwise gaps are significant.</li>
+            <li>Prompt and subset variation are too weak to overturn the order.</li>
+          </ul>
+        </div>
+        <div style="display:grid; gap:1rem;">
+          <div class="card kpi fragment"><div class="metric">94.00%</div><p>Gemini average accuracy</p></div>
+          <div class="card kpi fragment"><div class="metric">1–5%</div><p>RRR range only</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Nuance</div>
+      <h2>MMLU is neither fully stable nor fully fragile.</h2>
+      <div class="two-col" style="margin-top:1.8rem;">
+        <div class="card fragment">
+          <ul class="clean">
+            <li>Gemini is clearly first.</li>
+            <li>GPT vs Qwen is not significantly separated.</li>
+            <li>Instability is concentrated in the middle ranks.</li>
+          </ul>
+        </div>
+        <div style="display:grid; gap:1rem;">
+          <div class="card kpi fragment"><div class="metric">11.67%</div><p>Gemini lead over GPT</p></div>
+          <div class="card kpi fragment"><div class="metric">3.08%</div><p>GPT lead over Qwen</p></div>
+          <div class="card kpi fragment"><div class="metric">p = 0.184</div><p>not significant</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">One More Layer</div>
+      <h2>Even MMLU changes character when you zoom into subjects.</h2>
+      <div class="two-col" style="margin-top:1.8rem; align-items:start;">
+        <div class="image-panel fragment">
+          <img src="assets/mmlu_subject_rrr.png" alt="MMLU subject RRR" />
+        </div>
+        <div style="display:grid; gap:1rem;">
+          <div class="card fragment">
+            <ul class="clean">
+              <li>Some subjects are relatively stable.</li>
+              <li>Others show large prompt-driven rank changes.</li>
+            </ul>
+          </div>
+          <div class="card kpi fragment"><div class="metric">14.5%</div><p>low end of mean subject RRR</p></div>
+          <div class="card kpi fragment"><div class="metric">67.9%</div><p>high end of mean subject RRR</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Takeaway</div>
+      <h2>What the project shows is simple, but important.</h2>
+      <div class="cards-3" style="margin-top:2rem;">
+        <div class="card kpi fragment">
+          <div class="metric">Measure</div>
+          <p>ranking stability, not only average score</p>
+        </div>
+        <div class="card kpi fragment">
+          <div class="metric">Find</div>
+          <p>robust, partially stable, and fragile leaderboards all exist</p>
+        </div>
+        <div class="card kpi fragment">
+          <div class="metric">Report</div>
+          <p>uncertainty and robustness should be explicit</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide hero">
+      <div class="eyebrow">Final Line</div>
+      <h1>The real question is not only who is best.</h1>
+      <p class="lead fragment">It is whether that ordering survives reasonable evaluation variation.</p>
+      <div class="hero-meta fragment">Use left/right arrows, space, or click to navigate.</div>
+    </section>
+  </div>
+
+  <div class="help">click / space / arrows</div>
+  <div class="progress-wrap">
+    <div class="progress"><span id="progress"></span></div>
+    <div class="counter" id="counter">1 / 12</div>
+  </div>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    let slideIndex = 0;
+    let fragmentIndex = 0;
+
+    function fragmentsOf(slide) {
+      return [...slide.querySelectorAll('.fragment')];
+    }
+
+    function render() {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === slideIndex);
+        const frags = fragmentsOf(slide);
+        frags.forEach((frag, idx) => {
+          frag.classList.toggle('visible', i === slideIndex && idx < fragmentIndex);
+        });
+      });
+
+      const progress = document.getElementById('progress');
+      const counter = document.getElementById('counter');
+      progress.style.width = `${((slideIndex + 1) / slides.length) * 100}%`;
+      counter.textContent = `${slideIndex + 1} / ${slides.length}`;
+    }
+
+    function nextStep() {
+      const frags = fragmentsOf(slides[slideIndex]);
+      if (fragmentIndex < frags.length) {
+        fragmentIndex += 1;
+      } else if (slideIndex < slides.length - 1) {
+        slideIndex += 1;
+        fragmentIndex = 0;
+      }
+      render();
+    }
+
+    function prevStep() {
+      if (fragmentIndex > 0) {
+        fragmentIndex -= 1;
+      } else if (slideIndex > 0) {
+        slideIndex -= 1;
+        fragmentIndex = fragmentsOf(slides[slideIndex]).length;
+      }
+      render();
+    }
+
+    window.addEventListener('keydown', (event) => {
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(event.key)) {
+        event.preventDefault();
+        nextStep();
+      }
+      if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(event.key)) {
+        event.preventDefault();
+        prevStep();
+      }
+      if (event.key.toLowerCase() === 'f') {
+        document.documentElement.requestFullscreen?.();
+      }
+    });
+
+    window.addEventListener('click', nextStep);
+    render();
+  </script>
+</body>
+</html>
