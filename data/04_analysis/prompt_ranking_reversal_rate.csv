@@ -1,0 +1,10 @@
+scope_type,scope_value,scope_label,base_template_name,base_template_label,compared_template_name,compared_template_label,prrr
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,benchmark_style,T2 Benchmark,0.106
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,natural_style,T3 Natural,0.016
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,order_phrasing_variation,T4 Order/Phrasing,0.016
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,benchmark_style,T2 Benchmark,0.56
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,natural_style,T3 Natural,0.32
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,order_phrasing_variation,T4 Order/Phrasing,0.33
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,benchmark_style,T2 Benchmark,0.156
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,natural_style,T3 Natural,0.055
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,order_phrasing_variation,T4 Order/Phrasing,0.105

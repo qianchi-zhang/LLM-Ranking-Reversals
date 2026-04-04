@@ -25,7 +25,7 @@
 - 数据抽样与 prompt 生成；
 - OpenRouter 模型调用；
 - 答案解析与评分；
-- bootstrap 分析与可视化生成。
+- 基于固定评分结果的重抽样分析与可视化生成。
 
 约束：
 
@@ -114,6 +114,12 @@
 - 补充脚本：`src/04_mmlu_subject_bootstrap.py`
 - 输入：`data/03_scored/scored_results.csv`
 - 输出：`data/04_analysis/`、`data/04_mmlu_subject_analysis/`、`plots/`、`reports/`
+
+说明：
+
+- Phase 4 不重新调用 API；
+- 所有 accuracy、PRRR、SRRR 统计量都直接复用 Phase 3 生成的固定 `score`；
+- 重抽样单位是题目子集，而不是新的模型请求。
 
 ## 4. 标准化规则
 

@@ -144,7 +144,7 @@ Outputs:
 - `data/03_scored/scored_results.csv`
 - `data/03_scored/parse_failures.csv`
 
-### Phase 4: Bootstrap Analysis
+### Phase 4: Resampling Analysis
 
 ```bash
 python src/04_analysis.py
@@ -157,6 +157,10 @@ Outputs:
 - `data/04_mmlu_subject_analysis/`
 - `plots/`
 - `reports/`
+
+Phase 4 does not call the API again. It reuses the fixed scored responses from
+`data/03_scored/scored_results.csv` and computes accuracy, PRRR, and SRRR by
+resampling item subsets locally.
 
 ## Current Experiment Scope
 

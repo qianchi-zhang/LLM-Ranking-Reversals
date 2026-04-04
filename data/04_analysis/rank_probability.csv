@@ -1,193 +1,193 @@
-dataset,dataset_label,template_name,template_label,model_id,model_label,rank_position,probability
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,1,0.0065
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.9935
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,2,0.993
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0065
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0005
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,3,0.0005
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.9995
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-arc_challenge,ARC-Challenge,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,1,0.046
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.954
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,2,0.954
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.046
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,3,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.002
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.998
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,0.998
-arc_challenge,ARC-Challenge,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.002
-arc_challenge,ARC-Challenge,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,1,0.0035
-arc_challenge,ARC-Challenge,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.9965
-arc_challenge,ARC-Challenge,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,2,0.9895
-arc_challenge,ARC-Challenge,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0035
-arc_challenge,ARC-Challenge,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.007
-arc_challenge,ARC-Challenge,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,3,0.007
-arc_challenge,ARC-Challenge,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.993
-arc_challenge,ARC-Challenge,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-arc_challenge,ARC-Challenge,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-arc_challenge,ARC-Challenge,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,1,0.003
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.997
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,2,0.9945
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.003
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0025
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,3,0.0025
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.9975
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-arc_challenge,ARC-Challenge,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,1,0.746
-hellaswag,HellaSwag,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.2475
-hellaswag,HellaSwag,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0065
-hellaswag,HellaSwag,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,2,0.2485
-hellaswag,HellaSwag,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.669
-hellaswag,HellaSwag,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0825
-hellaswag,HellaSwag,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,3,0.0055
-hellaswag,HellaSwag,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0835
-hellaswag,HellaSwag,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.911
-hellaswag,HellaSwag,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-hellaswag,HellaSwag,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,1,0.9065
-hellaswag,HellaSwag,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.0235
-hellaswag,HellaSwag,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.07
-hellaswag,HellaSwag,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,2,0.084
-hellaswag,HellaSwag,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.466
-hellaswag,HellaSwag,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.45
-hellaswag,HellaSwag,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,3,0.0095
-hellaswag,HellaSwag,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.5105
-hellaswag,HellaSwag,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.48
-hellaswag,HellaSwag,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-hellaswag,HellaSwag,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-hellaswag,HellaSwag,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,1,0.7785
-hellaswag,HellaSwag,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.21
-hellaswag,HellaSwag,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-hellaswag,HellaSwag,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0115
-hellaswag,HellaSwag,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,2,0.2095
-hellaswag,HellaSwag,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.6945
-hellaswag,HellaSwag,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-hellaswag,HellaSwag,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.096
-hellaswag,HellaSwag,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,3,0.012
-hellaswag,HellaSwag,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0955
-hellaswag,HellaSwag,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-hellaswag,HellaSwag,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.8925
-hellaswag,HellaSwag,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-hellaswag,HellaSwag,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-hellaswag,HellaSwag,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-hellaswag,HellaSwag,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,1,0.6765
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.323
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0005
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,2,0.3195
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.657
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0235
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,3,0.004
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.02
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.976
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-hellaswag,HellaSwag,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-mmlu,MMLU,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
-mmlu,MMLU,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
-mmlu,MMLU,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-mmlu,MMLU,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-mmlu,MMLU,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,2,0.9165
-mmlu,MMLU,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
-mmlu,MMLU,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-mmlu,MMLU,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0835
-mmlu,MMLU,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,3,0.0835
-mmlu,MMLU,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-mmlu,MMLU,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-mmlu,MMLU,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.9165
-mmlu,MMLU,minimal_instruction,Minimal,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-mmlu,MMLU,minimal_instruction,Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-mmlu,MMLU,minimal_instruction,Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-mmlu,MMLU,minimal_instruction,Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-mmlu,MMLU,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
-mmlu,MMLU,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
-mmlu,MMLU,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-mmlu,MMLU,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-mmlu,MMLU,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,2,0.7595
-mmlu,MMLU,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
-mmlu,MMLU,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-mmlu,MMLU,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.2405
-mmlu,MMLU,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,3,0.2405
-mmlu,MMLU,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-mmlu,MMLU,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.001
-mmlu,MMLU,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.7585
-mmlu,MMLU,benchmark_style,Benchmark,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-mmlu,MMLU,benchmark_style,Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-mmlu,MMLU,benchmark_style,Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,0.999
-mmlu,MMLU,benchmark_style,Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.001
-mmlu,MMLU,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
-mmlu,MMLU,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
-mmlu,MMLU,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-mmlu,MMLU,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-mmlu,MMLU,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,2,0.929
-mmlu,MMLU,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
-mmlu,MMLU,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-mmlu,MMLU,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.071
-mmlu,MMLU,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,3,0.071
-mmlu,MMLU,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-mmlu,MMLU,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-mmlu,MMLU,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.929
-mmlu,MMLU,natural_style,Natural,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-mmlu,MMLU,natural_style,Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-mmlu,MMLU,natural_style,Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-mmlu,MMLU,natural_style,Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,2,0.8315
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.1685
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,3,0.1685
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.8315
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
-mmlu,MMLU,order_phrasing_variation,Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+scope_type,scope_value,scope_label,template_name,template_label,model_id,model_label,rank_position,probability
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,1,0.014
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.986
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,2,0.986
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.014
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,3,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,1.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,1,0.109
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.891
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,2,0.891
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.109
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,3,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.004
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.996
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,0.996
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.004
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,1,0.008
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.992
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,2,0.988
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.008
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.004
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,3,0.004
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.996
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,1,0.006
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.994
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,2,0.994
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.006
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,3,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,1.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,1,0.787
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.208
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.005
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,2,0.212
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.738
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.05
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,3,0.001
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.054
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.945
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,1,0.964
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.007
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.029
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,2,0.034
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.573
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.393
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,3,0.002
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.42
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.578
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,1,0.881
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.114
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.005
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,2,0.114
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.823
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.063
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,3,0.005
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.063
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.932
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,1,0.747
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,0.253
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,2,0.253
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.738
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.009
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,3,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.009
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.991
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,2,0.945
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.055
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,3,0.055
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.945
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,2,0.825
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.175
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,3,0.175
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.825
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,2,0.956
+dataset,mmlu,MMLU,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.044
+dataset,mmlu,MMLU,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,3,0.044
+dataset,mmlu,MMLU,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.956
+dataset,mmlu,MMLU,natural_style,T3 Natural,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,mmlu,MMLU,natural_style,T3 Natural,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,1,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,1,1.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,1,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,1,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,2,0.868
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,2,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,2,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,2,0.132
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,3,0.132
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,3,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,3,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,3,0.868
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,openai/gpt-4o-mini,GPT-4o-mini,4,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,google/gemini-2.0-flash-001,Gemini-2.0-flash,4,0.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,4,1.0
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,4,0.0

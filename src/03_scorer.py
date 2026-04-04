@@ -1,3 +1,11 @@
+"""Phase 3 scorer for fixed Phase 2 responses.
+
+This script parses the already-collected API outputs in `data/02_raw_responses.csv`
+and converts each response into a single binary `score`. Any later subset
+resampling in Phase 4 reuses these fixed scores and does not send new API
+requests.
+"""
+
 import ast
 import re
 from pathlib import Path

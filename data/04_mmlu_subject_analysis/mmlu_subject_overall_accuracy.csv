@@ -1,25 +1,25 @@
-scope,scope_value,model_id,model_label,accuracy,ci_low,ci_high,rank
-subject,college_medicine,openai/gpt-4o-mini,GPT-4o-mini,0.76,0.645,0.865,2
-subject,college_medicine,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.82,0.715,0.915,1
-subject,college_medicine,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.62,0.49,0.745,4
-subject,college_medicine,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.71,0.59,0.825,3
-subject,formal_logic,openai/gpt-4o-mini,GPT-4o-mini,0.6,0.47,0.73,3
-subject,formal_logic,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.775,0.659875,0.87,1
-subject,formal_logic,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.48,0.36,0.6,4
-subject,formal_logic,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.695,0.585,0.8051249999999993,2
-subject,high_school_macroeconomics,openai/gpt-4o-mini,GPT-4o-mini,0.83,0.735,0.92,2
-subject,high_school_macroeconomics,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.945,0.885,1.0,1
-subject,high_school_macroeconomics,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.585,0.46,0.705,4
-subject,high_school_macroeconomics,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.685,0.565,0.8,3
-subject,high_school_physics,openai/gpt-4o-mini,GPT-4o-mini,0.54,0.405,0.6751249999999993,2
-subject,high_school_physics,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.78,0.665,0.88,1
-subject,high_school_physics,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.42,0.305,0.545,4
-subject,high_school_physics,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.535,0.4,0.66,3
-subject,international_law,openai/gpt-4o-mini,GPT-4o-mini,0.855,0.755,0.945,2
-subject,international_law,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.885,0.79,0.96,1
-subject,international_law,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.725,0.605,0.83,4
-subject,international_law,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.745,0.63,0.855,3
-subject,philosophy,openai/gpt-4o-mini,GPT-4o-mini,0.82,0.715,0.915,3
-subject,philosophy,google/gemini-2.0-flash-001,Gemini-2.0-flash,0.9,0.8198749999999999,0.97,1
-subject,philosophy,meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.775,0.665,0.88,4
-subject,philosophy,qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.85,0.755,0.94,2
+scope_type,scope_value,scope_label,model_id,model_label,accuracy,rank,subject_set_id,subject_name
+mmlu_subject,formal_logic,MMLU_S1 (formal_logic),openai/gpt-4o-mini,GPT-4o-mini,0.6,3,MMLU_S1,formal_logic
+mmlu_subject,formal_logic,MMLU_S1 (formal_logic),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.775,1,MMLU_S1,formal_logic
+mmlu_subject,formal_logic,MMLU_S1 (formal_logic),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.48,4,MMLU_S1,formal_logic
+mmlu_subject,formal_logic,MMLU_S1 (formal_logic),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.695,2,MMLU_S1,formal_logic
+mmlu_subject,high_school_macroeconomics,MMLU_S2 (high_school_macroeconomics),openai/gpt-4o-mini,GPT-4o-mini,0.83,2,MMLU_S2,high_school_macroeconomics
+mmlu_subject,high_school_macroeconomics,MMLU_S2 (high_school_macroeconomics),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.945,1,MMLU_S2,high_school_macroeconomics
+mmlu_subject,high_school_macroeconomics,MMLU_S2 (high_school_macroeconomics),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.585,4,MMLU_S2,high_school_macroeconomics
+mmlu_subject,high_school_macroeconomics,MMLU_S2 (high_school_macroeconomics),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.685,3,MMLU_S2,high_school_macroeconomics
+mmlu_subject,college_medicine,MMLU_S3 (college_medicine),openai/gpt-4o-mini,GPT-4o-mini,0.76,2,MMLU_S3,college_medicine
+mmlu_subject,college_medicine,MMLU_S3 (college_medicine),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.82,1,MMLU_S3,college_medicine
+mmlu_subject,college_medicine,MMLU_S3 (college_medicine),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.62,4,MMLU_S3,college_medicine
+mmlu_subject,college_medicine,MMLU_S3 (college_medicine),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.71,3,MMLU_S3,college_medicine
+mmlu_subject,high_school_physics,MMLU_S4 (high_school_physics),openai/gpt-4o-mini,GPT-4o-mini,0.54,2,MMLU_S4,high_school_physics
+mmlu_subject,high_school_physics,MMLU_S4 (high_school_physics),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.78,1,MMLU_S4,high_school_physics
+mmlu_subject,high_school_physics,MMLU_S4 (high_school_physics),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.42,4,MMLU_S4,high_school_physics
+mmlu_subject,high_school_physics,MMLU_S4 (high_school_physics),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.535,3,MMLU_S4,high_school_physics
+mmlu_subject,philosophy,MMLU_S5 (philosophy),openai/gpt-4o-mini,GPT-4o-mini,0.82,3,MMLU_S5,philosophy
+mmlu_subject,philosophy,MMLU_S5 (philosophy),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.9,1,MMLU_S5,philosophy
+mmlu_subject,philosophy,MMLU_S5 (philosophy),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.775,4,MMLU_S5,philosophy
+mmlu_subject,philosophy,MMLU_S5 (philosophy),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.85,2,MMLU_S5,philosophy
+mmlu_subject,international_law,MMLU_S6 (international_law),openai/gpt-4o-mini,GPT-4o-mini,0.855,2,MMLU_S6,international_law
+mmlu_subject,international_law,MMLU_S6 (international_law),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.885,1,MMLU_S6,international_law
+mmlu_subject,international_law,MMLU_S6 (international_law),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.725,4,MMLU_S6,international_law
+mmlu_subject,international_law,MMLU_S6 (international_law),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.745,3,MMLU_S6,international_law

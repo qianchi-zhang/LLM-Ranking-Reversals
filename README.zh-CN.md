@@ -133,7 +133,7 @@ python src/03_scorer.py
 - `data/03_scored/scored_results.csv`
 - `data/03_scored/parse_failures.csv`
 
-### Phase 4：Bootstrap 分析
+### Phase 4：重抽样分析
 
 ```bash
 python src/04_analysis.py
@@ -146,6 +146,9 @@ python src/04_mmlu_subject_bootstrap.py
 - `data/04_mmlu_subject_analysis/`
 - `plots/`
 - `reports/`
+
+Phase 4 不会重新调用 API，而是直接复用
+`data/03_scored/scored_results.csv` 中已经固定下来的作答评分，在本地对题目子集做重抽样并计算 accuracy、PRRR 和 SRRR。
 
 ## 当前实验口径
 

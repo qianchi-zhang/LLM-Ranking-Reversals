@@ -122,9 +122,17 @@ python src/04_analysis.py
 
 - `data/04_analysis/`
 - `plots/accuracy_boxplots.png`
-- `plots/ranking_reversal_rate.png`
+- `plots/prompt_ranking_reversal_rate.png`
+- `plots/subset_ranking_reversal_rate.png`
 - `plots/*_rank_probability_heatmaps.png`
 - `reports/analysis_summary.md`
+
+说明：
+
+- Phase 4 不重新请求 API。
+- 统计量直接基于 `data/03_scored/scored_results.csv` 中的固定 `score`。
+- 每个 scope 上做 1000 次重抽样；每次从当前题集无放回抽取 `n/2` 道题。
+- `04_analysis.py` 计算 dataset 级 accuracy、PRRR 和 SRRR。
 
 ### Step 5: MMLU Subject 分析
 
@@ -136,8 +144,14 @@ python src/04_mmlu_subject_bootstrap.py
 
 - `data/04_mmlu_subject_analysis/`
 - `plots/mmlu_subject_accuracy.png`
-- `plots/mmlu_subject_rrr.png`
+- `plots/mmlu_subject_prrr.png`
+- `plots/mmlu_subject_srrr.png`
 - `reports/mmlu_subject_bootstrap_summary.md`
+
+说明：
+
+- MMLU 的 6 个固定科目各含 50 道题。
+- subject 分析对每个科目分别做 1000 次重抽样；每次从该科目的 50 道题中无放回抽取 25 道题。
 
 ## 5. 当前结果规模检查
 

@@ -1,0 +1,13 @@
+scope_type,scope_value,scope_label,template_name,template_label,srrr
+dataset,arc_challenge,ARC-Challenge,minimal_instruction,T1 Minimal,0.014
+dataset,arc_challenge,ARC-Challenge,benchmark_style,T2 Benchmark,0.112
+dataset,arc_challenge,ARC-Challenge,natural_style,T3 Natural,0.012
+dataset,arc_challenge,ARC-Challenge,order_phrasing_variation,T4 Order/Phrasing,0.006
+dataset,hellaswag,HellaSwag,minimal_instruction,T1 Minimal,0.262
+dataset,hellaswag,HellaSwag,benchmark_style,T2 Benchmark,0.428
+dataset,hellaswag,HellaSwag,natural_style,T3 Natural,0.179
+dataset,hellaswag,HellaSwag,order_phrasing_variation,T4 Order/Phrasing,0.262
+dataset,mmlu,MMLU,minimal_instruction,T1 Minimal,0.055
+dataset,mmlu,MMLU,benchmark_style,T2 Benchmark,0.175
+dataset,mmlu,MMLU,natural_style,T3 Natural,0.044
+dataset,mmlu,MMLU,order_phrasing_variation,T4 Order/Phrasing,0.132
