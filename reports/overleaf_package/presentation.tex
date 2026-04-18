@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{tikz}
+\usepackage{comment}
 \usetikzlibrary{positioning,arrows.meta}
 
 \definecolor{Ink}{HTML}{17324D}
@@ -26,6 +27,7 @@
 \setbeamercolor{block body}{fg=black,bg=Soft}
 \setbeamercolor{itemize item}{fg=Accent}
 \setbeamercolor{enumerate item}{fg=Accent}
+\setbeamerfont{title}{size=\fontsize{21}{34}\selectfont}
 
 \newcommand{\sectionframe}[2]{
   \begin{frame}[plain]
@@ -52,31 +54,29 @@
   \end{beamercolorbox}
 }
 
+\newcommand{\promptcard}[3]{
+  \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.6em,wd=\linewidth]{block body}
+    {\small\bfseries #1}\\[0.2em]
+    {\scriptsize\color{Muted} #2}\\[0.35em]
+    {\ttfamily\scriptsize #3}
+  \end{beamercolorbox}
+}
+
 \title{Do LLM Rankings Change if You Ask Differently?}
 \subtitle{Ranking Reversals under Non-semantic Prompt Perturbations and Subset Resampling}
-\author{ST5230 Group 14\\ZHANG \and PENG \and JIANG \and MENG}
-\date{}
+\author{ZHANG, PENG, JIANG, MENG (Group 14)}
+\date{April 8, 2026}
 
 \begin{document}
 
-\begin{frame}[plain]
-  \begin{tikzpicture}[remember picture,overlay]
-    \fill[Ink] (current page.south west) rectangle (current page.north east);
-  \end{tikzpicture}
-  \vspace{1.1cm}
-  {\color{white}\Huge \textbf{Do LLM Rankings Change}}\\[0.12cm]
-  {\color{white}\Huge \textbf{if You Ask Differently?}}\\[0.55cm]
-  {\color{white}\large Ranking reversals under non-semantic prompt perturbations}\\[0.1cm]
-  {\color{white}\large and subset resampling}\\[1.2cm]
-  {\color{white}\normalsize ST5230 Group 14}
-\end{frame}
+\frame{\titlepage}
 
-\begin{frame}{A Familiar Story, and the Question Behind It}
+\begin{frame}{A Familiar Leaderboard Interpretation}
   \begin{columns}[T]
     \begin{column}{0.46\textwidth}
       \onslide<1->{
       \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
-        {\large \textbf{What a leaderboard suggests}}\\[0.5em]
+        {\large \textbf{Common interpretation}}\\[0.5em]
         \begin{itemize}
           \item Model A: 89.2\%
           \item Model B: 87.3\%
@@ -88,11 +88,11 @@
     \begin{column}{0.5\textwidth}
       \onslide<2->{
       \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
-        {\large \textbf{What we ask instead}}\\[0.5em]
+        {\large \textbf{Question of interest}}\\[0.5em]
         \begin{itemize}
-          \item What if we ask the same question differently?
-          \item What if we evaluate on a slightly different subset?
-          \item Does the rank order remain the same?
+          \item Same task, different phrasing
+          \item Same benchmark, different subset
+          \item Does the ordering still hold?
         \end{itemize}
       \end{beamercolorbox}
       }
@@ -101,206 +101,209 @@
 
   \onslide<3->{
     \vspace{0.9em}
-    \insightbox{Our target is not only score accuracy, but the reliability of the ranking itself.}
+    \insightbox{The focus is not only score differences, but the reliability of the ranking itself.}
   }
 \end{frame}
 
 \begin{frame}{Motivation}
   \begin{itemize}[<+->]
-    \item Static leaderboards are attractive because they compress a benchmark into a single ordering.
-    \item But that ordering implicitly assumes \textbf{evaluation stability}: small, reasonable protocol changes should not alter the winner.
-    \item In practice, benchmark outcomes depend on at least two nontrivial factors:
+    \item Leaderboards are attractive because they compress benchmark performance into a single ordering.
+    \item But this convenience relies on \textbf{evaluation stability}.
+    \item Even when the task remains fixed, outcomes may vary with:
     \begin{itemize}
-      \item prompt formulation
+      \item prompt phrasing, formatting, or instruction order
       \item evaluation subset composition
     \end{itemize}
-    \item If these sources of variation are large relative to model gaps, rank claims may be overconfident.
+    \item If these variations are comparable to model gaps, the apparent winner may not be robust.
   \end{itemize}
 
   \onslide<5->{
     \vspace{0.8em}
-    \insightbox{We study when a leaderboard is robust, and when it is only an artifact of one evaluation choice.}
+    \insightbox{A leaderboard is informative only if its ordering survives reasonable evaluation variation.}
   }
 \end{frame}
 
-\begin{frame}{Positioning Relative to Prior Work}
+\begin{frame}{Background: Instability and Risk}
   \begin{columns}[T]
-    \begin{column}{0.31\textwidth}
+    \begin{column}{0.48\textwidth}
       \onslide<1->{
-      \metriccard{Benchmark papers}{MMLU, ARC, and HellaSwag establish the task settings we evaluate.}
+      \metriccard{Instability}{Prior work suggests that prompt sensitivity and sampling noise can destabilize rankings and inflate point-estimate claims (Razavi et al., 2025; Miller, 2024; Min et al., 2022).}
       }
     \end{column}
-    \begin{column}{0.31\textwidth}
+    \begin{column}{0.48\textwidth}
       \onslide<2->{
-      \metriccard{Prompt robustness}{Prior work shows that task-preserving prompt changes can affect LLM behavior.}
-      }
-    \end{column}
-    \begin{column}{0.31\textwidth}
-      \onslide<3->{
-      \metriccard{Evaluation reliability}{Recent discussions emphasize that protocol matters, not just model identity.}
-      }
-    \end{column}
-  \end{columns}
-
-  \onslide<4->{
-    \vspace{0.9em}
-    \begin{block}{Our contribution}
-      We focus on \textbf{ranking stability}: not just whether scores move, but whether the order between models reverses.
-    \end{block}
-  }
-\end{frame}
-
-\begin{frame}{Research Questions}
-  \begin{enumerate}[<+->]
-    \item Do non-semantic prompt perturbations change model performance?
-    \item Does evaluation-subset variation change relative model rankings?
-    \item Are those changes large enough to create \textbf{ranking reversals}?
-  \end{enumerate}
-
-  \onslide<4->{
-    \vspace{0.9em}
-    \begin{columns}[T]
-      \begin{column}{0.48\textwidth}
-        \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.8em,wd=\linewidth]{block body}
-          {\large \textbf{If the answer is no}}\\[0.4em]
-          A static leaderboard is a reasonable summary.
-        \end{beamercolorbox}
-      \end{column}
-      \begin{column}{0.48\textwidth}
-        \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.8em,wd=\linewidth]{block body}
-          {\large \textbf{If the answer is yes}}\\[0.4em]
-          Rank claims should be reported with uncertainty and robustness diagnostics.
-        \end{beamercolorbox}
-      \end{column}
-    \end{columns}
-  }
-\end{frame}
-
-\sectionframe{Method}{Treat ranking as a random outcome induced by evaluation choices}
-
-\begin{frame}{Core Idea and Theoretical Framing}
-  \begin{columns}[T]
-    \begin{column}{0.56\textwidth}
-      \begin{itemize}[<+->]
-        \item Keep task semantics fixed.
-        \item Perturb the prompt in a controlled, non-semantic way.
-        \item Resample the evaluation subset via bootstrap.
-        \item Recompute the ranking under each induced evaluation configuration.
-      \end{itemize}
-
-      \onslide<3->{
-        \vspace{0.5em}
-        \[
-        r_{d,p,b}(m) = \text{rank of model } m
-        \]
-        \[
-        \text{RRR}_{d,p} = \Pr \left( r_{d,p,b} \neq r_{d,\text{minimal},b} \right)
-        \]
-      }
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \onslide<4->{
-      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
-        {\large \textbf{Interpretation}}\\[0.5em]
-        Rank is not treated as a fixed truth, but as a distribution over plausible evaluation choices.
-      \end{beamercolorbox}
-      }
-    \end{column}
-  \end{columns}
-
-  \onslide<5->{
-    \vspace{0.8em}
-    \insightbox{High RRR means a single leaderboard is a fragile snapshot rather than a stable conclusion.}
-  }
-\end{frame}
-
-\begin{frame}{Experimental Setup}
-  \begin{columns}[T]
-    \begin{column}{0.49\textwidth}
-      \onslide<1->{
-      \textbf{Benchmarks}
-      \begin{itemize}
-        \item MMLU: 300 questions
-        \item ARC-Challenge: 300 questions
-        \item HellaSwag: 300 questions
-      \end{itemize}
-
-      \textbf{Prompt templates}
-      \begin{itemize}
-        \item \texttt{minimal\_instruction}
-        \item \texttt{benchmark\_style}
-        \item \texttt{natural\_style}
-        \item \texttt{order\_phrasing\_variation}
-      \end{itemize}
-      }
-    \end{column}
-    \begin{column}{0.47\textwidth}
-      \onslide<2->{
-      \textbf{Models}
-      \begin{itemize}
-        \item GPT-4o-mini
-        \item Gemini-2.0-flash
-        \item Qwen-2.5-7B
-        \item Llama-3.1-8B
-      \end{itemize}
-
-      \textbf{Inference / analysis}
-      \begin{itemize}
-        \item temperature = 0
-        \item max\_tokens = 150
-        \item 2000 bootstrap resamples per dataset
-      \end{itemize}
+      \metriccard{Practical risk}{When margins are narrow, leaderboard positions may reflect surface-form luck or sampling noise rather than robust superiority (Min et al., 2022; Fourrier et al., 2024; Miller, 2024).}
       }
     \end{column}
   \end{columns}
 
   \onslide<3->{
-    \vspace{0.8em}
+    \vspace{2em}
+    {\scriptsize\raggedright
+    [1] Fourrier et al. \textit{Open LLM Leaderboard v2}. Hugging Face Blog, 2024.\\
+    
+    [2] Miller. \textit{Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations}. 2024.\\
+    
+    [3] Min et al. \textit{Rethinking the Role of Demonstrations: What Makes In-context Learning Work?} EMNLP, 2022.\\
+    \vspace{-0.5em}
+    [4] Razavi et al. \textit{Benchmarking Prompt Sensitivity in Large Language Models}. 2025.
+    }
+  }
+\end{frame}
+
+\begin{frame}{Research Questions}
+  \begin{enumerate}[<+->]
+    \item Do non-semantic prompt changes alter accuracy?
+    \item How uncertain are accuracies under subset variation?
+    \item Are those changes large enough to alter rank order?
+  \end{enumerate}
+
+  \onslide<4->{
+    \vspace{0.9em}
+    \insightbox{Our question is whether such score shifts are large enough to reverse the ranking itself.}
+  }
+\end{frame}
+
+\sectionframe{Method}{Treat ranking as a random outcome induced by evaluation choices}
+
+\begin{frame}{Core Idea: From Scores to Ranking Stability}
+  \begin{columns}[T]
+    \begin{column}{0.53\textwidth}
+      \begin{itemize}[<+->]
+        \item A leaderboard is built from sample-dependent accuracies.
+        \item If two models are close, small evaluation changes may flip their order.
+        \item So we study ranking as a \textbf{distribution}, not a single point estimate.
+      \end{itemize}
+
+      \onslide<3->{
+        \vspace{0.7em}
+        \begin{block}{Working intuition}
+          Fix the dataset semantics, perturb the prompt, resample the subset, and ask:
+          does the ranking stay the same?
+        \end{block}
+      }
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \onslide<4->{
+      \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.9em,wd=\linewidth]{block body}
+        {\large \textbf{Example}}\\[0.5em]
+        Baseline ranking:\\
+        Gemini $>$ GPT $>$ Qwen $>$ Llama\\[0.45em]
+        Alternative prompt ranking:\\
+        GPT $>$ Gemini $>$ Qwen $>$ Llama\\[0.45em]
+        This bootstrap draw counts as a \textbf{ranking reversal}.
+      \end{beamercolorbox}
+      }
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}{Experimental Setup: Datasets and Models}
+  \begin{columns}[T]
+    \begin{column}{0.32\textwidth}
+      \onslide<1->{
+      \metriccard{MMLU}{300 questions: 50 from each of 6 subjects, covering multi-domain factual and reasoning tasks}
+      }
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \onslide<2->{
+      \metriccard{ARC-Challenge}{300 test questions from a science QA benchmark with relatively structured answer space}
+      }
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \onslide<3->{
+      \metriccard{HellaSwag}{300 validation questions from a commonsense completion task with stronger language sensitivity}
+      }
+    \end{column}
+  \end{columns}
+
+  \onslide<4->{
+    \vspace{1.2em}
     \begin{columns}[T]
-      \begin{column}{0.24\textwidth}
-        \metriccard{900}{questions}
+      \begin{column}{0.46\textwidth}
+        \textbf{Models}
+        \begin{itemize}
+          \item GPT-4o-mini
+          \item Gemini-2.0-flash
+          \item Qwen-2.5-7B
+          \item Llama-3.1-8B
+        \end{itemize}
       \end{column}
-      \begin{column}{0.24\textwidth}
-        \metriccard{3600}{prompt requests}
-      \end{column}
-      \begin{column}{0.24\textwidth}
-        \metriccard{14400}{responses}
-      \end{column}
-      \begin{column}{0.24\textwidth}
-        \metriccard{3}{parse failures}
+      \begin{column}{0.50\textwidth}
+        \textbf{MMLU Subjects (200 questions each)}
+        \begin{itemize}
+          \item conceptual\_physics
+          \item high\_school\_mathematics
+          \item philosophy
+          \item high\_school\_world\_history
+          \item sociology
+        \end{itemize}
       \end{column}
     \end{columns}
   }
 \end{frame}
 
-\begin{frame}{Pipeline}
-  \centering
-  \begin{tikzpicture}[
-      node distance=0.55cm,
-      box/.style={draw=Ink, fill=Soft, rounded corners, minimum height=1.2cm, minimum width=2.5cm, align=center},
-      arr/.style={-{Latex[length=3mm]}, very thick, draw=Accent}
-    ]
-    \node[box] (q) {Sample\\questions};
-    \node[box, right=of q] (p) {Generate 4\\prompt variants};
-    \node[box, right=of p] (m) {Query 4\\models};
-    \node[box, right=of m] (s) {Parse and\\score};
-    \node[box, right=of s] (b) {Bootstrap\\rankings};
-
-    \draw[arr] (q) -- (p);
-    \draw[arr] (p) -- (m);
-    \draw[arr] (m) -- (s);
-    \draw[arr] (s) -- (b);
-  \end{tikzpicture}
-
-  \onslide<2->{
-    \vspace{1em}
-    \begin{itemize}[<+->]
-      \item This design isolates two realistic sources of instability: \textbf{prompt choice} and \textbf{subset choice}.
-      \item It also keeps the task fixed, so reversals cannot be dismissed as semantic task drift.
-    \end{itemize}
+\begin{frame}{Experimental Setup: Prompt Design}
+  \onslide<1->{
+  \textbf{Four task-preserving prompt styles}
   }
+
+  \vspace{0.35em}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \onslide<1->{
+      \promptcard{T1 Minimal}{shortest instruction}{\{question\}\\ \{choices\}\\ Select one option.}
+      }
+      \vspace{0.35em}
+      \onslide<2->{
+      \promptcard{T2 Benchmark}{explicit benchmark framing}{Choose the best answer...\\ Question:\\ \{question\}\\ Options:\\ \{choices\}}
+      }
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \onslide<3->{
+      \promptcard{T3 Natural}{more conversational wording}{I have a multiple-choice question for you...\\ \{question\}\\ Which option do you think is correct? \\ \{choices\}}
+      }
+      \vspace{0.35em}
+      \onslide<4->{
+      \promptcard{T4 Order/Phrasing}{same task, changed presentation order}{Consider the following question...\\ \{question\}\\ \{choices\}\\ From the four options above, select the best answer.}
+      }
+    \end{column}
+  \end{columns}
 \end{frame}
 
+\begin{frame}{Pipeline}
+	\centering
+	\begin{tikzpicture}[
+		node distance=0.55cm,
+		box/.style={draw=Ink, fill=Soft, rounded corners, minimum height=1.2cm, minimum width=2.5cm, align=center},
+		arr/.style={-{Latex[length=3mm]}, very thick, draw=Accent}
+		]
+		\node[box] (q) {Sample\\questions};
+		\node[box, right=of q] (p) {Generate 4\\prompt variants};
+		\node[box, right=of p] (m) {Query 4\\models};
+		\node[box, right=of m] (s) {Parse and\\score};
+		\node[box, right=of s] (b) {Analyze by\\bootstraping};
+		
+		\draw[arr] (q) -- (p);
+		\draw[arr] (p) -- (m);
+		\draw[arr] (m) -- (s);
+		\draw[arr] (s) -- (b);
+	\end{tikzpicture}
+	
+	\begin{columns}[T]
+		\begin{column}{0.95\textwidth}
+			\begin{itemize}[<+->]
+				\item Phase 1: samples \textbf{300 items} for each dataset and expands each item into \textbf{4 prompt templates}. For MMLU, we selected \textbf{6 distinct subjects} and sampled \textbf{50 items} from each subject.
+				\item Phase 2: queries 4 models on all prompt requests, parses each of the 14,400 responses into A/B/C/D, and turn it into a binary score.
+				\item Phase 3: By bootstraping, compute model accuracy and ranking reversal rates (see next slide).
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+\begin{comment}
 \sectionframe{Results}{Three benchmarks, three very different stability stories}
 
 \begin{frame}{Main Result: Ranking Stability Is Benchmark-dependent}
@@ -457,111 +460,9 @@
     \end{column}
   \end{columns}
 \end{frame}
+\end{comment}
 
-\sectionframe{Takeaways}{What this project says about how LLM evaluation should be reported}
-
-\begin{frame}{What We Learned}
-  \begin{enumerate}[<+->]
-    \item Prompt perturbations and subset variation do not affect all benchmarks equally.
-    \item Ranking reversals occur most often when performance gaps are narrow.
-    \item A single leaderboard may be robust, partially stable, or fragile depending on the task.
-    \item Average accuracy alone is not enough; rank uncertainty deserves explicit reporting.
-  \end{enumerate}
-
-  \onslide<5->{
-    \vspace{0.9em}
-    \insightbox{A better benchmark report should state not only who is best on average, but how robust that ordering is.}
-  }
-\end{frame}
-
-\begin{frame}{Implications and Limitations}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \onslide<1->{
-      \textbf{Implications}
-      \begin{itemize}
-        \item report confidence intervals and pairwise significance
-        \item report ranking stability metrics such as RRR
-        \item avoid overinterpreting narrow score gaps as stable superiority
-      \end{itemize}
-      }
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \onslide<2->{
-      \textbf{Limitations}
-      \begin{itemize}
-        \item only 3 multiple-choice benchmarks
-        \item only 4 models
-        \item prompt perturbations are controlled and shallow, not exhaustive
-      \end{itemize}
-      }
-    \end{column}
-  \end{columns}
-
-  \onslide<3->{
-    \vspace{0.9em}
-    \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.8em,wd=\linewidth]{block body}
-      This is not a claim that all leaderboards are unreliable. It is a claim that reliability must be demonstrated, not assumed.
-    \end{beamercolorbox}
-  }
-\end{frame}
-
-\begin{frame}{Conclusion}
-  \begin{columns}[T]
-    \begin{column}{0.32\textwidth}
-      \onslide<1->{
-      \metriccard{ARC}{robust leaderboard}
-      }
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      \onslide<2->{
-      \metriccard{MMLU}{stable winner, unstable middle}
-      }
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      \onslide<3->{
-      \metriccard{HellaSwag}{fragile top rank}
-      }
-    \end{column}
-  \end{columns}
-
-  \onslide<4->{
-    \vspace{1em}
-    \insightbox{The central question is not only ``Who is best?'' but ``Does that ordering survive reasonable evaluation variation?''}
-  }
-\end{frame}
-
-\sectionframe{Experiment Design and Result}{Experimental workflow, metric definitions, and reversal cases we found}
-
-\begin{frame}{Pipeline}
-	\centering
-	\begin{tikzpicture}[
-		node distance=0.55cm,
-		box/.style={draw=Ink, fill=Soft, rounded corners, minimum height=1.2cm, minimum width=2.5cm, align=center},
-		arr/.style={-{Latex[length=3mm]}, very thick, draw=Accent}
-		]
-		\node[box] (q) {Sample\\questions};
-		\node[box, right=of q] (p) {Generate 4\\prompt variants};
-		\node[box, right=of p] (m) {Query 4\\models};
-		\node[box, right=of m] (s) {Parse and\\score};
-		\node[box, right=of s] (b) {Analyze by\\bootstraping};
-		
-		\draw[arr] (q) -- (p);
-		\draw[arr] (p) -- (m);
-		\draw[arr] (m) -- (s);
-		\draw[arr] (s) -- (b);
-	\end{tikzpicture}
-	
-	\begin{columns}[T]
-		\begin{column}{0.95\textwidth}
-			\begin{itemize}[<+->]
-				\item Phase 1: samples \textbf{300 items} for each dataset and expands each item into \textbf{4 prompt templates}. For MMLU, we selected \textbf{6 distinct subjects} and sampled \textbf{50 items} from each subject.
-				\item Phase 2: queries 4 models on all prompt requests, parses each of the 14,400 responses into A/B/C/D, and turn it into a binary score.
-				\item Phase 3: By bootstraping, compute model accuracy and ranking reversal rates (see next slide).
-			\end{itemize}
-		\end{column}
-	\end{columns}
-\end{frame}
+\sectionframe{Result}{Experimental workflow, metric definitions, and reversal cases we found}
 
 \begin{frame}{Definition of Core Statistics: Accuracy and RRR's}
 	
@@ -768,6 +669,80 @@
       }
     \end{column}
   \end{columns}
+\end{frame}
+
+
+\sectionframe{Takeaways}{What this project says about how LLM evaluation should be reported}
+
+\begin{frame}{What We Learned}
+  \begin{enumerate}[<+->]
+    \item Prompt perturbations and subset variation do not affect all benchmarks equally.
+    \item Ranking reversals occur most often when performance gaps are narrow.
+    \item A single leaderboard may be robust, partially stable, or fragile depending on the task.
+    \item Average accuracy alone is not enough; rank uncertainty deserves explicit reporting.
+  \end{enumerate}
+
+  \onslide<5->{
+    \vspace{0.9em}
+    \insightbox{A better benchmark report should state not only who is best on average, but how robust that ordering is.}
+  }
+\end{frame}
+
+\begin{frame}{Implications and Limitations}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \onslide<1->{
+      \textbf{Implications}
+      \begin{itemize}
+        \item report confidence intervals and pairwise significance
+        \item report ranking stability metrics such as RRR
+        \item avoid overinterpreting narrow score gaps as stable superiority
+      \end{itemize}
+      }
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \onslide<2->{
+      \textbf{Limitations}
+      \begin{itemize}
+        \item only 3 multiple-choice benchmarks
+        \item only 4 models
+        \item prompt perturbations are controlled and shallow, not exhaustive
+      \end{itemize}
+      }
+    \end{column}
+  \end{columns}
+
+  \onslide<3->{
+    \vspace{0.9em}
+    \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.8em,wd=\linewidth]{block body}
+      This is not a claim that all leaderboards are unreliable. It is a claim that reliability must be demonstrated, not assumed.
+    \end{beamercolorbox}
+  }
+\end{frame}
+
+\begin{frame}{Conclusion}
+  \begin{columns}[T]
+    \begin{column}{0.32\textwidth}
+      \onslide<1->{
+      \metriccard{ARC}{robust leaderboard}
+      }
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \onslide<2->{
+      \metriccard{MMLU}{stable winner, unstable middle}
+      }
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \onslide<3->{
+      \metriccard{HellaSwag}{fragile top rank}
+      }
+    \end{column}
+  \end{columns}
+
+  \onslide<4->{
+    \vspace{1em}
+    \insightbox{The central question is not only ``Who is best?'' but ``Does that ordering survive reasonable evaluation variation?''}
+  }
 \end{frame}
 
 \end{document}
