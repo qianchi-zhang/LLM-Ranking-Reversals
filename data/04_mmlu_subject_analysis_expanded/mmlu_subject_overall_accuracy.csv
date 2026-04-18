@@ -1,0 +1,21 @@
+scope_type,scope_value,scope_label,model_id,model_label,accuracy,rank,subject_set_id,subject_name
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),openai/gpt-4o-mini,GPT-4o-mini,0.4325,3,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.6275,1,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.405,4,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.50625,2,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),openai/gpt-4o-mini,GPT-4o-mini,0.81,2,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.905,1,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.6025,4,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.77375,3,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),openai/gpt-4o-mini,GPT-4o-mini,0.89,2,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.91375,1,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.8275,4,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.85,3,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),openai/gpt-4o-mini,GPT-4o-mini,0.8,2,MMLU_S4,philosophy
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.87375,1,MMLU_S4,philosophy
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.71125,4,MMLU_S4,philosophy
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.7375,3,MMLU_S4,philosophy
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),openai/gpt-4o-mini,GPT-4o-mini,0.89375,1,MMLU_S5,sociology
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),google/gemini-2.0-flash-001,Gemini-2.0-flash,0.8925,2,MMLU_S5,sociology
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),meta-llama/llama-3.1-8b-instruct,Llama-3.1-8B,0.79,4,MMLU_S5,sociology
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),qwen/qwen-2.5-7b-instruct,Qwen-2.5-7B,0.82,3,MMLU_S5,sociology

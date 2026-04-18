@@ -1,0 +1,21 @@
+scope_type,scope_value,scope_label,template_name,template_label,srrr,subject_set_id,subject_name
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),minimal_instruction,T1 Minimal,0.387,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),benchmark_style,T2 Benchmark,0.181,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),natural_style,T3 Natural,0.308,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,high_school_mathematics,MMLU_S1 (high_school_mathematics),order_phrasing_variation,T4 Order/Phrasing,0.294,MMLU_S1,high_school_mathematics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),minimal_instruction,T1 Minimal,0.048,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),benchmark_style,T2 Benchmark,0.072,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),natural_style,T3 Natural,0.262,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,conceptual_physics,MMLU_S2 (conceptual_physics),order_phrasing_variation,T4 Order/Phrasing,0.069,MMLU_S2,conceptual_physics
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),minimal_instruction,T1 Minimal,0.55,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),benchmark_style,T2 Benchmark,0.46,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),natural_style,T3 Natural,0.386,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,high_school_world_history,MMLU_S3 (high_school_world_history),order_phrasing_variation,T4 Order/Phrasing,0.432,MMLU_S3,high_school_world_history
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),minimal_instruction,T1 Minimal,0.49,MMLU_S4,philosophy
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),benchmark_style,T2 Benchmark,0.204,MMLU_S4,philosophy
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),natural_style,T3 Natural,0.045,MMLU_S4,philosophy
+mmlu_subject_expanded,philosophy,MMLU_S4 (philosophy),order_phrasing_variation,T4 Order/Phrasing,0.351,MMLU_S4,philosophy
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),minimal_instruction,T1 Minimal,0.679,MMLU_S5,sociology
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),benchmark_style,T2 Benchmark,0.363,MMLU_S5,sociology
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),natural_style,T3 Natural,0.537,MMLU_S5,sociology
+mmlu_subject_expanded,sociology,MMLU_S5 (sociology),order_phrasing_variation,T4 Order/Phrasing,0.474,MMLU_S5,sociology

@@ -583,7 +583,7 @@
 		\begin{column}{0.9\textwidth}
 			Experiment settings:
 			\begin{itemize}
-				\item We applied bootstrap number $N = 1000$.
+				\item We applied bootstrap number $N = 1000$, and drew half-sized subsets: $\# P_i = \# P /2$.
 				\item For 3 datasets (MMLU, ARC-Challenge, and HellaSwag), and 6 subjects of question sets from MMLU, we computed:
 				\begin{itemize}
 					\item PRRR between minimal instruction and the other 3 templates;
@@ -596,7 +596,60 @@
 	
 \end{frame}
 
-\begin{frame}{Experiment Results: Dataset-Level}
+\begin{frame}{Experiment Results: Dataset-Level Ranking Instability}
+	\begin{columns}[T]
+		\begin{column}{\textwidth}
+			\includegraphics[width=\linewidth]{figures/accuracy_boxplots.png}
+		\end{column}
+		%\begin{column}{0.48\textwidth}
+		%  \includegraphics[width=\linewidth]{figures/hellaswag_rank_probability_heatmaps.png}
+		%\end{column}
+	\end{columns}
+	\vspace{0.6em}
+	\begin{columns}[T]
+		\begin{column}{0.95\textwidth}
+			The accuracy boxplots show that Gemini leads on ARC-Challenge and MMLU, while GPT-4o-mini leads on HellaSwag.
+			%\item The HellaSwag heatmap shows why this benchmark is fragile: GPT is usually rank 1, but the rest of the ordering remains prompt-sensitive, which is consistent with the high PRRR and SRRR values.
+			%\item Observation: even when the top model often stays ahead, .
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Experiment Results: Dataset-Level Ranking Instability}
+	\begin{columns}[T]
+		\begin{column}{0.33\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/arc_challenge_rank_probability_heatmaps.png}
+			\vspace{0.3em}
+			{\scriptsize Ranking heatmap (ARC)}
+		\end{column}
+		
+		\begin{column}{0.33\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/hellaswag_rank_probability_heatmaps.png}
+			\vspace{0.3em}
+			{\scriptsize Ranking heatmap (HellaSwag)}
+		\end{column}
+		
+		\begin{column}{0.33\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/mmlu_rank_probability_heatmaps.png}
+			\vspace{0.3em}
+			{\scriptsize Ranking heatmap (MMLU)}
+		\end{column}
+	\end{columns}
+	\vspace{1.5em}
+	\begin{columns}[T]
+		\begin{column}{0.9\textwidth}
+			\begin{itemize}[<+->]
+				\item The darker a tile, the more likely a model falls into that place in a ranking.
+				\item Distribution of model rankings differ among datasets and prompt styles.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Experiment Results: Dataset-Level RRR's}
 	\begin{columns}[T]
   	
 	  	\begin{column}{0.6\textwidth}
@@ -617,7 +670,7 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Experiment Results: Dataset-Level}
+\begin{frame}{Experiment Results: Dataset-Level RRR's}
 	\begin{columns}[T]
 		
 		\begin{column}{0.6\textwidth}
@@ -638,7 +691,7 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Experiment Results: Dataset-Level}
+\begin{frame}{Experiment Results: Dataset-Level RRR's}
   \begin{columns}[T]
     
     \begin{column}{0.9\textwidth}
@@ -657,21 +710,60 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Appendix V: MMLU Subject-Level Cases}
+\begin{frame}{Experiment Results: MMLU Subject-Level Ranking Instability}
+	\begin{columns}[T]
+		\begin{column}{\textwidth}
+			\centering
+			\includegraphics[width=0.85\linewidth]{figures/mmlu_subject_expanded_accuracy_boxplots.png}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Experiment Results: MMLU Subject-Level Ranking Instability}
+	\begin{columns}[T]
+		\begin{column}{0.33\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/mmlu_subject_expanded_MMLU_S1_rank_probability_heatmaps.png}
+			{\scriptsize high\_school\_mathematics}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/mmlu_subject_expanded_MMLU_S3_rank_probability_heatmaps.png}
+			{\scriptsize high\_school\_world\_history}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/mmlu_subject_expanded_MMLU_S5_rank_probability_heatmaps.png}
+			{\scriptsize sociology}
+		\end{column}
+	\end{columns}
+	\vspace{1.75em}
+	\begin{columns}[T]
+		\begin{column}{0.9\textwidth}
+			Heatmaps show the rankings vary a lot among subjects and prompt styles.
+			\begin{itemize}[<+->]
+				\item Model ranking distributions are very different among all 3 example subjects.
+				\item Different prompts can break a 50-50 tie between two models.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Experiment Results: MMLU Subject-Level RRR's}
   \begin{columns}[T]
-    \begin{column}{0.58\textwidth}
-      \includegraphics[width=\linewidth]{figures/mmlu_subject_prrr.png}
+    \begin{column}{0.63\textwidth}
+      \includegraphics[width=\linewidth]{figures/mmlu_subject_expanded_prrr.png}
+      \includegraphics[width=\linewidth]{figures/mmlu_subject_expanded_srrr.png}
     \end{column}
-    \begin{column}{0.38\textwidth}
+    \begin{column}{0.35\textwidth}
       \begin{itemize}[<+->]
-        \item Highest subject PRRR: \texttt{philosophy} at 79.50\%
-        \item Highest subject SRRR: \texttt{international\_law} at 71.30\%
-        \item \texttt{high\_school\_macroeconomics} is the most stable subject slice
+        \item Largest PRRR: \texttt{high\_school\_world\_history}, T1 vs T3 = 74.30\%
+        \item Largest SRRR: \texttt{sociology}, T1 = 67.90\%
       \end{itemize}
 
-      \onslide<4->{
+      \onslide<3->{
       \begin{beamercolorbox}[rounded=true,shadow=true,sep=0.8em,wd=\linewidth]{block body}
-        MMLU's aggregate stability hides strong subject-level heterogeneity.
+        The RRR's show that subject-level ranking instability is even higher than dataset-Level instability.
       \end{beamercolorbox}
       }
     \end{column}
