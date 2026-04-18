@@ -1,0 +1,236 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\setstretch{1.15}
+
+% --------------------
+% Course info
+% --------------------
+\newcommand{\course}{ST5230: Applied Natural Language Processing}
+\newcommand{\semester}{Semester 2, AY2025/2026}
+
+\title{\textbf{Your Project Title}}
+\author{Group ID: XX \\ (Member names)}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1em}
+
+% ====================
+% Abstract
+% ====================
+\begin{abstract}
+Summarize (6--10 sentences):
+(1) research question,
+(2) experimental setup,
+(3) key findings,
+(4) main takeaway / implication.
+\end{abstract}
+
+\section{Introduction}
+
+\textbf{Goal:} Clearly state the research problem and why it matters.
+
+\begin{itemize}[leftmargin=*]
+    \item What is the core question?
+    \item Why is it important in LLM evaluation / alignment / reliability?
+    \item What gap or ambiguity are you addressing?
+\end{itemize}
+
+\textbf{Contribution summary (bullet points recommended):}
+\begin{itemize}
+    \item Controlled empirical study of ...
+    \item Statistical analysis of ...
+    \item Key insight: ...
+\end{itemize}
+
+% ====================
+% Related Work
+% ====================
+\section{Related Work}
+
+\begin{itemize}[leftmargin=*]
+    \item Briefly review 3--8 key papers/tools
+    \item Focus on:
+    \begin{itemize}
+        \item LLM evaluation / robustness / alignment
+        \item LLM-as-a-judge / preference modeling
+    \end{itemize}
+    \item Explicitly state:
+    \textbf{How your work differs}
+\end{itemize}
+
+% ====================
+% Experimental Setup
+% ====================
+\section{Experimental Setup}
+
+\subsection{Research Question (Precise Formulation)}
+
+Write in \textbf{testable form}, e.g.:
+
+\begin{quote}
+Does model ranking remain stable under prompt perturbations?
+\end{quote}
+
+\subsection{Models}
+
+List all models:
+\begin{itemize}
+    \item GPT-4 / Claude / open-source models
+    \item Version / API details
+\end{itemize}
+
+\subsection{Datasets and Tasks}
+
+\begin{center}
+\begin{tabular}{@{}p{0.22\linewidth} p{0.18\linewidth} p{0.50\linewidth}@{}}
+\toprule
+\textbf{Dataset} & \textbf{Size} & \textbf{Details} \\
+\midrule
+... & ... & sampling / split / filtering \\
+... & ... & ... \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Experimental Design}
+
+\begin{itemize}[leftmargin=*]
+    \item What variables are controlled?
+    \item What is varied? (prompt / seed / persona / etc.)
+    \item Number of repetitions
+    \item API vs open-source setup
+\end{itemize}
+
+% ====================
+% Metrics & Statistics
+% ====================
+\section{Metrics and Statistical Protocol}
+
+\subsection{Evaluation Metrics}
+
+\begin{itemize}
+    \item Accuracy / preference / win-rate / etc.
+    \item Any custom metric
+\end{itemize}
+
+\subsection{Statistical Analysis}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Resampling:} bootstrap / repeated trials
+    \item \textbf{Uncertainty:} confidence intervals / SE
+    \item \textbf{Ranking stability:}
+    \begin{itemize}
+        \item rank variance
+        \item probability of rank reversal
+    \end{itemize}
+    \item \textbf{Hypothesis testing (if any)}
+\end{itemize}
+
+% ====================
+% Results
+% ====================
+\section{Results}
+
+\subsection{Main Results}
+
+\begin{itemize}
+    \item Tables / plots
+    \item Highlight key patterns
+\end{itemize}
+
+\subsection{Stability / Sensitivity Analysis}
+
+\begin{itemize}
+    \item Does performance change across seeds/prompts?
+    \item Are rankings stable?
+\end{itemize}
+
+\subsection{Additional Findings}
+
+Optional:
+\begin{itemize}
+    \item subgroup analysis
+    \item ablation
+\end{itemize}
+
+% ====================
+% Analysis
+% ====================
+\section{Analysis and Discussion}
+
+\begin{itemize}[leftmargin=*]
+    \item What do results imply?
+    \item When do models fail?
+    \item Any surprising behavior?
+    \item Practical implications
+\end{itemize}
+
+\textbf{Failure cases (important):}
+\begin{itemize}
+    \item Show concrete examples
+\end{itemize}
+
+% ====================
+% Limitations
+% ====================
+\section{Limitations and Risks}
+
+\begin{itemize}
+    \item Dataset bias
+    \item Evaluation noise
+    \item judge bias (if LLM-as-judge)
+    \item compute constraints
+\end{itemize}
+
+% ====================
+% Conclusion
+% ====================
+\section{Conclusion}
+
+\begin{itemize}
+    \item Restate key finding
+    \item What we learned
+    \item What should future work do
+\end{itemize}
+
+% ====================
+% Reproducibility
+% ====================
+\section*{Reproducibility Statement}
+
+\begin{itemize}
+    \item Code repository:
+    \item Prompts used:
+    \item Random seeds:
+    \item Model versions:
+\end{itemize}
+
+% ====================
+% References
+% ====================
+\bibliographystyle{plain}
+% \bibliography{references}
+
+% ====================
+% Appendix
+% ====================
+\appendix
+
+\section{Additional Results}
+
+\section{Prompts}
+
+\section{Implementation Details}
+
+\end{document}
