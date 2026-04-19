@@ -31,7 +31,7 @@ ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN}
 \vspace{-1em}
 
 \begin{abstract}
-Large language model leaderboards usually present benchmark performance as a single ordered list, implicitly assuming that the ordering is stable under reasonable evaluation choices. This project tests that assumption by studying whether non-semantic prompt perturbations and evaluation-subset variation can change model rankings. We evaluate four models, GPT-4o-mini, Gemini-2.0-flash, Qwen-2.5-7B, and Llama-3.1-8B, on MMLU, ARC-Challenge, and HellaSwag. The main dataset-level experiment uses 900 questions, four task-preserving prompt templates, and 14,400 model responses. We then compute accuracy, prompt-wise ranking reversal rate (PRRR), subset ranking reversal rate (SRRR), and rank-probability summaries using 1,000 half-subset resampling iterations per scope. We further run an expanded MMLU subject-level analysis over five subjects with 200 questions per subject. The central finding is that ranking stability is highly task-dependent: ARC-Challenge is comparatively robust, MMLU has a stable top model but less stable lower ranks, and HellaSwag is substantially more fragile. At the subject level, MMLU instability can be even stronger, with high-school world history reaching a maximum PRRR of 74.30\% and sociology reaching a maximum SRRR of 67.90\%. These results show that leaderboard interpretation should distinguish average accuracy from ranking robustness.
+Large language model leaderboards usually present benchmark performance as a single ordered list, implicitly assuming that the ordering is stable under reasonable evaluation choices. This project tests that assumption by studying whether non-semantic prompt perturbations and evaluation-subset variation can change model rankings. We evaluate four models, GPT-4o-mini, Gemini-2.0-flash, Qwen-2.5-7B, and Llama-3.1-8B, on MMLU, ARC-Challenge, and HellaSwag. The main standardized experiment uses 900 questions, four task-preserving prompt templates, and 14,400 model responses. We then compute accuracy, prompt-wise ranking reversal rate (PRRR), subset ranking reversal rate (SRRR), and supplementary rank-probability summaries using 1,000 half-subset resampling iterations per scope. To probe finer-grained instability, we also run an auxiliary expanded MMLU subject-level extension over five subjects with 200 questions per subject. The central finding is that ranking stability is highly task-dependent: ARC-Challenge is comparatively robust, MMLU has a stable top model but less stable lower ranks, and HellaSwag is substantially more fragile. At the subject level, instability can be even stronger, with high-school world history reaching a maximum PRRR of 74.30\% and sociology reaching a maximum SRRR of 67.90\%. These results show that leaderboard interpretation should distinguish average accuracy from ranking robustness.
 \end{abstract}
 
 \section{Introduction}
@@ -47,7 +47,7 @@ Our contributions are:
     \item We construct a controlled benchmark experiment with four task-preserving prompt templates across MMLU, ARC-Challenge, and HellaSwag.
     \item We separate two sources of instability: prompt-induced ranking changes and subset-induced ranking changes.
     \item We report PRRR and SRRR as ranking stability diagnostics, showing that HellaSwag is much less stable than ARC-Challenge and MMLU at the dataset level.
-    \item We extend the analysis to expanded MMLU subject subsets and show that subdomain-level ranking instability can be much larger than aggregate benchmark-level instability.
+    \item We add an auxiliary expanded MMLU subject extension and show that subdomain-level ranking instability can be much larger than aggregate benchmark-level instability.
 \end{itemize}
 
 \section{Related Work}
@@ -91,10 +91,16 @@ All model calls use temperature $0$ and \texttt{max\_tokens=150}. This determini
 MMLU & 300 & Main dataset-level sample; 50 questions from each of 6 subjects in the test split. \\
 ARC-Challenge & 300 & Science question answering benchmark; sampled from the official test split. \\
 HellaSwag & 300 & Commonsense sentence-completion benchmark; sampled from validation because test labels are not public. \\
-Expanded MMLU subjects & 5 $\times$ 200 & Subject-level analysis over \texttt{conceptual\_physics}, \texttt{high\_school\_mathematics}, \texttt{philosophy}, \texttt{high\_school\_world\_history}, and \texttt{sociology}. \\
+Auxiliary expanded MMLU extension & 5 $\times$ 200 & Separate subject-level extension over \texttt{high\_school\_mathematics}, \texttt{conceptual\_physics}, \texttt{high\_school\_world\_history}, \texttt{philosophy}, and \texttt{sociology}. \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+\subsection{Experimental Design}
+
+The project has two empirical layers. The main standardized pipeline uses the repository's default Phase 1--Phase 4 workflow: sample 900 benchmark items, expand them into four prompt templates, collect fixed model responses, parse them into binary correctness labels, and run local resampling analysis on the scored outputs. This main experiment is the source of the dataset-level results in this report.
+
+We then add an auxiliary expanded MMLU subject extension to stress-test whether benchmark-level conclusions survive at a narrower subdomain level. This extension uses a separate subject-preparation script and a separate response file, but keeps the same four models, the same four prompt templates, and the same deterministic decoding settings as the main experiment.
 
 \subsection{Prompt Design}
 
@@ -106,11 +112,11 @@ Each question is converted into four prompt templates that preserve the answer o
     \item \textbf{T4 Order/Phrasing}: same task and options, but with altered instruction order and phrasing.
 \end{itemize}
 
-The main dataset-level experiment therefore expands 900 items into $900 \times 4 = 3600$ prompt requests. Running four models over these requests yields $3600 \times 4 = 14400$ model responses. The expanded MMLU subject experiment adds 1000 subject-level questions, 4000 prompt requests, and 16000 responses.
+The main dataset-level experiment therefore expands 900 items into $900 \times 4 = 3600$ prompt requests. Running four models over these requests yields $3600 \times 4 = 14400$ model responses. The auxiliary expanded MMLU extension adds 1000 subject-level questions, 4000 prompt requests, and 16000 responses.
 
 \subsection{Scoring}
 
-All tasks are multiple-choice. We parse each model output into one of \texttt{A/B/C/D} and compare it with the gold label to obtain a binary score. In the main dataset-level experiment, there are 3 parse failures out of 14,400 responses. In the expanded MMLU subject experiment, there are no parse failures.
+All tasks are multiple-choice. We parse each model output into one of \texttt{A/B/C/D} and compare it with the gold label to obtain a binary score. In the main dataset-level experiment, there are 3 parse failures out of 14,400 responses. In the auxiliary expanded MMLU extension, there are no parse failures.
 
 \section{Metrics and Statistical Protocol}
 
@@ -150,7 +156,7 @@ PRRR isolates prompt-to-prompt disagreement, while SRRR isolates instability cau
 
 \subsection{Resampling Protocol}
 
-For each dataset or subject scope, we run $N=1000$ resampling iterations. Each iteration samples a half-sized subset without replacement from the current scope. For the main 300-item datasets, each subset contains 150 items. For each expanded MMLU subject, each subset contains 100 of the 200 subject items.
+For each dataset or subject scope, we run $N=1000$ resampling iterations. Each iteration samples a half-sized subset without replacement from the current scope. For the main 300-item datasets, each subset contains 150 items. For each subject in the auxiliary expanded MMLU extension, each subset contains 100 of the 200 subject items. We also compute rank-probability tables as supplementary summaries, but PRRR and SRRR remain our main stability diagnostics in the report.
 
 \section{Results}
 
@@ -226,21 +232,21 @@ MMLU & 15.60\% & 17.50\% \\
 
 \subsection{Expanded MMLU Subject-level Analysis}
 
-The expanded MMLU subject experiment reveals substantially stronger instability than the aggregate MMLU result. Table~\ref{tab:mmlu_subject} reports the top model, top accuracy, maximum PRRR, and maximum SRRR for each subject.
+The auxiliary expanded MMLU subject extension reveals substantially stronger instability than the aggregate MMLU result. Table~\ref{tab:mmlu_subject} reports the winning model, top accuracy, maximum PRRR, and maximum SRRR for each subject.
 
 \begin{table}[H]
 \centering
 \caption{Expanded MMLU subject-level stability results.}
 \label{tab:mmlu_subject}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{Subject} & \textbf{Winner} & \textbf{Max PRRR} & \textbf{Max SRRR} \\
+\textbf{Subject} & \textbf{Winner} & \textbf{Top Acc.} & \textbf{Max PRRR} & \textbf{Max SRRR} \\
 \midrule
-high\_school\_mathematics & Gemini-2.0-flash & 32.20\% & 38.70\% \\
-conceptual\_physics & Gemini-2.0-flash & 25.60\% & 26.20\% \\
-high\_school\_world\_history & Gemini-2.0-flash & 74.30\% & 55.00\% \\
-philosophy & Gemini-2.0-flash & 56.10\% & 49.00\% \\
-sociology & GPT-4o-mini & 54.30\% & 67.90\% \\
+High-school mathematics & Gemini-2.0-flash & 62.75\% & 32.20\% & 38.70\% \\
+Conceptual physics & Gemini-2.0-flash & 90.50\% & 25.60\% & 26.20\% \\
+High-school world history & Gemini-2.0-flash & 91.38\% & 74.30\% & 55.00\% \\
+Philosophy & Gemini-2.0-flash & 87.38\% & 56.10\% & 49.00\% \\
+Sociology & GPT-4o-mini & 89.38\% & 54.30\% & 67.90\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -278,7 +284,27 @@ HellaSwag provides the clearest counterexample. GPT-4o-mini is first by average 
 
 \subsection{MMLU: Stable Aggregate Winner, Unstable Slices}
 
-At the main dataset level, MMLU is more stable than HellaSwag but less stable than ARC-Challenge. Gemini is clearly first in the aggregate, but the middle ranks are closer. The expanded subject-level analysis shows why aggregation can hide instability: high-school world history reaches 74.30\% PRRR, and sociology reaches 67.90\% SRRR. Thus, even if the aggregate benchmark has a stable winner, subdomain-level rankings may remain fragile.
+At the main dataset level, MMLU is more stable than HellaSwag but less stable than ARC-Challenge. Gemini is clearly first in the aggregate, but the middle ranks are closer. The auxiliary subject-level extension shows why aggregation can hide instability: high-school world history reaches 74.30\% PRRR, and sociology reaches 67.90\% SRRR. Thus, even if the aggregate benchmark has a stable winner, subdomain-level rankings may remain fragile.
+
+\subsection{A Concrete Reversal Case}
+
+Sociology provides a compact example of why PRRR matters. The subject-level average winner is GPT-4o-mini by a very small margin (89.38\% vs. 89.25\% for Gemini when rounded to two decimals), but the prompt-level leader flips repeatedly. Under T1 Minimal and T3 Natural, Gemini is first; under T2 Benchmark and T4 Order/Phrasing, GPT-4o-mini is first. The instability is therefore not driven by a collapse in accuracy, but by extremely small margins at the top of the ranking.
+
+\begin{table}[H]
+\centering
+\caption{Prompt-level winner flips for the sociology extension.}
+\label{tab:sociology_case}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Template} & \textbf{Winner} & \textbf{Winner Acc.} & \textbf{Runner-up Acc.} \\
+\midrule
+T1 Minimal & Gemini-2.0-flash & 88.50\% & 88.00\% \\
+T2 Benchmark & GPT-4o-mini & 90.00\% & 89.50\% \\
+T3 Natural & Gemini-2.0-flash & 90.00\% & 89.50\% \\
+T4 Order/Phrasing & GPT-4o-mini & 90.00\% & 89.00\% \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Implications for Evaluation}
 
@@ -290,17 +316,17 @@ This project has several limitations. First, all evaluated tasks are multiple-ch
 
 \section{Conclusion}
 
-This project asks whether LLM rankings change if we ask differently. The answer is yes, but not uniformly. ARC-Challenge remains comparatively stable, HellaSwag is strongly sensitive to prompt and subset variation, and MMLU has a stable aggregate winner but substantial subject-level instability. The main lesson is not that all leaderboards are unreliable. Rather, leaderboard reliability must be measured. A robust evaluation report should include accuracy, uncertainty, and ranking stability metrics so that users can distinguish stable superiority from narrow, protocol-dependent ordering.
+This project asks whether LLM rankings change if we ask differently. The answer is yes, but not uniformly. ARC-Challenge remains comparatively stable, HellaSwag is strongly sensitive to prompt and subset variation, and MMLU has a stable aggregate winner but substantial subject-level instability in the auxiliary extension. The main lesson is not that all leaderboards are unreliable. Rather, leaderboard reliability must be measured. A robust evaluation report should include accuracy, uncertainty, and ranking stability metrics so that users can distinguish stable superiority from narrow, protocol-dependent ordering.
 
 \section*{Reproducibility Statement}
 
 \begin{itemize}[leftmargin=*]
     \item Code repository: \url{https://github.com/qianchi-zhang/LLM-Ranking-Reversals}
-    \item Main pipeline entrypoint: \texttt{run\_pipeline.py}
-    \item Main prompt files: \texttt{data/01\_prompts.jsonl} and \texttt{data/01\_prompts\_MMLU\_subjects.jsonl}
-    \item Random seeds: main data sampling seed \texttt{114514}; analysis seeds are set inside the Phase 4 scripts.
+    \item Main standardized pipeline: \path{run_pipeline.py} for the 900-item dataset-level experiment using \path{data/01_prompts.jsonl} and outputs under \path{data/04_analysis/}.
+    \item Auxiliary expanded MMLU extension: \path{src/01_data_prep_MMLU_subject.py} prepares \path{data/01_prompts_MMLU_subjects.jsonl}; the extension reuses \path{data/02_raw_responses_MMLU_subjects.csv} and runs \path{src/04_mmlu_subject_bootstrap.py} to produce \path{data/04_mmlu_subject_analysis_expanded/}.
+    \item Random seeds: main and auxiliary data sampling use seed \texttt{114514}; the expanded subject analysis uses seed \texttt{20260406}; dataset-level resampling seeds are fixed inside the Phase 4 scripts.
     \item Model versions: \texttt{openai/gpt-4o-mini}, \texttt{google/gemini-2.0-flash-001}, \texttt{qwen/qwen-2.5-7b-instruct}, and \texttt{meta-llama/llama-3.1-8b-instruct}.
-    \item Main output directories: \texttt{data/04\_analysis/}, \texttt{data/04\_mmlu\_subject\_analysis\_expanded/}, \texttt{plots/}, and \texttt{reports/}.
+    \item Main output directories used in this report: \path{data/04_analysis/}, \path{data/04_mmlu_subject_analysis_expanded/}, \path{plots/}, and \path{reports/final_report/}.
 \end{itemize}
 
 \begin{thebibliography}{9}
@@ -334,7 +360,7 @@ Zhu, K., Wang, J., Zhou, J., Wang, Z., Chen, H., Wang, Y., Yang, L., Ye, W., Gon
 \section{Prompt Templates}
 
 \begin{itemize}[leftmargin=*]
-    \item \texttt{minimal\_instruction}: \texttt{\{question\}} + \texttt{\{choices\}} + ``Select one option.''
+    \item \texttt{minimal\_instruction}: \verb|{question}| + \verb|{choices}| + ``Select one option.''
     \item \texttt{benchmark\_style}: ``Choose the best answer to the following multiple-choice question.'' followed by question and options.
     \item \texttt{natural\_style}: ``I have a multiple-choice question for you.'' followed by question, options, and ``Which option do you think is correct?''
     \item \texttt{order\_phrasing\_variation}: ``Consider the following question.'' followed by question, options, and ``From the four options above, select the best answer.''
@@ -343,10 +369,11 @@ Zhu, K., Wang, J., Zhou, J., Wang, Z., Chen, H., Wang, Y., Yang, L., Ye, W., Gon
 \section{Additional Output Files}
 
 \begin{itemize}[leftmargin=*]
-    \item Dataset-level PRRR: \texttt{data/04\_analysis/prompt\_ranking\_reversal\_rate.csv}
-    \item Dataset-level SRRR: \texttt{data/04\_analysis/subset\_ranking\_reversal\_rate.csv}
-    \item Expanded MMLU subject-level PRRR: \texttt{data/04\_mmlu\_subject\_analysis\_expanded/mmlu\_subject\_prompt\_ranking\_reversal\_rate.csv}
-    \item Expanded MMLU subject-level SRRR: \texttt{data/04\_mmlu\_subject\_analysis\_expanded/mmlu\_subject\_subset\_ranking\_reversal\_rate.csv}
+    \item Dataset-level PRRR: \path{data/04_analysis/prompt_ranking_reversal_rate.csv}
+    \item Dataset-level SRRR: \path{data/04_analysis/subset_ranking_reversal_rate.csv}
+    \item Expanded MMLU subject-level PRRR: \path{data/04_mmlu_subject_analysis_expanded/mmlu_subject_prompt_ranking_reversal_rate.csv}
+    \item Expanded MMLU subject-level SRRR: \path{data/04_mmlu_subject_analysis_expanded/mmlu_subject_subset_ranking_reversal_rate.csv}
+    \item Expanded MMLU subject rank probabilities: \path{data/04_mmlu_subject_analysis_expanded/mmlu_subject_rank_probability.csv}
 \end{itemize}
 
 \end{document}
