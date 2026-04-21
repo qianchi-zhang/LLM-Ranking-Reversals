@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1in]{geometry}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, amssymb, amsthm}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{hyperref}
@@ -13,6 +13,9 @@
 
 \setstretch{1.15}
 \graphicspath{{figures/}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
 
 % --------------------
 % Course info
@@ -36,27 +39,27 @@ Leaderboards serve as the primary metric for Large Language Model (LLM) evaluati
 
 \section{Introduction}
 
-Leaderboards are a convenient interface for large language model (LLM) evaluation. A model receives a benchmark score, models are sorted by that score, and the resulting order is often interpreted as a stable statement about relative capability. This convention is useful, but it hides a strong assumption: if the evaluation protocol is changed in a reasonable but non-semantic way, the ranking should remain mostly unchanged.
+Leaderboards are a convenient way to evaluate large language models (LLMs). A model is assigned a benchmark score, models are ranked based on that score, and the resulting order is often taken as a stable indication of relative capability. This practice is useful, but it also relies on a strong assumption: if the evaluation protocol is changed in a reasonable but non-semantic way, the ranking should remain largely the same.
 
-That assumption is not guaranteed. Even when the underlying task is fixed, prompt wording, instruction style, and answer formatting can affect model behavior. Similarly, the observed ranking may depend on which subset of examples is evaluated. If the gap between two models is small, prompt variation or subset noise can be large enough to change the apparent winner.
+In practice, however, this assumption does not always hold. Even when the underlying task is fixed, differences in prompt wording, instruction style, and answer format can affect model behavior. Likewise, the observed ranking may depend on which subset of examples is used for evaluation. When the performance gap between two models is small, prompt variation or subset noise may be enough to change the apparent winner.
 
-This project studies LLM evaluation through the lens of \textbf{ranking stability}. Instead of asking only which model has the highest average accuracy, we ask whether that ordering survives prompt perturbations and subset resampling. This framing matters because downstream users often care about rank comparisons: which model is best, which model is second, and whether a reported improvement is robust or only a point-estimate artifact.
+In this project, we study LLM evaluation from the perspective of \textbf{ranking stability}. Rather than asking only which model achieves the highest average accuracy, we ask whether that ranking remains the same under prompt perturbations and subset resampling. This perspective is important because, in practice, users often care about rank comparisons: which model ranks first, which ranks second, and whether a reported improvement reflects a robust advantage or merely a point-estimate artifact.
 
-Our contributions are:
+Our contributions are as follows:
 \begin{itemize}[leftmargin=*]
     \item We construct a controlled benchmark experiment with four task-preserving prompt templates across MMLU, ARC-Challenge, and HellaSwag.
-    \item We separate two sources of instability: prompt-induced ranking changes and subset-induced ranking changes.
+    \item We distinguish between two sources of instability: prompt-induced ranking changes and subset-induced ranking changes.
     \item We report PRRR and SRRR as ranking stability diagnostics, showing that HellaSwag is much less stable than ARC-Challenge and MMLU at the dataset level.
-    \item We add an auxiliary expanded MMLU subject extension and show that subdomain-level ranking instability can be much larger than aggregate benchmark-level instability.
+    \item We include an auxiliary expanded MMLU subject extension and show that ranking instability at the subdomain level can be much greater than at the aggregate benchmark level.
 \end{itemize}
 
 \section{Related Work}
 
-This work connects to three lines of prior research. First, benchmark construction work such as MMLU, ARC, and HellaSwag defines widely used multiple-choice evaluation settings for knowledge, reasoning, and commonsense completion tasks \cite{hendrycks2020mmlu, clark2018arc, zellers2019hellaswag}. These benchmarks provide convenient automatically scorable testbeds, but benchmark papers do not necessarily establish that model rankings are invariant to prompt and subset variation.
+This work is related to three lines of prior research. First, benchmark construction studies such as MMLU, ARC, and HellaSwag have established widely used multiple-choice evaluation settings for knowledge, reasoning, and commonsense completion tasks \cite{hendrycks2020mmlu, clark2018arc, zellers2019hellaswag}. These benchmarks provide convenient and automatically scorable testbeds, but the benchmark papers do not necessarily show that model rankings remain invariant under prompt and subset variation.
 
-Second, prompt robustness work shows that LLM outputs can be sensitive to prompt form even when the task semantics remain unchanged. PromptRobust, for example, studies robustness under adversarial prompt perturbations and demonstrates that prompt design can materially affect downstream performance \cite{zhu2023promptrobust}. Our work differs by focusing on whether such variation changes the \emph{ordering} between models, not only their individual scores.
+Second, work on prompt robustness has shown that LLM outputs can be sensitive to prompt form even when the task semantics remain unchanged. PromptRobust, for instance, examines robustness under adversarial prompt perturbations and shows that prompt design can meaningfully affect downstream performance \cite{zhu2023promptrobust}. Our work differs in that we focus on whether such variation changes the \emph{ordering} between models, rather than only their individual scores.
 
-Third, recent evaluation reliability discussions emphasize uncertainty, repeated trials, and error bars in LLM evaluation \cite{miller2024errorbars, fourrier2024openllm}. We build on this perspective by treating a leaderboard as an empirical object whose robustness should be measured. Our project is therefore closer to a stress test for leaderboard interpretation than a search for the best-performing model.
+Third, recent discussions on evaluation reliability have emphasized uncertainty, repeated trials, and error bars in LLM evaluation \cite{miller2024errorbars, fourrier2024openllm}. We build on this perspective by treating the leaderboard itself as an empirical object whose robustness should be examined. In this sense, our project is closer to a stress test of leaderboard interpretation than a search for the single best-performing model.
 
 \section{Experimental Setup}
 
@@ -72,12 +75,12 @@ We operationalize this question using two types of ranking reversal. Prompt-wise
 \subsection{Models}
 
 We evaluate four models through the OpenRouter API:
-\begin{itemize}[leftmargin=*]
+\begin{enumerate}[leftmargin=3.75em]
     \item \texttt{openai/gpt-4o-mini} (GPT-4o-mini)
     \item \texttt{google/gemini-2.0-flash-001} (Gemini-2.0-flash)
     \item \texttt{qwen/qwen-2.5-7b-instruct} (Qwen-2.5-7B)
     \item \texttt{meta-llama/llama-3.1-8b-instruct} (Llama-3.1-8B)
-\end{itemize}
+\end{enumerate}
 
 All model calls use temperature $0$ and \texttt{max\_tokens=150}. This deterministic decoding setting reduces sampling randomness so that the analysis focuses on prompt and item-subset variation.
 
@@ -105,11 +108,11 @@ We then add an auxiliary expanded MMLU subject extension to stress-test whether 
 \subsection{Prompt Design}
 
 Each question is converted into four prompt templates that preserve the answer options and task semantics while varying surface form:
-\begin{itemize}[leftmargin=*]
+\begin{itemize}[label={}]
     \item \textbf{T1 Minimal}: the question and choices followed by ``Select one option.''
     \item \textbf{T2 Benchmark}: explicit multiple-choice framing, with ``Question'' and ``Options'' fields.
     \item \textbf{T3 Natural}: conversational framing, e.g., ``I have a multiple-choice question for you.''
-    \item \textbf{T4 Order/Phrasing}: same task and options, but with altered instruction order and phrasing.
+    \item \textbf{T4 Order/Phrasing}: same task and options with altered instruction order and phrasing.
 \end{itemize}
 
 The main dataset-level experiment therefore expands 900 items into $900 \times 4 = 3600$ prompt requests. Running four models over these requests yields $3600 \times 4 = 14400$ model responses. The auxiliary expanded MMLU extension adds 1000 subject-level questions, 4000 prompt requests, and 16000 responses.
@@ -120,15 +123,34 @@ All tasks are multiple-choice. We parse each model output into one of \texttt{A/
 
 \section{Metrics and Statistical Protocol}
 
-\subsection{Accuracy and Ranking}
+\subsection{Definition of Metrics}
 
+\begin{definition}[Accuracy and Ranking]
+    For any item set $A$ and template $T$, a model $M$'s accuracy on $A$ under $T$ is
+    \[
+    \mathrm{Acc}(A,T,M) = \frac{1}{|A|}\sum_{x\in A} s(x,T,M),
+    \]
+    where $s(x,T,M)\in\{0,1\}$ is the fixed binary correctness score for $M$ on item $x$ under template $T$. Further, all models (four models in our experiment) can be sorted by their accuracy on $A$ under $T$, inducing a ranking, denoted $R_{A,T}$.
+\end{definition}
+
+\begin{definition}[Prompt-wise Ranking Reversal Rate, PRRR]
+    For an item set $P$, two templates $T_1$ and $T_2$, draw $N$ subsets $P_i \subset P$; the PRRR on $P$ between $T_1$ and $T_2$ is
+    %$$ \text{PRRR}(P, T_1, T_2):= \frac{1}{N} \# \{i \in [1:N] : R_{P_i, T_1} \neq R_{P_i, T_2}\}.$$
+    $$\text{PRRR}(P, T_1, T_2):= \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}\big\{ R_{P_i,T_1}\neq R_{P_i,T_2}\big\}$$
+    that is, the frequency of different rankings occuring under two templates among the $N$ subsets.
+\end{definition}
+
+\begin{definition}[Subset Ranking Reversal Rate, SRRR]
+    For an item set $P$ and template $T$, draw $N$ subsets $P_i \subset P$; the SRRR on $P$ under $T$ is
+    %$$\text{SRRR}(P, T) := \frac{1}{N} \# \{i \in [1:N] : R_{P,T} \neq R_{P_i,T}\}.$$
+    $$\text{SRRR}(P, T) := \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}\big\{R_{P,T}\neq R_{P_i,T}\big\}.$$
+    that is, the frequency of different rankings occuring under $T$ when asked subsets and the full set.
+\end{definition}
+
+\iffalse
 For an item set $P$, prompt template $T$, and model $m$, let
-\[
-\mathrm{Acc}(P,T,m)
-=
-\frac{1}{|P|}\sum_{x\in P} s(x,T,m),
-\]
-where $s(x,T,m)\in\{0,1\}$ is the fixed binary correctness score for model $m$ on item $x$ under template $T$. The ranking $R_{P,T}$ is the ordering of the four models by $\mathrm{Acc}(P,T,m)$.
+
+ The ranking $R_{P,T}$ is the ordering of the four models by $\mathrm{Acc}(P,T,m)$.
 
 \subsection{Prompt-wise Ranking Reversal Rate}
 
@@ -152,13 +174,15 @@ Subset Ranking Reversal Rate (SRRR) captures whether a subset ranking differs fr
 \sum_{i=1}^{N}
 \mathbf{1}\left[R_{P,T}\neq R_{P_i,T}\right].
 \]
-PRRR isolates prompt-to-prompt disagreement, while SRRR isolates instability caused by using an incomplete evaluation subset.
+\fi
+
+The two types of ranking reversal rates defined above isolates two possible sources of instability. PRRR is the metric for measuring prompt-to-prompt disagreement, while SRRR is for describing the instability caused by using an incomplete evaluation subset.
 
 \subsection{Resampling Protocol}
 
 For each dataset or subject scope, we run $N=1000$ resampling iterations. Each iteration samples a half-sized subset without replacement from the current scope. For the main 300-item datasets, each subset contains 150 items. For each subject in the auxiliary expanded MMLU extension, each subset contains 100 of the 200 subject items. We also compute rank-probability tables as supplementary summaries, but PRRR and SRRR remain our main stability diagnostics in the report.
 
-\section{Results}
+\section{Results}\label{section5Results}
 
 \subsection{Dataset-level Accuracy}
 
@@ -274,21 +298,23 @@ Sociology & GPT-4o-mini & 89.38\% & 54.30\% & 67.90\% \\
 
 \section{Analysis and Discussion}
 
+As shown by results in section \ref{section5Results}, it is possible for variation in prompt choice and task sets to overturn performance ranking of the models. Further, different benchmarks have shown different degree of ranking stability.
+
 \subsection{ARC-Challenge: a Robust Leaderboard Case}
 
-ARC-Challenge behaves most like the idealized leaderboard interpretation. Gemini is first by prompt-averaged accuracy, model margins are relatively wide, and both PRRR and SRRR remain low. The maximum PRRR is 10.60\%, and the maximum SRRR is 11.20\%. This suggests that on ARC-Challenge, prompt and subset variations are usually too small to overturn the ranking.
+ARC-Challenge behaves like an idealized, stable leaderboard interpretation the most. Gemini leads the benchmark by prompt-averaged accuracy most of the time, model margins are relatively wide, and both PRRR and SRRR remain low. The maximum PRRR and SRRR is 10.60\% and 11.20\%, respectively. This suggests that on ARC-Challenge, prompt and subset variations are usually too small to overturn the ranking.
 
 \subsection{HellaSwag: a Fragile Leaderboard Case}
 
-HellaSwag provides the clearest counterexample. GPT-4o-mini is first by average accuracy, but Gemini and Qwen are close enough that rank order becomes sensitive to prompt and subset choice. HellaSwag reaches a maximum PRRR of 56.00\% and a maximum SRRR of 42.80\%. This means that a single leaderboard constructed from one prompt and one subset may overstate the certainty of the top ranks.
+HellaSwag provides the clearest counterexample. The performance of Gemini and Qwen are close enough that rank order becomes sensitive to prompt and subset choice. HellaSwag reaches a high maximum PRRR of 56.00\% and a maximum SRRR of 42.80\%. This means that a single leaderboard constructed from one prompt and one subset may overstate the certainty of the ranks.
 
 \subsection{MMLU: Stable Aggregate Winner, Unstable Slices}
 
-At the main dataset level, MMLU is more stable than HellaSwag but less stable than ARC-Challenge. Gemini is clearly first in the aggregate, but the middle ranks are closer. The auxiliary subject-level extension shows why aggregation can hide instability: high-school world history reaches 74.30\% PRRR, and sociology reaches 67.90\% SRRR. Thus, even if the aggregate benchmark has a stable winner, subdomain-level rankings may remain fragile.
+At the master dataset level, MMLU is more stable than HellaSwag but less stable than ARC-Challenge. Gemini is clearly first in the aggregate, but the middle ranks are closer. The auxiliary subject-level extension shows why aggregation can hide instability: high-school world history reaches 74.30\% PRRR, and sociology reaches 67.90\% SRRR, while some other subjects obtained less ranking reversals, such as conceptual physics. Thus, even if the aggregate benchmark has a stable winner, subdomain-level rankings may remain fragile.
 
 \subsection{A Concrete Reversal Case}
 
-Sociology provides a compact example of why PRRR matters. The subject-level average winner is GPT-4o-mini by a very small margin (89.38\% vs. 89.25\% for Gemini when rounded to two decimals), but the prompt-level leader flips repeatedly. Under T1 Minimal and T3 Natural, Gemini is first; under T2 Benchmark and T4 Order/Phrasing, GPT-4o-mini is first. The instability is therefore not driven by a collapse in accuracy, but by extremely small margins at the top of the ranking.
+Sociology provides a clear example of why prompt choice matters when ranking language models. The subject-level average winner is GPT-4o-mini, by a very small margin (89.38\% vs. 89.25\%), over Gemini, while the prompt-level leader flips repeatedly. Under T1 Minimal and T3 Natural, Gemini is first; under T2 Benchmark and T4 Order/Phrasing, GPT-4o-mini is first. The instability is therefore not driven by some collapse in accuracy under some certain prompts, but by extremely small margins between the model performance.
 
 \begin{table}[H]
 \centering
@@ -306,17 +332,17 @@ T4 Order/Phrasing & GPT-4o-mini & 90.00\% & 89.00\% \\
 \end{tabular}
 \end{table}
 
-\subsection{Implications for Evaluation}
+\subsection{Implications for Evaluation on LLM Leaderboards}
 
-The practical implication is that leaderboard scores should be accompanied by uncertainty and rank-stability diagnostics. Average accuracy answers ``who scored highest under this setup?'' PRRR and SRRR answer a different and often more decision-relevant question: ``would the ordering survive reasonable changes to the evaluation protocol?'' For benchmark reports, especially when margins are narrow, ranking robustness should be reported rather than assumed.
+The practical implication is that leaderboard scores would be better if accompanied by rank-stability diagnostics. A ranking based on average accuracy answers ``who scored highest under some specific setup'', while PRRR and SRRR would answer ``would the ordering survive reasonable changes to the evaluation protocol'', which is frequently a decision-relevant question as well. For benchmark reports, especially when margins are narrow, ranking robustness should be reported rather than assumed.
 
 \section{Limitations and Risks}
 
-This project has several limitations. First, all evaluated tasks are multiple-choice benchmarks. The findings may not transfer directly to generation, summarization, or open-ended reasoning tasks. Second, we evaluate four models, so the observed instability patterns may differ with a larger or stronger model pool. Third, our prompt perturbations are intentionally shallow and task-preserving. This design is useful for isolating non-semantic variation, but it does not cover the full prompt design space. Fourth, our resampling protocol uses half-sized subsets without replacement; other uncertainty estimators could produce different numerical rates. Finally, API-hosted models may change over time, so exact reproducibility depends on model version stability.
+This project has several limitations. First, all evaluated tasks are multiple-choice benchmarks. The findings may not transfer directly to other tasks such as generation, summarization, or open-ended reasoning. Second, we evaluate four LLMs, while the instability patterns may differ with a larger or stronger model pool. Third, our prompt perturbations are intentionally shallow and task-preserving. This design is useful for isolating non-semantic variation, but it cannot cover the full prompt design space. Fourth, our resampling protocol uses half-sized subsets without replacement; other uncertainty estimators could produce different numerical rates. Finally, API-hosted models may change over time, so exact reproducibility depends on model version stability.
 
 \section{Conclusion}
 
-This project asks whether LLM rankings change if we ask differently. The answer is yes, but not uniformly. ARC-Challenge remains comparatively stable, HellaSwag is strongly sensitive to prompt and subset variation, and MMLU has a stable aggregate winner but substantial subject-level instability in the auxiliary extension. The main lesson is not that all leaderboards are unreliable. Rather, leaderboard reliability must be measured. A robust evaluation report should include accuracy, uncertainty, and ranking stability metrics so that users can distinguish stable superiority from narrow, protocol-dependent ordering.
+LLM rankings could vary if we ask differently, and the pattern of ranking reversals depends on the underlying task set. ARC-Challenge remains comparatively stable, HellaSwag is strongly sensitive to prompt and subset variation, and MMLU has a stable aggregate winner but significant subject-level instability. Hence, not all leaderboards are unreliable, but leaderboard reliability must be measured. A robust evaluation report should include accuracy, uncertainty, and ranking stability metrics so that users can distinguish stable superiority from narrow, protocol-dependent ordering.
 
 \section*{Reproducibility Statement}
 
@@ -326,7 +352,7 @@ This project asks whether LLM rankings change if we ask differently. The answer 
     \item Auxiliary expanded MMLU extension: \path{src/01_data_prep_MMLU_subject.py} prepares \path{data/01_prompts_MMLU_subjects.jsonl}; the extension reuses \path{data/02_raw_responses_MMLU_subjects.csv} and runs \path{src/04_mmlu_subject_bootstrap.py} to produce \path{data/04_mmlu_subject_analysis_expanded/}.
     \item Random seeds: main and auxiliary data sampling use seed \texttt{114514}; the expanded subject analysis uses seed \texttt{20260406}; dataset-level resampling seeds are fixed inside the Phase 4 scripts.
     \item Model versions: \texttt{openai/gpt-4o-mini}, \texttt{google/gemini-2.0-flash-001}, \texttt{qwen/qwen-2.5-7b-instruct}, and \texttt{meta-llama/llama-3.1-8b-instruct}.
-    \item Main output directories used in this report: \path{data/04_analysis/}, \path{data/04_mmlu_subject_analysis_expanded/}, \path{plots/}, and \path{reports/final_report/}.
+    %\item Main output directories used in this report: \path{data/04_analysis/}, \path{data/04_mmlu_subject_analysis_expanded/}, \path{plots/}, and \path{reports/final_report/}.
 \end{itemize}
 
 \begin{thebibliography}{9}
