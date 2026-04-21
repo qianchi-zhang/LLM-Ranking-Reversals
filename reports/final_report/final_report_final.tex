@@ -2,7 +2,7 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath, amssymb, amsthm}
-\usepackage{booktabs}
+\usepackage{array, booktabs}
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{setspace}
@@ -67,7 +67,7 @@ Third, recent discussions on evaluation reliability have emphasized uncertainty,
 
 We study the following testable question:
 \begin{quote}
-Does model ranking remain stable under task-preserving prompt perturbations and evaluation-subset variation?
+    \textbf{Does model ranking remain stable under task-preserving prompt perturbations and evaluation-subset variation?}
 \end{quote}
 
 We operationalize this question using two types of ranking reversal. Prompt-wise ranking reversal measures whether two prompt templates induce different rankings on the same resampled item subset. Subset ranking reversal measures whether a resampled subset induces a different ranking from the full item set under the same prompt.
@@ -87,21 +87,25 @@ All model calls use temperature $0$ and \texttt{max\_tokens=150}. This determini
 \subsection{Datasets and Tasks}
 
 \begin{center}
-\begin{tabular}{@{}p{0.22\linewidth} p{0.18\linewidth} p{0.50\linewidth}@{}}
+\begin{tabular}{@{}
+>{\raggedright\arraybackslash}p{0.22\linewidth}
+>{\raggedright\arraybackslash}p{0.12\linewidth}
+>{\raggedright\arraybackslash}p{0.55\linewidth}
+@{}}
 \toprule
 \textbf{Dataset} & \textbf{Size} & \textbf{Details} \\
 \midrule
 MMLU & 300 & Main dataset-level sample; 50 questions from each of 6 subjects in the test split. \\
 ARC-Challenge & 300 & Science question answering benchmark; sampled from the official test split. \\
 HellaSwag & 300 & Commonsense sentence-completion benchmark; sampled from validation because test labels are not public. \\
-Auxiliary expanded MMLU extension & 5 $\times$ 200 & Separate subject-level extension over \texttt{high\_school\_mathematics}, \texttt{conceptual\_physics}, \texttt{high\_school\_world\_history}, \texttt{philosophy}, and \texttt{sociology}. \\
+Auxiliary expanded MMLU extension & 5 $\times$ 200 & A Separate 200 items from each of the following subjects: \texttt{high\_school\_mathematics}, \texttt{conceptual\_physics}, \texttt{high\_school\_world\_history}, \texttt{philosophy}, and \texttt{sociology}. \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \subsection{Experimental Design}
 
-The project has two empirical layers. The main standardized pipeline uses the repository's default Phase 1--Phase 4 workflow: sample 900 benchmark items, expand them into four prompt templates, collect fixed model responses, parse them into binary correctness labels, and run local resampling analysis on the scored outputs. This main experiment is the source of the dataset-level results in this report.
+The project has two empirical layers. The main standardized pipeline uses the repository's default Phase 1 to Phase 4 workflow: sample 900 benchmark items, expand them into four prompt templates, collect fixed model responses, parse them into binary correctness labels, and run local resampling analysis on the scored outputs. This main experiment is the source of the dataset-level results in this report.
 
 We then add an auxiliary expanded MMLU subject extension to stress-test whether benchmark-level conclusions survive at a narrower subdomain level. This extension uses a separate subject-preparation script and a separate response file, but keeps the same four models, the same four prompt templates, and the same deterministic decoding settings as the main experiment.
 
@@ -190,8 +194,6 @@ Table~\ref{tab:acc} reports prompt-averaged accuracy and rank for the main datas
 
 \begin{table}[H]
 \centering
-\caption{Prompt-averaged dataset-level accuracy.}
-\label{tab:acc}
 \begin{tabular}{@{}llcc@{}}
 \toprule
 \textbf{Dataset} & \textbf{Model} & \textbf{Accuracy} & \textbf{Rank} \\
@@ -212,6 +214,8 @@ MMLU & Qwen-2.5-7B & 70.33\% & 3 \\
 MMLU & Llama-3.1-8B & 60.08\% & 4 \\
 \bottomrule
 \end{tabular}
+\caption{Prompt-averaged dataset-level accuracy.}
+\label{tab:acc}
 \end{table}
 
 \begin{figure}[H]
@@ -223,12 +227,24 @@ MMLU & Llama-3.1-8B & 60.08\% & 4 \\
 
 \subsection{Dataset-level Ranking Reversal}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.53\linewidth]{prompt_ranking_reversal_rate.png}
+\caption{Prompt-wise ranking reversal rate (PRRR). HellaSwag has the largest prompt-induced reversal rate, especially between the minimal and benchmark-style prompts.}
+\label{fig:prrr}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.53\linewidth]{subset_ranking_reversal_rate.png}
+\caption{Subset ranking reversal rate (SRRR). HellaSwag is also most sensitive to using only a half-sized evaluation subset.}
+\label{fig:srrr}
+\end{figure}
 Table~\ref{tab:dataset_rrr} summarizes the maximum PRRR and maximum SRRR observed for each benchmark. HellaSwag is the most fragile dataset in both prompt-induced and subset-induced ranking instability.
 
 \begin{table}[H]
+\small
 \centering
-\caption{Maximum dataset-level PRRR and SRRR.}
-\label{tab:dataset_rrr}
 \begin{tabular}{@{}lcc@{}}
 \toprule
 \textbf{Dataset} & \textbf{Max PRRR} & \textbf{Max SRRR} \\
@@ -238,30 +254,28 @@ HellaSwag & 56.00\% & 42.80\% \\
 MMLU & 15.60\% & 17.50\% \\
 \bottomrule
 \end{tabular}
+\caption{Maximum dataset-level PRRR and SRRR.}
+\label{tab:dataset_rrr}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.82\linewidth]{prompt_ranking_reversal_rate.png}
-\caption{Prompt-wise ranking reversal rate (PRRR). HellaSwag has the largest prompt-induced reversal rate, especially between the minimal and benchmark-style prompts.}
-\label{fig:prrr}
-\end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.82\linewidth]{subset_ranking_reversal_rate.png}
-\caption{Subset ranking reversal rate (SRRR). HellaSwag is also most sensitive to using only a half-sized evaluation subset.}
-\label{fig:srrr}
-\end{figure}
 
 \subsection{Expanded MMLU Subject-level Analysis}
 
-The auxiliary expanded MMLU subject extension reveals substantially stronger instability than the aggregate MMLU result. Table~\ref{tab:mmlu_subject} reports the winning model, top accuracy, maximum PRRR, and maximum SRRR for each subject.
+The auxiliary expanded MMLU subject extension reveals substantially stronger instability than the aggregate MMLU result.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{mmlu_subject_expanded_accuracy_boxplots.png}
+\caption{Expanded MMLU subject-level subset accuracy distributions. The subject-level view exposes more heterogeneous margins than the aggregate benchmark view.}
+\label{fig:mmlu_acc}
+\end{figure}
+
+Table~\ref{tab:mmlu_subject} reports the winning model, top accuracy, maximum PRRR and SRRR for each subject.
 
 \begin{table}[H]
+\small
 \centering
-\caption{Expanded MMLU subject-level stability results.}
-\label{tab:mmlu_subject}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
 \textbf{Subject} & \textbf{Winner} & \textbf{Top Acc.} & \textbf{Max PRRR} & \textbf{Max SRRR} \\
@@ -273,25 +287,21 @@ Philosophy & Gemini-2.0-flash & 87.38\% & 56.10\% & 49.00\% \\
 Sociology & GPT-4o-mini & 89.38\% & 54.30\% & 67.90\% \\
 \bottomrule
 \end{tabular}
+\caption{Expanded MMLU subject-level stability results.}
+\label{tab:mmlu_subject}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth]{mmlu_subject_expanded_accuracy_boxplots.png}
-\caption{Expanded MMLU subject-level subset accuracy distributions. The subject-level view exposes more heterogeneous margins than the aggregate benchmark view.}
-\label{fig:mmlu_acc}
-\end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{mmlu_subject_expanded_prrr.png}
+\includegraphics[width=0.78\linewidth]{mmlu_subject_expanded_prrr.png}
 \caption{Expanded MMLU subject-level PRRR. High-school world history and sociology exhibit particularly large prompt-induced ranking disagreement.}
 \label{fig:mmlu_prrr}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{mmlu_subject_expanded_srrr.png}
+\includegraphics[width=0.78\linewidth]{mmlu_subject_expanded_srrr.png}
 \caption{Expanded MMLU subject-level SRRR. Sociology has the largest subset-induced instability under the minimal prompt.}
 \label{fig:mmlu_srrr}
 \end{figure}
@@ -318,8 +328,6 @@ Sociology provides a clear example of why prompt choice matters when ranking lan
 
 \begin{table}[H]
 \centering
-\caption{Prompt-level winner flips for the sociology extension.}
-\label{tab:sociology_case}
 \begin{tabular}{@{}lccc@{}}
 \toprule
 \textbf{Template} & \textbf{Winner} & \textbf{Winner Acc.} & \textbf{Runner-up Acc.} \\
@@ -330,6 +338,8 @@ T3 Natural & Gemini-2.0-flash & 90.00\% & 89.50\% \\
 T4 Order/Phrasing & GPT-4o-mini & 90.00\% & 89.00\% \\
 \bottomrule
 \end{tabular}
+\caption{Prompt-level winner flips for the sociology extension.}
+\label{tab:sociology_case}
 \end{table}
 
 \subsection{Implications for Evaluation on LLM Leaderboards}
@@ -347,11 +357,19 @@ LLM rankings could vary if we ask differently, and the pattern of ranking revers
 \section*{Reproducibility Statement}
 
 \begin{itemize}[leftmargin=*]
-    \item Code repository: \url{https://github.com/qianchi-zhang/LLM-Ranking-Reversals}
+    \item Project repository: \url{https://github.com/qianchi-zhang/LLM-Ranking-Reversals}
+    %\item Model versions: \texttt{openai/gpt-4o-mini}, \texttt{google/gemini-2.0-flash-001}, \texttt{qwen/qwen-2.5-7b-instruct}, and \texttt{meta-llama/llama-3.1-8b-instruct}.
+    \item Model versions used in experiments:
+    \begin{enumerate}
+        \item \texttt{openai/gpt-4o-mini},
+        \item \texttt{google/gemini-2.0-flash-001},
+        \item \texttt{qwen/qwen-2.5-7b-instruct},
+        \item \texttt{meta-llama/llama-3.1-8b-instruct}.
+    \end{enumerate}
     \item Main standardized pipeline: \path{run_pipeline.py} for the 900-item dataset-level experiment using \path{data/01_prompts.jsonl} and outputs under \path{data/04_analysis/}.
-    \item Auxiliary expanded MMLU extension: \path{src/01_data_prep_MMLU_subject.py} prepares \path{data/01_prompts_MMLU_subjects.jsonl}; the extension reuses \path{data/02_raw_responses_MMLU_subjects.csv} and runs \path{src/04_mmlu_subject_bootstrap.py} to produce \path{data/04_mmlu_subject_analysis_expanded/}.
+    \item Auxiliary expanded MMLU extension: \path{src/01_data_prep_MMLU_subject.py} prepares \path{data/01_prompts_MMLU_subjects.jsonl};    \\
+    the extension reuses \path{data/02_raw_responses_MMLU_subjects.csv} and runs \path{src/04_mmlu_subject_bootstrap.py} to produce \path{data/04_mmlu_subject_analysis_expanded/}.
     \item Random seeds: main and auxiliary data sampling use seed \texttt{114514}; the expanded subject analysis uses seed \texttt{20260406}; dataset-level resampling seeds are fixed inside the Phase 4 scripts.
-    \item Model versions: \texttt{openai/gpt-4o-mini}, \texttt{google/gemini-2.0-flash-001}, \texttt{qwen/qwen-2.5-7b-instruct}, and \texttt{meta-llama/llama-3.1-8b-instruct}.
     %\item Main output directories used in this report: \path{data/04_analysis/}, \path{data/04_mmlu_subject_analysis_expanded/}, \path{plots/}, and \path{reports/final_report/}.
 \end{itemize}
 
