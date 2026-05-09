@@ -14,13 +14,14 @@ from tqdm import tqdm
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_INPUT_FILE = ROOT_DIR / "data" / "01_prompts.jsonl"
-DEFAULT_OUTPUT_JSONL = ROOT_DIR / "data" / "02_raw_responses_01.jsonl"
+DEFAULT_OUTPUT_JSONL = ROOT_DIR / "data" / "02_raw_responses.jsonl"
 DEFAULT_OUTPUT_CSV = ROOT_DIR / "data" / "02_raw_responses.csv"
-DEFAULT_MMLU_OUTPUT_JSONL = ROOT_DIR / "data" / "02_raw_responses_MMLU_01.jsonl"
-DEFAULT_MMLU_OUTPUT_CSV = ROOT_DIR / "data" / "02_raw_responses_MMLU_01.csv"
+DEFAULT_MMLU_OUTPUT_JSONL = ROOT_DIR / "data" / "02_raw_responses_MMLU_subjects.jsonl"
+DEFAULT_MMLU_OUTPUT_CSV = ROOT_DIR / "data" / "02_raw_responses_MMLU_subjects.csv"
 DEFAULT_ENV_CANDIDATES = [
-    ROOT_DIR / "my.env",
+    ROOT_DIR / "my.env.local",
     ROOT_DIR / ".env",
+    ROOT_DIR / "my.env",
 ]
 DEFAULT_MODELS = [
     "openai/gpt-4o-mini",
@@ -35,6 +36,12 @@ ANSWER_ONLY_INSTRUCTION = (
     "Do NOT include brackets, periods, or any explanations.\n"
     "Just the single letter."
 )
+PLACEHOLDER_API_KEYS = {
+    "",
+    "sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxx",
+    "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "your_openrouter_api_key_here",
+}
 
 
 def parse_args():
@@ -89,7 +96,10 @@ def parse_args():
         "--env-file",
         type=Path,
         default=None,
-        help="Optional env file containing OPENROUTER_API_KEY. Defaults to my.env, then .env.",
+        help=(
+            "Optional env file containing OPENROUTER_API_KEY. "
+            "Defaults to my.env.local, then .env, then the tracked my.env placeholder."
+        ),
     )
     parser.add_argument(
         "--sleep-seconds",
@@ -133,18 +143,45 @@ def resolve_env_file(explicit_env_file):
     return None
 
 
+def is_placeholder_api_key(value):
+    normalized = str(value or "").strip()
+    if not normalized:
+        return True
+    if normalized in PLACEHOLDER_API_KEYS:
+        return True
+    return "xxxxxxxx" in normalized.lower()
+
+
 def setup_env(explicit_env_file=None):
     env_file = resolve_env_file(explicit_env_file)
-    if env_file is not None:
+    if explicit_env_file is not None:
         load_dotenv(dotenv_path=env_file, override=True)
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        if not api_key or is_placeholder_api_key(api_key):
+            raise RuntimeError(
+                "OPENROUTER_API_KEY not found in the explicit --env-file, or it still uses a placeholder value."
+            )
+        env_label = str(env_file)
+        print(f"Loaded API credentials from: {env_label}")
+        return api_key.strip()
+
+    loaded_from = None
+    for candidate in DEFAULT_ENV_CANDIDATES:
+        if not candidate.exists():
+            continue
+        load_dotenv(dotenv_path=candidate, override=True)
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        if api_key and not is_placeholder_api_key(api_key):
+            loaded_from = candidate
+            break
 
     api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
+    if not api_key or is_placeholder_api_key(api_key):
         raise RuntimeError(
-            "OPENROUTER_API_KEY not found. Provide --env-file or create my.env/.env in the repo root."
+            "OPENROUTER_API_KEY not found. Provide --env-file or store a real key in my.env.local or .env."
         )
 
-    env_label = str(env_file) if env_file is not None else "process environment"
+    env_label = str(loaded_from) if loaded_from is not None else "process environment"
     print(f"Loaded API credentials from: {env_label}")
     return api_key.strip()
 

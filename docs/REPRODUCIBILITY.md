@@ -1,8 +1,8 @@
-﻿# 复现说明
+# 复现说明
 
 ## 1. 环境要求
 
-- Python 3.11
+- Python `3.11`
 - `pip install -r requirements.txt`
 
 推荐使用隔离环境，例如：
@@ -13,19 +13,35 @@ conda activate llm-ranking-env
 pip install -r requirements.txt
 ```
 
-## 2. API Key
+## 2. API Key 配置
 
 Phase 2 需要 `OPENROUTER_API_KEY`。
 
-在仓库根目录创建 `my.env` 或 `.env`：
+仓库根目录中被跟踪的 `my.env` 是占位符模板，不能直接用于真实调用。推荐把真实 key 放在以下位置之一：
+
+1. `my.env.local`
+2. `.env`
+3. 通过 `--env-file <path>` 显式指定
+4. 本地修改后的 `my.env`，但不要提交
+
+示例：
 
 ```text
 OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
+默认加载优先级：
+
+1. `--env-file`
+2. `my.env.local`
+3. `.env`
+4. `my.env`
+
+如果检测到占位符值，脚本会继续查找下一个候选环境文件。
+
 ## 3. 最快复现方式
 
-推荐直接使用统一入口 [run_pipeline.py](/d:/ST5230/LLM-Ranking-Reversals/run_pipeline.py)。
+推荐直接使用统一入口 `run_pipeline.py`。
 
 ### 全量运行
 
@@ -51,7 +67,7 @@ python run_pipeline.py --start-phase 2 --mode full --resume
 python run_pipeline.py --start-phase 3 --end-phase 4
 ```
 
-### 跳过 MMLU subject 分析
+### 跳过扩展 MMLU 学科分析
 
 ```bash
 python run_pipeline.py --start-phase 4 --end-phase 4 --skip-mmlu-subject-bootstrap
@@ -59,7 +75,7 @@ python run_pipeline.py --start-phase 4 --end-phase 4 --skip-mmlu-subject-bootstr
 
 ## 4. 分阶段复现
 
-### Step 1: 生成题目与 Prompt
+### Step 1：生成题目与 Prompt
 
 ```bash
 python src/01_data_prep.py
@@ -70,7 +86,7 @@ python src/01_data_prep.py
 - `data/00_raw_question.jsonl`
 - `data/01_prompts.jsonl`
 
-### Step 2: 调用模型
+### Step 2：调用模型
 
 ```bash
 python src/02_api_runner.py --mode full --overwrite
@@ -81,9 +97,10 @@ python src/02_api_runner.py --mode full --overwrite
 ```bash
 python src/02_api_runner.py --mode pilot --limit 50 --overwrite
 python src/02_api_runner.py --mode full --resume
+python src/02_api_runner.py --env-file my.env.local --mode full --overwrite
 ```
 
-真实运行口径：
+当前标准运行口径：
 
 - 输入：`data/01_prompts.jsonl`
 - Prompt 来源：`messages[0].content`
@@ -101,7 +118,7 @@ python src/02_api_runner.py --mode full --resume
 - `data/02_raw_responses.jsonl`
 - `data/02_raw_responses.csv`
 
-### Step 3: 解析与评分
+### Step 3：解析与评分
 
 ```bash
 python src/03_scorer.py
@@ -112,7 +129,7 @@ python src/03_scorer.py
 - `data/03_scored/scored_results.csv`
 - `data/03_scored/parse_failures.csv`
 
-### Step 4: 主分析
+### Step 4：主分析
 
 ```bash
 python src/04_analysis.py
@@ -129,12 +146,12 @@ python src/04_analysis.py
 
 说明：
 
-- Phase 4 不重新请求 API。
-- 统计量直接基于 `data/03_scored/scored_results.csv` 中的固定 `score`。
-- 每个 scope 上做 1000 次重抽样；每次从当前题集无放回抽取 `n/2` 道题。
-- `04_analysis.py` 计算 dataset 级 accuracy、PRRR 和 SRRR。
+- Phase 4 不重新请求 API
+- 统计量直接基于 `data/03_scored/scored_results.csv` 中的固定 `score`
+- 每个 scope 做 `1000` 次重抽样
+- 每次从当前题集无放回抽取一半题目
 
-### Step 5: MMLU Subject 分析
+### Step 5：扩展 MMLU 学科分析
 
 ```bash
 python src/04_mmlu_subject_bootstrap.py
@@ -142,24 +159,26 @@ python src/04_mmlu_subject_bootstrap.py
 
 预期输出：
 
-- `data/04_mmlu_subject_analysis/`
-- `plots/mmlu_subject_accuracy.png`
-- `plots/mmlu_subject_prrr.png`
-- `plots/mmlu_subject_srrr.png`
-- `reports/mmlu_subject_bootstrap_summary.md`
+- `data/04_mmlu_subject_analysis_expanded/`
+- `plots/mmlu_subject_expanded_accuracy_boxplots.png`
+- `plots/mmlu_subject_expanded_prrr.png`
+- `plots/mmlu_subject_expanded_srrr.png`
+- `reports/mmlu_subject_bootstrap_summary_expanded.md`
 
 说明：
 
-- MMLU 的 6 个固定科目各含 50 道题。
-- subject 分析对每个科目分别做 1000 次重抽样；每次从该科目的 50 道题中无放回抽取 25 道题。
+- 该脚本使用 `data/02_raw_responses_MMLU_subjects.csv`
+- 输出目录的标准路径是 `data/04_mmlu_subject_analysis_expanded/`
+- 每个 subject 做 `1000` 次重抽样
+- 每次从 `200` 道题中无放回抽取 `100` 道
 
 ## 5. 当前结果规模检查
 
-当前 `develop` 分支对应的完整结果规模为：
+当前主标准化实验对应的完整结果规模为：
 
 - 900 道原始题目
-- 3600 条 prompt request
-- 14400 条模型结果
+- 3600 条 prompt requests
+- 14400 条模型 responses
 
 如果你的结果明显少于这个规模，优先检查：
 
@@ -169,8 +188,8 @@ python src/04_mmlu_subject_bootstrap.py
 
 ## 6. 脚本与 Notebook 的角色
 
-- `src/02_api_runner.py` 是当前标准化后的脚本复现入口
-- `run_pipeline.py` 是当前标准化后的统一总入口
-- `src/02_api_runner.ipynb` 作为交互式测试与探索 notebook 保留
+- `run_pipeline.py` 是统一总入口
+- `src/02_api_runner.py` 是标准脚本入口
+- `src/02_api_runner.ipynb` 仅作为交互式测试和探索 notebook 保留
 
-如果 notebook、脚本和文档出现口径冲突，应优先保证脚本入口与 README 的复现说明一致。
+如果 notebook、脚本和文档出现口径冲突，应优先保证标准脚本入口与 README、本文档一致。

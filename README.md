@@ -1,26 +1,54 @@
-# ST5230 Project: LLM Ranking Reversals
+# LLM Ranking Reversals
 
-[English](README.md) | [Chinese](README.zh-CN.md)
+[English](README.md) | [中文](README.zh-CN.md)
 
-**Group 14 Team Members:** ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN
+**Group 14:** ZHANG QIANCHI, PENG YANGYUNZHI, JIANG YIFAN, MENG XIANGCHEN
 
-## Overview
+## Project Overview
 
-This project studies the reliability of LLM benchmark rankings. Instead of asking only which model has the highest score, we focus on three questions:
+This repository studies whether LLM benchmark leaderboards remain stable when the evaluation protocol changes in mild but meaningful ways. The project isolates two sources of instability:
 
-- Do non-semantic prompt perturbations change model performance?
-- Does evaluation-subset variation change relative model rankings?
-- Are those changes large enough to trigger ranking reversals and weaken the interpretation of a static leaderboard?
+- non-semantic prompt variation
+- evaluation-subset variation
+- resulting ranking reversals between models
 
-The `develop` branch already contains the full experiment artifacts, statistical analysis outputs, figures, and report drafts. This repository is not a project skeleton; it is a completed experimental repository that has been standardized for reproducibility and maintenance.
+The main empirical conclusion is benchmark-dependent. ARC-Challenge is relatively stable, MMLU is moderately stable at the aggregate level but less stable in narrower slices, and HellaSwag is substantially more fragile. The repository therefore treats ranking robustness, not only average accuracy, as a first-class evaluation target.
 
-## Project Layout
+## Repository Positioning
+
+This is a completed experimental repository, not a starter skeleton. It already contains:
+
+- standardized pipeline code
+- generated experiment artifacts
+- analysis tables and plots
+- report and presentation sources
+- archived planning and course materials
+
+The current default branch is `main`.
+
+## Canonical Entry Points
+
+| Purpose | Canonical path |
+| --- | --- |
+| End-to-end pipeline | `run_pipeline.py` |
+| Phase 2 scripted inference | `src/02_api_runner.py` |
+| Final slide source | `reports/overleaf_package/presentation.tex` |
+| Final report source | `reports/final_report/final_report.tex` |
+
+Optional but non-default materials:
+
+- `src/02_api_runner.ipynb`: interactive notebook companion, not the default reproducibility path
+- `docs/history/`: planning and process history
+- `docs/archive/`: archived course files and feedback
+
+## Repository Map
 
 ```text
 LLM-Ranking-Reversals/
 |-- run_pipeline.py
 |-- src/
 |   |-- 01_data_prep.py
+|   |-- 01_data_prep_MMLU_subject.py
 |   |-- 02_api_runner.py
 |   |-- 02_api_runner.ipynb
 |   |-- 03_scorer.py
@@ -28,15 +56,19 @@ LLM-Ranking-Reversals/
 |   |-- 04_mmlu_subject_bootstrap.py
 |   `-- legacy/
 |-- data/
-|   |-- 00_raw_question.jsonl
-|   |-- 01_prompts.jsonl
-|   |-- 02_raw_responses.jsonl
-|   |-- 02_raw_responses.csv
+|   |-- 00_raw_question*.jsonl
+|   |-- 01_prompts*.jsonl
+|   |-- 02_raw_responses*.jsonl / *.csv
 |   |-- 03_scored/
 |   |-- 04_analysis/
-|   `-- 04_mmlu_subject_analysis/
+|   |-- 04_mmlu_subject_analysis/
+|   `-- 04_mmlu_subject_analysis_expanded/
 |-- plots/
 |-- reports/
+|   |-- final_report/
+|   |-- overleaf_package/
+|   |-- web_presentation/
+|   `-- README.md
 |-- docs/
 |   |-- ARCHITECTURE.md
 |   |-- REPRODUCIBILITY.md
@@ -47,13 +79,7 @@ LLM-Ranking-Reversals/
 `-- my.env
 ```
 
-Notes:
-
-- `run_pipeline.py` is the standard end-to-end entrypoint.
-- `src/02_api_runner.py` is the standard CLI entrypoint for Phase 2.
-- `src/02_api_runner.ipynb` is kept as an optional notebook for interactive testing and exploratory runs.
-
-## Environment Setup
+## Fastest Reproduction Path
 
 Recommended Python version: `3.11`
 
@@ -61,53 +87,28 @@ Recommended Python version: `3.11`
 pip install -r requirements.txt
 ```
 
-If you prefer isolated environments, use `conda` or `venv`.
+Store a real `OPENROUTER_API_KEY` in one of the following:
 
-## API Configuration
+1. `my.env.local` (preferred for private local use)
+2. `.env`
+3. `my.env` after local editing
 
-Phase 2 uses OpenRouter. Put `OPENROUTER_API_KEY` in `my.env` or `.env` at the repository root:
-
-```text
-OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxx
-```
-
-Do not commit real credentials.
-
-## Quick Reproduction
-
-The recommended default entrypoint is `run_pipeline.py`.
-
-### Pilot Run
-
-```bash
-python run_pipeline.py --mode pilot --limit 50 --overwrite
-```
-
-### Full Run
+Then run:
 
 ```bash
 python run_pipeline.py --mode full --overwrite
 ```
 
-### Resume from Phase 2
+Useful variants:
 
 ```bash
+python run_pipeline.py --mode pilot --limit 50 --overwrite
 python run_pipeline.py --start-phase 2 --mode full --resume
-```
-
-### Re-run Analysis Only
-
-```bash
 python run_pipeline.py --start-phase 3 --end-phase 4
-```
-
-### Skip MMLU Subject Analysis
-
-```bash
 python run_pipeline.py --start-phase 4 --end-phase 4 --skip-mmlu-subject-bootstrap
 ```
 
-## Phase-by-Phase Entry Points
+## Pipeline Structure
 
 ### Phase 1: Data Preparation
 
@@ -115,7 +116,7 @@ python run_pipeline.py --start-phase 4 --end-phase 4 --skip-mmlu-subject-bootstr
 python src/01_data_prep.py
 ```
 
-Outputs:
+Main outputs:
 
 - `data/00_raw_question.jsonl`
 - `data/01_prompts.jsonl`
@@ -126,12 +127,12 @@ Outputs:
 python src/02_api_runner.py --mode full --overwrite
 ```
 
-Outputs:
+Main outputs:
 
 - `data/02_raw_responses.jsonl`
 - `data/02_raw_responses.csv`
 
-`src/02_api_runner.py` is the standard reproducibility path for scripted runs. `src/02_api_runner.ipynb` is an optional companion notebook for interactive testing, inspection, and exploratory execution.
+`src/02_api_runner.py` is the standard scripted path. `src/02_api_runner.ipynb` is kept only as an interactive companion for inspection and exploratory runs.
 
 ### Phase 3: Parsing and Scoring
 
@@ -139,7 +140,7 @@ Outputs:
 python src/03_scorer.py
 ```
 
-Outputs:
+Main outputs:
 
 - `data/03_scored/scored_results.csv`
 - `data/03_scored/parse_failures.csv`
@@ -151,65 +152,79 @@ python src/04_analysis.py
 python src/04_mmlu_subject_bootstrap.py
 ```
 
-Outputs:
+Main outputs:
 
 - `data/04_analysis/`
-- `data/04_mmlu_subject_analysis/`
+- `data/04_mmlu_subject_analysis_expanded/`
 - `plots/`
 - `reports/`
 
-Phase 4 does not call the API again. It reuses the fixed scored responses from
-`data/03_scored/scored_results.csv` and computes accuracy, PRRR, and SRRR by
-resampling item subsets locally.
+Phase 4 is fully local. It reuses scored outputs and computes accuracy, PRRR, SRRR, confidence intervals, and rank-probability summaries without calling the API again.
 
-## Current Experiment Scope
+## Main Experiment Scope
 
-### Data Scale
+- Main standardized benchmark pool: 900 questions
+- Prompt requests in the main experiment: 3600
+- Model responses in the main experiment: 14400
+- Auxiliary expanded MMLU extension: 5 subjects x 200 questions, 16000 additional responses
 
-- 900 raw questions
-- 3600 prompt requests
-- 14400 model results
-
-### Prompt Templates
+Prompt templates:
 
 - `minimal_instruction`
 - `benchmark_style`
 - `natural_style`
 - `order_phrasing_variation`
 
-### Models
+Models:
 
 - `openai/gpt-4o-mini`
 - `google/gemini-2.0-flash-001`
 - `qwen/qwen-2.5-7b-instruct`
 - `meta-llama/llama-3.1-8b-instruct`
 
-### Decoding Settings
+Decoding settings:
 
 - `temperature=0`
 - `max_tokens=150`
 
-## Key Outputs
+## Results and Report Entry Points
+
+Start here if you want the final materials:
+
+- `reports/final_report/final_report.tex`: canonical final report source
+- `reports/overleaf_package/presentation.tex`: canonical Beamer presentation source
+- `reports/overleaf_package/presentation.pdf`: compiled presentation artifact
+- `reports/web_presentation/index.html`: HTML presentation
+- `reports/README.md`: report and presentation index
+
+Useful analytical outputs:
 
 - `reports/analysis_summary.md`
 - `reports/focused_research_question_discussion.md`
-- `reports/focused_research_question_discussion_zh.md`
-- `reports/mmlu_subject_bootstrap_summary.md`
 - `reports/conference_style_report_en.md`
-- `reports/conference_style_report_zh.md`
+- `plots/`
+- `data/04_analysis/`
+- `data/04_mmlu_subject_analysis_expanded/`
 
-## Documentation
-
-Suggested reading order:
+## Documentation Reading Order
 
 1. `README.md`
 2. `README.zh-CN.md`
 3. `docs/ARCHITECTURE.md`
 4. `docs/REPRODUCIBILITY.md`
 5. `AGENTS.md`
-6. `reports/`
+6. `reports/README.md`
 
-## Notes
+## Historical Materials and Archives
 
-- Files under `docs/history/` are archival planning and process records, not the default source of truth.
-- If historical documents and current implementation disagree, prefer `src/`, `data/`, `reports/`, and the standardized docs in `docs/`.
+- `docs/history/` stores planning, logging, and process documents.
+- `docs/archive/` stores archived course files such as proposal PDFs and feedback.
+- `reports/final_report/archive/` stores non-canonical report variants kept for reference.
+
+If historical documents disagree with the current pipeline, prefer the canonical code paths in `run_pipeline.py`, `src/`, the generated outputs under `data/` and `plots/`, and the standardized documents in `docs/`.
+
+## Credentials and Security
+
+- The tracked `my.env` file is a placeholder template, not a real credential file.
+- Never commit a real `OPENROUTER_API_KEY`.
+- Prefer `my.env.local`, `.env`, or `--env-file` for private local credentials.
